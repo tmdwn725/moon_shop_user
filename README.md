@@ -15,7 +15,7 @@
 >### **사용 기술**
 >#### **Frontend**
 ><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/066e014a-2923-44d1-8e68-9a318c0cf953" height="45"/>
-><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/a1c81529-0fe5-4949-8235-57d06af671c0" height="40"/>
+><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/a1c81529-0fe5-4949-8235-57d06af671c0" height="35"/>
 >
 >#### **Backend**
 ><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/53151b11-4133-419d-92a1-7482315f30a0" height="50"/>
