@@ -7,7 +7,7 @@
 >문승주
 >
 >### **제작 기간**
->2023.12.28 ~
+>2023.12.28 ~ 2024.01.30
 >
 >### **주요 기능**
 >상품 관리, 주문 관리, 쿠폰 기능, 리뷰 기능 등 쇼핑몰의 기본적인 서비스 구현
@@ -40,7 +40,6 @@
 ---
 ## **2. 일정**
 관리자 시스템 url : https://github.com/tmdwn725/moon_shop_admin
-
-
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/a3bfb5d5-6d8c-417c-bee7-e76c1ff81ba8" height="600px;"/>
 
 
