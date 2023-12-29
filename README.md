@@ -39,8 +39,11 @@
 
 ---
 ## **2. 일정**
+
 **사용자 시스템 git 주소 : https://github.com/tmdwn725/moon_shop_user**
+
 **관리자 시스템 git 주소 : https://github.com/tmdwn725/moon_shop_admin**
+
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/a3bfb5d5-6d8c-417c-bee7-e76c1ff81ba8" height="600px;"/>
 
 
