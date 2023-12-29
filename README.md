@@ -23,14 +23,22 @@
 ><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/fda4210f-b621-4927-ba70-59d01505c881" height="60"/>
 ><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/e5dddd23-ca95-4efc-804c-b18b0c90a194" height="60"/>
 ><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/dcfd0033-0d6e-44fc-a463-b3b8d999747c" height="60"/>
+>
+>#### **Database**
+><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/eae08828-39c0-4ebe-a03a-3b1509df91d0" height="40"/>
+>
+>#### **DevOps**
+><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/059e95f2-851b-4d13-ae88-8fd107a120d8" height="50"/>
+><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/9879d4bd-8b3b-4f7c-9394-d9824e64d41d" height="45"/>
+><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/c3e68800-7b72-4672-a143-9847ac9360ec" height="60"/>
 
-
-**1. ERD**
+---
+## **1. ERD**
 
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/1c04c924-bdb5-4b71-9381-f06bf99dc6c4" height="600px;"/>
 
-
-**2. 일정**
+---
+## **2. 일정**
 
 
 
