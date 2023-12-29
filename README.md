@@ -11,7 +11,7 @@
 > **주요 기능** : 상품 관리, 주문 관리, 쿠폰 기능, 리뷰 기능 등 쇼핑몰의 기본적인 서비스를 구현
 >
 > **사용 기술**
-- FRONT: <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/28aebeaf-1fc4-4f68-876d-1de06fdb16f5" width="50" height="10"/>
+- FRONT: <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/28aebeaf-1fc4-4f68-876d-1de06fdb16f5" width="100" height="30"/>
 - BACK : Spring Boot, JPA, Spring Security, queryDSL
 
 ###  **1. ERD**
