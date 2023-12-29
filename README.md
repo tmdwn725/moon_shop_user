@@ -12,14 +12,14 @@
 >
 > #### **사용 기술**
 - Front
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/28aebeaf-1fc4-4f68-876d-1de06fdb16f5" width="100" height="30"/>
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/ba7e1d2d-4727-4b0f-8ab2-94ffdb7f85f3" width="100" height="30"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/28aebeaf-1fc4-4f68-876d-1de06fdb16f5" width="150" height="50"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/ba7e1d2d-4727-4b0f-8ab2-94ffdb7f85f3" width="150" height="50"/>
 
 - BACK
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/bcf5b110-b1b9-4df1-ad18-df1c17f865c3" width="100" height="30"/>
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/3dbc420d-a5ed-4cfd-ba49-785a741574fc" width="100" height="30"/>
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/576565ed-2c06-4715-85db-0e10305a07c0" width="100" height="30"/>
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/7e71c055-8070-4c39-86eb-3488fce36f28" width="100" height="30"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/bcf5b110-b1b9-4df1-ad18-df1c17f865c3" width="150" height="30"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/3dbc420d-a5ed-4cfd-ba49-785a741574fc" width="150" height="30"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/576565ed-2c06-4715-85db-0e10305a07c0" width="150" height="30"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/7e71c055-8070-4c39-86eb-3488fce36f28" width="150" height="30"/>
 
 ###  **1. ERD**
 ![shop_erd](https://github.com/tmdwn725/moon_shop_user/assets/60638602/3d8e245e-a8a6-44d1-bfb6-4329e605925e)
