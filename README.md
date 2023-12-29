@@ -11,7 +11,8 @@
 > **주요 기능** : 상품 관리, 주문 관리, 쿠폰 기능, 리뷰 기능 등 쇼핑몰의 기본적인 서비스를 구현
 >
 > **사용 기술**
-- FRONT: ![image](https://github.com/tmdwn725/moon_shop_user/assets/60638602/62d7be10-d347-4c85-9c48-8025a41a20cb) Thymeleaf
+- FRONT: ![image](https://github.com/tmdwn725/moon_shop_user/assets/60638602/314d8837-6a84-49c7-9985-b99c2a732d44)
+ Thymeleaf
 - BACK : Spring Boot, JPA, Spring Security, queryDSL
 
 ###  **1. ERD**
