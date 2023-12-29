@@ -39,6 +39,7 @@
 
 ---
 ## **2. 일정**
+관리자 시스템 url : https://github.com/tmdwn725/moon_shop_admin
 
 
 
