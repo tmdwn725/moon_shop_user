@@ -11,23 +11,21 @@
 >### **주요 기능** : 상품 관리, 주문 관리, 쿠폰 기능, 리뷰 기능 등 쇼핑몰의 기본적인 서비스 구현
 >
 >### **사용 기술**
-|**Front**|
-|-|
-|<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/066e014a-2923-44d1-8e68-9a318c0cf953" height="45"/>|
-|<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/3182815e-02dc-46a2-9c3c-c328f5213c42" height="35"/>|
+>#### **Frontend**
+><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/066e014a-2923-44d1-8e68-9a318c0cf953" height="45"/>
+><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/a1c81529-0fe5-4949-8235-57d06af671c0" height="40"/>
+>
+>#### **Backend**
+><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/53151b11-4133-419d-92a1-7482315f30a0" height="50"/>
+><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/50501c30-3c9d-4a77-ab60-9282c5d05d34" height="50"/>
+><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/fda4210f-b621-4927-ba70-59d01505c881" height="60"/>
+><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/e5dddd23-ca95-4efc-804c-b18b0c90a194" height="60"/>
+><img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/dcfd0033-0d6e-44fc-a463-b3b8d999747c" height="60"/>
 
-|**Back**|
-|-|
-|<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/53151b11-4133-419d-92a1-7482315f30a0" height="50"/>|
-|<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/a92cb867-db3e-40b0-b87d-dfc1b64e3634" height="50"/>|
-|<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/3dbc420d-a5ed-4cfd-ba49-785a741574fc" height="60"/>|
-|<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/576565ed-2c06-4715-85db-0e10305a07c0" height="60"/>|
-||<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/7e71c055-8070-4c39-86eb-3488fce36f28" height="60"/>
+**1. ERD**
+![shop_erd](https://github.com/tmdwn725/moon_shop_user/assets/60638602/1c04c924-bdb5-4b71-9381-f06bf99dc6c4)
 
->  **1. ERD**
-![shop_erd](https://github.com/tmdwn725/moon_shop_user/assets/60638602/3d8e245e-a8a6-44d1-bfb6-4329e605925e)
-
->  **2. 일정**
+**2. 일정**
 
 
 
