@@ -13,7 +13,7 @@
 >### **사용 기술**
 |**Front**|
 |-|
-|<img src="https://github.com/tmdwn725/moon_shop_user/issues/1#issue-2059437567" height="45"/>|
+|<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/066e014a-2923-44d1-8e68-9a318c0cf953" height="45"/>|
 |<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/054dd9ed-cb2d-49e6-a04c-03e6e36ea352" height="35"/>|
 
 |**Back**|
