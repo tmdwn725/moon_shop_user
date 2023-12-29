@@ -12,8 +12,8 @@
 >
 > #### **사용 기술**
 - Front
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/28aebeaf-1fc4-4f68-876d-1de06fdb16f5" width="150" height="50"/>
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/ba7e1d2d-4727-4b0f-8ab2-94ffdb7f85f3" width="150" height="50"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/28aebeaf-1fc4-4f68-876d-1de06fdb16f5" height="50"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/ba7e1d2d-4727-4b0f-8ab2-94ffdb7f85f3" height="50"/>
 
 - BACK
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/bcf5b110-b1b9-4df1-ad18-df1c17f865c3" height="50"/>
