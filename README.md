@@ -17,7 +17,7 @@
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/054dd9ed-cb2d-49e6-a04c-03e6e36ea352" height="40"/>
 
 #### BACK
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/a92cb867-db3e-40b0-b87d-dfc1b64e3634" height="60"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/a92cb867-db3e-40b0-b87d-dfc1b64e3634" height="55"/>
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/3dbc420d-a5ed-4cfd-ba49-785a741574fc" height="60"/>
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/576565ed-2c06-4715-85db-0e10305a07c0" height="60"/>
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/7e71c055-8070-4c39-86eb-3488fce36f28" height="60"/>
