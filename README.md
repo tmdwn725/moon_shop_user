@@ -11,11 +11,12 @@
 > #### **주요 기능** : 상품 관리, 주문 관리, 쿠폰 기능, 리뷰 기능 등 쇼핑몰의 기본적인 서비스를 구현
 >
 > #### **사용 기술**
-- Front
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/28aebeaf-1fc4-4f68-876d-1de06fdb16f5" height="50"/>
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/ba7e1d2d-4727-4b0f-8ab2-94ffdb7f85f3" height="50"/>
 
-- BACK
+#### Front
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/28aebeaf-1fc4-4f68-876d-1de06fdb16f5" height="50"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/054dd9ed-cb2d-49e6-a04c-03e6e36ea352" height="50"/>
+
+#### BACK
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/bcf5b110-b1b9-4df1-ad18-df1c17f865c3" height="50"/>
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/3dbc420d-a5ed-4cfd-ba49-785a741574fc" height="50"/>
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/576565ed-2c06-4715-85db-0e10305a07c0" height="50"/>
