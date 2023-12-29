@@ -10,8 +10,7 @@
 - back: Spring Boot, JPA, Spring Security, queryDSL
 
 ###  **1. ERD**
-
-![[shop_erd.jpg]]
+![shop_erd](https://github.com/tmdwn725/moon_shop_user/assets/60638602/3d8e245e-a8a6-44d1-bfb6-4329e605925e)
 
 ###  **2. 일정**
 
