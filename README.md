@@ -18,7 +18,7 @@
 
 |**Back**|
 |-|
-|<img src="https://github.com/tmdwn725/moon_shop_user/issues/2#issue-2059471221" height="50"/>|
+|<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/53151b11-4133-419d-92a1-7482315f30a0" height="50"/>|
 |<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/a92cb867-db3e-40b0-b87d-dfc1b64e3634" height="50"/>|
 |<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/3dbc420d-a5ed-4cfd-ba49-785a741574fc" height="60"/>|
 |<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/576565ed-2c06-4715-85db-0e10305a07c0" height="60"/>|
