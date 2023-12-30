@@ -1,3 +1,5 @@
+### 날짜 2023-12-29 18:49
+
 # **Moon Shop**
 ----
 >### **프로젝트 개요**
@@ -46,4 +48,6 @@
 
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/a3bfb5d5-6d8c-417c-bee7-e76c1ff81ba8" height="600px;"/>
 
+---
 
+## **3. 화면**
