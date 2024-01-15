@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- Css Styles -->
+    <link th:href="@{/css/common/login.css}" rel="stylesheet">
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<body>
+<div class="cotn_principal">
+  <div class="cont_centrar">
+
+    <div class="cont_login">
+      <div class="cont_info_log_sign_up">
+        <div class="col_md_login">
+          <div class="cont_ba_opcitiy">
+
+            <h2>LOGIN</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <button class="btn_login" onclick="change_to_login()">LOGIN</button>
+          </div>
+        </div>
+        <div class="col_md_sign_up">
+          <div class="cont_ba_opcitiy">
+            <h2>SIGN UP</h2>
+
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+            <button class="btn_sign_up" onclick="change_to_sign_up()">SIGN UP</button>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="cont_back_info">
+        <div class="cont_img_back_grey">
+          <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
+        </div>
+
+      </div>
+      <div class="cont_forms" >
+        <div class="cont_img_back_">
+          <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
+        </div>
+        <form id = "login-form" action="/login" method="post">
+        <div class="cont_form_login">
+          <a href="#" onclick="hidden_login_and_sign_up()" ><i class="material-icons">&#xE5C4;</i></a>
+          <h2>LOGIN</h2>
+            <input type="text" placeholder="Id" id="memberId" name="memberId"/>
+            <input type="password" placeholder="Password" id="password" name="password"/>
+            <div id="login_change">
+              <button class="btn_login" onclick="change_to_login()">LOGIN</button>
+            </div>
+            <div id="login" style="display: none;">
+              <button class="btn_login" type="submit">LOGIN</button>
+            </div>
+        </div>
+        </form>
+        <div class="cont_form_sign_up">
+          <a href="#" onclick="hidden_login_and_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
+          <h2>SIGN UP</h2>
+          <input type="text" id="email" placeholder="이메일" />
+          <input type="text" id="member-id" placeholder="아이디"/>
+          <input type="hidden" id="member-id-chk-yn" value="N"/>
+          <button class="btn_login_chk" id="id-dup-chk">중복확인</button>
+          <input type="password" id="member-pw" placeholder="비밀번호" />
+          <input type="password" id="confirm-pw" placeholder="비밀번호확인" />
+          <input type="text" id="member-name" placeholder="이름" />
+          <input type="text" id="tel-no" placeholder="전화번호" />
+          <button class="btn_login_chk" onclick="change_to_sign_up()">인증</button>
+          <input type="text" id="zip-code" placeholder="우편번호">
+          <button class="btn_login_chk" onclick="searchAddress()">우편번호 찾기</button>
+          <input type="text" id="address" placeholder="주소"><br>
+          <input type="text" id="detail-address" placeholder="상세주소">
+          <p><button class="btn_sign_up" id="btn-sign-up">회원가입</button></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Js Plugins -->
+<script type="text/javascript" th:src="@{/js/common/login.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+</body>
+</html>
