@@ -1,0 +1,71 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="headFragment">
+<header class="header">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-3 col-lg-2">
+        <div class="header__logo">
+          <a href="/main">
+            <h3>MoonShop</h3>
+          </a>
+        </div>
+      </div>
+      <div class="col-xl-6 col-lg-7">
+        <nav class="header__menu">
+          <ul>
+            <li th:class="${type == null ? 'active' : ''}"><a href="/main">Home</a></li>
+            <li th:class="${type == 'O' ? 'active' : ''}"><a href="/product/getProductList?page=1&type=O">OUTER</a></li>
+            <li th:class="${type == 'T' ? 'active' : ''}"><a href="/product/getProductList?page=1&type=T">TOP</a></li>
+            <li th:class="${type == 'P' ? 'active' : ''}"><a href="/product/getProductList?page=1&type=P">PANTS</a></li>
+            <li th:class="${type == 'S' ? 'active' : ''}"><a href="/product/getProductList?page=1&type=S">SHOES</a>
+              <ul class="dropdown">
+                <li><a href="./product-details.html">Product Details</a></li>
+                <li><a href="./shop-cart.html">Shop Cart</a></li>
+                <li><a href="./checkout.html">Checkout</a></li>
+                <li><a href="./blog-details.html">Blog Details</a></li>
+              </ul>
+            </li>
+            <li th:class="${type == 'A' ? 'active' : ''}"><a href="/product?page=1&type=A">ACCESSORIES</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="col-lg-3">
+        <div class="header__right">
+          <div class="header__right__auth">
+            <a href="/myPage/getMyPage">마이페이지</a>
+            <a href="/logout">로그아웃</a>
+          </div>
+          <ul class="header__right__widget">
+            <li><span class="icon_search search-switch"></span></li>
+            <li>
+              <a href="/myPage/getMyHeartList">
+                <span class="icon_heart_alt"></span>
+              </a>
+            </li>
+            <li>
+              <a href="/cart/getCartInfo">
+                <span class="icon_bag_alt"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="canvas__open">
+      <i class="fa fa-bars"></i>
+    </div>
+  </div>
+  <!-- Search Begin -->
+  <div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+      <div class="search-close-switch">+</div>
+      <form class="search-model-form" action="/product/getProductList">
+        <input type="text" id="searchStr" name="searchStr" placeholder="Search here.....">
+      </form>
+    </div>
+  </div>
+  <!-- Search End -->
+</header>
+</th:block>
+</html>
