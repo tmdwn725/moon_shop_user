@@ -9,8 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,19 +21,24 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
-
     /**
-     * 로그인 페이지
+     * 로그인
+     * @param error
+     * @param exception
+     * @param model
      * @return
      */
     @GetMapping("/login")
-    public String login() {
-        return "login/login";
+    public String login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "exception", required = false) String exception, Model model) {
+        /* 에러와 예외를 모델에 담아 view resolve */
+        model.addAttribute("error", error);
+        model.addAttribute("exception", exception);
+        return "/login/login";
     }
-
     /**
-     *
-     * @return
+     * ID 중복체크
+     * @param memberDTO
+     * @param response
      */
     @RequestMapping("/idDupChk")
     public void idDupChk(MemberDTO memberDTO, HttpServletResponse response) {
@@ -51,7 +58,11 @@ public class LoginController {
             e.printStackTrace();
         }
     }
-
+    /**
+     * 회원가입
+     * @param memberDTO
+     * @return
+     */
     @RequestMapping("/signUp")
     public ResponseEntity<Void> signUp(MemberDTO memberDTO) {
         memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));

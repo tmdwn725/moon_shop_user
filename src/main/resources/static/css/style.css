@@ -77,7 +77,7 @@ h6 {
 p {
 	font-size: 14px;
 	font-family: "Montserrat", sans-serif;
-	color: #666666;
+	color: #444444;
 	font-weight: 400;
 	line-height: 24px;
 	margin: 0 0 15px 0;
@@ -591,6 +591,8 @@ ol {
 .trend__item {
 	overflow: hidden;
 	margin-bottom: 35px;
+	width:380px;
+	cursor: pointer;
 }
 
 .trend__item__pic {
@@ -814,7 +816,6 @@ ol {
 	height: 100%;
 	width: 100%;
 	background: rgba(255, 255, 255, 0.9);
-	content: "";
 	opacity: 0;
 	z-index: -1;
 	-webkit-transition: all, 0.3s;
@@ -1065,12 +1066,12 @@ ol {
 
 .categories__text h1 {
 	font-family: "Cookie", cursive;
-	color: #111111;
+	color: #fff;
 	margin-bottom: 5px;
 }
 
 .categories__text h4 {
-	color: #111111;
+	color: #fff;
 	font-weight: 700;
 }
 
@@ -1080,7 +1081,7 @@ ol {
 
 .categories__text a {
 	font-size: 14px;
-	color: #111111;
+	color: #fff;
 	text-transform: uppercase;
 	font-weight: 600;
 	position: relative;
@@ -1764,7 +1765,6 @@ ol {
 	color: #666666;
 	cursor: pointer;
 	float: left;
-	width: 12px;
 	line-height: 46px;
 }
 
@@ -2349,6 +2349,11 @@ ol {
 	font-size: 14px;
 	padding-left: 20px;
 	color: #666666;
+}
+
+.checkout__form .checkout__form__input input.coupon-radio{
+    height: 15px;
+    width: 4%;
 }
 
 .checkout__form .checkout__form__input input::-webkit-input-placeholder {
@@ -3679,4 +3684,40 @@ ol {
 		width: 100%;
 		font-size: 24px;
 	}
+}
+
+.n-table.table-col {
+    border-top: 1px solid #000000;
+}
+
+.n-table {
+    width: 100%;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    line-height: 1.5;
+    font-size: 14px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table, th, td {
+    border-spacing: 0;
+}
+
+.n-table.table-col th {
+    height: 52px;
+    border-bottom: 1px solid #000000;
+    text-align: center;
+    font-size: 16px;
+    vertical-align: middle;
+    font-weight: normal;
+}
+
+.n-table.table-col td {
+    height: 70px;
+    padding: 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #f5f5f5;
+    text-align: center;
+    vertical-align: middle;
+    word-break: break-all;
 }

@@ -15,7 +15,6 @@
       <div class="cont_info_log_sign_up">
         <div class="col_md_login">
           <div class="cont_ba_opcitiy">
-
             <h2>LOGIN</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             <button class="btn_login" onclick="change_to_login()">LOGIN</button>
@@ -24,10 +23,7 @@
         <div class="col_md_sign_up">
           <div class="cont_ba_opcitiy">
             <h2>SIGN UP</h2>
-
-
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-
             <button class="btn_sign_up" onclick="change_to_sign_up()">SIGN UP</button>
           </div>
         </div>
@@ -55,6 +51,9 @@
             </div>
             <div id="login" style="display: none;">
               <button class="btn_login" type="submit">LOGIN</button>
+            </div>
+            <div th:if="error">
+              <p id="valid" style="color: red; font-size:12px;"><a th:text="${exception}"></a></p>
             </div>
         </div>
         </form>
