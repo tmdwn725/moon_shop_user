@@ -16,14 +16,14 @@
         <div class="col_md_login">
           <div class="cont_ba_opcitiy">
             <h2>LOGIN</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>로그인 해주세요.</p>
             <button class="btn_login" onclick="change_to_login()">LOGIN</button>
           </div>
         </div>
         <div class="col_md_sign_up">
           <div class="cont_ba_opcitiy">
             <h2>SIGN UP</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>회원가입 해주세요.</p>
             <button class="btn_sign_up" onclick="change_to_sign_up()">SIGN UP</button>
           </div>
         </div>
@@ -46,14 +46,12 @@
           <h2>LOGIN</h2>
             <input type="text" placeholder="Id" id="memberId" name="memberId"/>
             <input type="password" placeholder="Password" id="password" name="password"/>
+            <input type="hidden" id="error" th:value="${error}">
             <div id="login_change">
               <button class="btn_login" onclick="change_to_login()">LOGIN</button>
             </div>
             <div id="login" style="display: none;">
               <button class="btn_login" type="submit">LOGIN</button>
-            </div>
-            <div th:if="error">
-              <p id="valid" style="color: red; font-size:12px;"><a th:text="${exception}"></a></p>
             </div>
         </div>
         </form>
@@ -70,10 +68,10 @@
           <input type="text" id="tel-no" placeholder="전화번호" />
           <button class="btn_login_chk" onclick="change_to_sign_up()">인증</button>
           <input type="text" id="zip-code" placeholder="우편번호">
-          <button class="btn_login_chk" onclick="searchAddress()">우편번호 찾기</button>
+          <button class="btn_login_chk" id="btn-zip-code-sch">우편번호 찾기</button>
           <input type="text" id="address" placeholder="주소"><br>
           <input type="text" id="detail-address" placeholder="상세주소">
-          <p><button class="btn_sign_up" id="btn-sign-up">회원가입</button></p>
+          <p><button class="btn_sign_up" id="btn-sign-up">SIGN UP</button></p>
         </div>
       </div>
 

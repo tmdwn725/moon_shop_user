@@ -37,7 +37,8 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
             errorMessage = "알 수 없는 오류로 로그인 요청을 처리할 수 없습니다. 관리자에게 문의하세요.";
         }
         errorMessage = URLEncoder.encode(errorMessage, "UTF-8"); /* 한글 인코딩 깨진 문제 방지 */
-        setDefaultFailureUrl("/auth/login?error=true&exception="+errorMessage);
+
+        setDefaultFailureUrl("/login?error="+errorMessage);
         super.onAuthenticationFailure(request, response, exception);
     }
 }

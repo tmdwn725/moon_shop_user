@@ -29,10 +29,9 @@ public class LoginController {
      * @return
      */
     @GetMapping("/login")
-    public String login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "exception", required = false) String exception, Model model) {
+    public String login(@RequestParam(value = "error", required = false) String error, Model model) {
         /* 에러와 예외를 모델에 담아 view resolve */
         model.addAttribute("error", error);
-        model.addAttribute("exception", exception);
         return "/login/login";
     }
     /**

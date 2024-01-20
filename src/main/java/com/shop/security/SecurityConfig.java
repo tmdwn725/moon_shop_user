@@ -14,19 +14,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-@Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
     private final MemberService customUserDetailService;
-    /* 로그인 실패 핸들러 의존성 주입 */
     private final AuthenticationFailureHandler customFailureHandler;
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
@@ -46,8 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        SavedRequestAwareAuthenticationSuccessHandler authenticationSuccessHandler =
-                new SavedRequestAwareAuthenticationSuccessHandler();
+        SavedRequestAwareAuthenticationSuccessHandler authenticationSuccessHandler = new SavedRequestAwareAuthenticationSuccessHandler();
         authenticationSuccessHandler.setDefaultTargetUrl("/main");
         return authenticationSuccessHandler;
     }
@@ -82,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("memberId")
                 .passwordParameter("password")
                 .successHandler(authenticationSuccessHandler())
-                .failureHandler(customFailureHandler) // 로그인 실패 핸들러
+                .failureHandler(customFailureHandler)
                 .and()
                 .logout()
                 .logoutUrl("/logout")
