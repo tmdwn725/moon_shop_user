@@ -14,10 +14,10 @@
         <nav class="header__menu">
           <ul>
             <li th:class="${type == null ? 'active' : ''}"><a href="/main">Home</a></li>
-            <li th:class="${type == 'O' ? 'active' : ''}"><a href="/product/getProductList?page=1&type=O">OUTER</a></li>
-            <li th:class="${type == 'T' ? 'active' : ''}"><a href="/product/getProductList?page=1&type=T">TOP</a></li>
-            <li th:class="${type == 'P' ? 'active' : ''}"><a href="/product/getProductList?page=1&type=P">PANTS</a></li>
-            <li th:class="${type == 'S' ? 'active' : ''}"><a href="/product/getProductList?page=1&type=S">SHOES</a>
+            <li th:class="${type == 'O' ? 'active' : ''}"><a href="/product/productList?page=1&type=O">OUTER</a></li>
+            <li th:class="${type == 'T' ? 'active' : ''}"><a href="/product/productList?page=1&type=T">TOP</a></li>
+            <li th:class="${type == 'P' ? 'active' : ''}"><a href="/product/productList?page=1&type=P">PANTS</a></li>
+            <li th:class="${type == 'S' ? 'active' : ''}"><a href="/product/productList?page=1&type=S">SHOES</a>
               <ul class="dropdown">
                 <li><a href="./product-details.html">Product Details</a></li>
                 <li><a href="./shop-cart.html">Shop Cart</a></li>
@@ -33,13 +33,13 @@
       <div class="col-lg-3">
         <div class="header__right">
           <div class="header__right__auth">
-            <a href="/myPage/getMyPage">마이페이지</a>
+            <a href="/myPage/myPage" th:text="${#authentication.principal.username + '님'}"></a>
             <a href="/logout">로그아웃</a>
           </div>
           <ul class="header__right__widget">
             <li><span class="icon_search search-switch"></span></li>
             <li>
-              <a href="/myPage/getMyHeartList">
+              <a href="/myPage/myHeartList">
                 <span class="icon_heart_alt"></span>
               </a>
             </li>
@@ -60,7 +60,7 @@
   <div class="search-model">
     <div class="h-100 d-flex align-items-center justify-content-center">
       <div class="search-close-switch">+</div>
-      <form class="search-model-form" action="/product/getProductList">
+      <form class="search-model-form" action="/product/productList">
         <input type="text" id="searchStr" name="searchStr" placeholder="Search here.....">
       </form>
     </div>

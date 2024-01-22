@@ -45,7 +45,7 @@
             </a></li>
         </ul>
         <div class="offcanvas__logo">
-            <a href="./index.html"><img src="img/logo.png" alt=""></a>
+            <a href="./index.html"><img src="/img/logo.png" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__auth">
@@ -56,57 +56,7 @@
     <!-- Offcanvas Menu End -->
 
     <!-- Header Section Begin -->
-    <header class="header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-3 col-lg-2">
-                    <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-7">
-                    <nav class="header__menu">
-                        <ul>
-                            <li><a href="./index.html">Home</a></li>
-                            <li><a href="#">Women’s</a></li>
-                            <li><a href="#">Men’s</a></li>
-                            <li class="active"><a href="./shop.html">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./product-details.html">Product Details</a></li>
-                                    <li><a href="./shop-cart.html">Shop Cart</a></li>
-                                    <li><a href="./checkout.html">Checkout</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contact</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3">
-                    <div class="header__right">
-                        <div class="header__right__auth">
-                            <a href="#">Login</a>
-                            <a href="#">Register</a>
-                        </div>
-                        <ul class="header__right__widget">
-                            <li><span class="icon_search search-switch"></span></li>
-                            <li><a href="#"><span class="icon_heart_alt"></span>
-                                <div class="tip">2</div>
-                            </a></li>
-                            <li><a href="#"><span class="icon_bag_alt"></span>
-                                <div class="tip">2</div>
-                            </a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="canvas__open">
-                <i class="fa fa-bars"></i>
-            </div>
-        </div>
-    </header>
+    <th:block th:replace="common/header :: headFragment"></th:block>
     <!-- Header Section End -->
 
     <!-- Breadcrumb Begin -->
@@ -116,8 +66,9 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
                         <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <a href="#">Women’s </a>
-                        <span>Essential structured blazer</span>
+                        <a href="#" th:text="${product.productType.getParentCategory().get().name}"></a>
+                        <a href="#" th:text="${product.productType.name}"></a>
+                        <span th:text="${product.productName}"></span>
                     </div>
                 </div>
             </div>
@@ -126,38 +77,42 @@
     <!-- Breadcrumb End -->
 
     <!-- Product Details Section Begin -->
-    <section class="product-details spad">
+    <section class="productInfo spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="product__details__pic">
                         <div class="product__details__pic__left product__thumb nice-scroll">
                             <a class="pt active" href="#product-1">
-                                <img src="img/product/details/thumb-1.jpg" alt="">
+                                <img th:src="'/fileDownload?fileSeq=' + ${product.productFileList[0].file.fileSeq}" alt="">
                             </a>
-                            <a class="pt" href="#product-2">
-                                <img src="img/product/details/thumb-2.jpg" alt="">
+                            <a class="pt" th:if="${product.productFileList.size() > 1}" href="#product-2">
+                                <img th:src="'/fileDownload?fileSeq=' + ${product.productFileList[1].file.fileSeq}" alt="">
                             </a>
-                            <a class="pt" href="#product-3">
-                                <img src="img/product/details/thumb-3.jpg" alt="">
+                            <a class="pt" th:if="${product.productFileList.size() > 2}" href="#product-3">
+                                <img th:src="'/fileDownload?fileSeq=' + ${product.productFileList[2].file.fileSeq}" alt="">
                             </a>
-                            <a class="pt" href="#product-4">
-                                <img src="img/product/details/thumb-4.jpg" alt="">
+                            <a class="pt" th:if="${product.productFileList.size() > 3}" href="#product-4">
+                                <img th:src="'/fileDownload?fileSeq=' + ${product.productFileList[3].file.fileSeq}" alt="">
                             </a>
                         </div>
                         <div class="product__details__slider__content">
                             <div class="product__details__pic__slider owl-carousel">
-                                <img data-hash="product-1" class="product__big__img" src="img/product/details/product-1.jpg" alt="">
-                                <img data-hash="product-2" class="product__big__img" src="img/product/details/product-3.jpg" alt="">
-                                <img data-hash="product-3" class="product__big__img" src="img/product/details/product-2.jpg" alt="">
-                                <img data-hash="product-4" class="product__big__img" src="img/product/details/product-4.jpg" alt="">
+                                <img data-hash="product-1" class="product__big__img" th:if="${product.productFileList.size() > 0}"
+                                     th:src="'/fileDownload?fileSeq=' + ${product.productFileList[0].file.fileSeq}" alt="">
+                                <img data-hash="product-2" class="product__big__img" th:if="${product.productFileList.size() > 1}"
+                                     th:src="'/fileDownload?fileSeq=' + ${product.productFileList[1].file.fileSeq}" alt="">
+                                <img data-hash="product-3" class="product__big__img" th:if="${product.productFileList.size() > 2}"
+                                     th:src="'/fileDownload?fileSeq=' + ${product.productFileList[2].file.fileSeq}" alt="">
+                                <img data-hash="product-4" class="product__big__img" th:if="${product.productFileList.size() > 3}"
+                                     th:src="'/fileDownload?fileSeq=' + ${product.productFileList[3].file.fileSeq}" alt="">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="product__details__text">
-                        <h3>Essential structured blazer <span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
+                        <h3 th:text="${product.productName}"><span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
                         <div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -166,19 +121,26 @@
                             <i class="fa fa-star"></i>
                             <span>( 138 reviews )</span>
                         </div>
-                        <div class="product__details__price">$ 75.0 <span>$ 83.0</span></div>
-                        <p>Nemo enim ipsam voluptatem quia aspernatur aut odit aut loret fugit, sed quia consequuntur
-                        magni lores eos qui ratione voluptatem sequi nesciunt.</p>
+                        <div class="product__details__price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '원'">
+                            <span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '원'"></span>
+                        </div>
                         <div class="product__details__button">
                             <div class="quantity">
-                                <span>Quantity:</span>
+                                <span>수량:</span>
                                 <div class="pro-qty">
-                                    <input type="text" value="1">
+                                    <span class="dec qtybtn">-</span>
+                                    <input id="quantity" type="text" value="1">
+                                    <span class="inc qtybtn">+</span>
                                 </div>
                             </div>
-                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                            <a href="javascript:void(0);" onclick="addCart();"class="cart-btn"><span class="icon_bag_alt"></span>장바구니 추가</a>
                             <ul>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li>
+                                    <a href="#" class="heartIcn" th:id="${product.productSeq}">
+                                        <span th:if="${product.heart == null}" class="icon_heart_alt"></span>
+                                        <span th:if="${product.heart != null}" class="icon_heart" style="color:red;"></span>
+                                    </a>
+                                </li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
                             </ul>
                         </div>
@@ -195,40 +157,11 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <span>Available color:</span>
-                                    <div class="color__checkbox">
-                                        <label for="red">
-                                            <input type="radio" name="color__radio" id="red" checked>
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <label for="black">
-                                            <input type="radio" name="color__radio" id="black">
-                                            <span class="checkmark black-bg"></span>
-                                        </label>
-                                        <label for="grey">
-                                            <input type="radio" name="color__radio" id="grey">
-                                            <span class="checkmark grey-bg"></span>
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span>Available size:</span>
+                                    <span>사이즈:</span>
                                     <div class="size__btn">
-                                        <label for="xs-btn" class="active">
-                                            <input type="radio" id="xs-btn">
-                                            xs
-                                        </label>
-                                        <label for="s-btn">
-                                            <input type="radio" id="s-btn">
-                                            s
-                                        </label>
-                                        <label for="m-btn">
-                                            <input type="radio" id="m-btn">
-                                            m
-                                        </label>
-                                        <label for="l-btn">
-                                            <input type="radio" id="l-btn">
-                                            l
+                                        <label th:each="stock : ${product.productStockList}" class="active">
+                                            <input name="size" type="radio" th:id="${stock.productSize}+ '-btn'" th:value="${stock.productStockSeq}">
+                                            [[${stock.productSize}]]
                                         </label>
                                     </div>
                                 </li>
@@ -255,17 +188,8 @@
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <h6>Description</h6>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                    quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                    Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                    voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                    consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                                consequat massa quis enim.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                    dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                    nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                                quis, sem.</p>
+                                <h6>상품상세설명</h6>
+                                <p th:text="${product.productContent}"></p>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
                                 <h6>Specification</h6>
@@ -280,20 +204,11 @@
                                     nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
                                 quis, sem.</p>
                             </div>
-                            <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                <h6>Reviews ( 2 )</h6>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                    quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                    Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                    voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                    consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                                consequat massa quis enim.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                    dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                    nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                                quis, sem.</p>
+                        <!-- Review Section Begin -->
+                            <div class="tab-pane product-review" id="tabs-3" role="tabpanel">
+                                <th:block th:replace="product/productReview :: reviewFragment"></th:block>
                             </div>
-                        </div>
+                        <!-- Review Section End -->
                     </div>
                 </div>
             </div>
@@ -305,10 +220,10 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-1.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="/img/product/related/rp-1.jpg">
                             <div class="label new">New</div>
                             <ul class="product__hover">
-                                <li><a href="img/product/related/rp-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="/img/product/related/rp-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                             </ul>
@@ -328,9 +243,9 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-2.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="/img/product/related/rp-2.jpg">
                             <ul class="product__hover">
-                                <li><a href="img/product/related/rp-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="/img/product/related/rp-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                             </ul>
@@ -350,10 +265,10 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-3.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="/img/product/related/rp-3.jpg">
                             <div class="label stockout">out of stock</div>
                             <ul class="product__hover">
-                                <li><a href="img/product/related/rp-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="/img/product/related/rp-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                             </ul>
@@ -373,9 +288,9 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-4.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="/img/product/related/rp-4.jpg">
                             <ul class="product__hover">
-                                <li><a href="img/product/related/rp-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="/img/product/related/rp-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                             </ul>
@@ -403,7 +318,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-1.jpg">
+                    <div class="instagram__item set-bg" data-setbg="/img/instagram/insta-1.jpg">
                         <div class="instagram__text">
                             <i class="fa fa-instagram"></i>
                             <a href="#">@ ashion_shop</a>
@@ -411,7 +326,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-2.jpg">
+                    <div class="instagram__item set-bg" data-setbg="/img/instagram/insta-2.jpg">
                         <div class="instagram__text">
                             <i class="fa fa-instagram"></i>
                             <a href="#">@ ashion_shop</a>
@@ -419,7 +334,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-3.jpg">
+                    <div class="instagram__item set-bg" data-setbg="/img/instagram/insta-3.jpg">
                         <div class="instagram__text">
                             <i class="fa fa-instagram"></i>
                             <a href="#">@ ashion_shop</a>
@@ -427,7 +342,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-4.jpg">
+                    <div class="instagram__item set-bg" data-setbg="/img/instagram/insta-4.jpg">
                         <div class="instagram__text">
                             <i class="fa fa-instagram"></i>
                             <a href="#">@ ashion_shop</a>
@@ -435,7 +350,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-5.jpg">
+                    <div class="instagram__item set-bg" data-setbg="/img/instagram/insta-5.jpg">
                         <div class="instagram__text">
                             <i class="fa fa-instagram"></i>
                             <a href="#">@ ashion_shop</a>
@@ -443,7 +358,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-6.jpg">
+                    <div class="instagram__item set-bg" data-setbg="/img/instagram/insta-6.jpg">
                         <div class="instagram__text">
                             <i class="fa fa-instagram"></i>
                             <a href="#">@ ashion_shop</a>
@@ -456,89 +371,9 @@
     <!-- Instagram End -->
 
     <!-- Footer Section Begin -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-7">
-                    <div class="footer__about">
-                        <div class="footer__logo">
-                            <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                        cilisis.</p>
-                        <div class="footer__payment">
-                            <a href="#"><img src="img/payment/payment-1.png" alt=""></a>
-                            <a href="#"><img src="img/payment/payment-2.png" alt=""></a>
-                            <a href="#"><img src="img/payment/payment-3.png" alt=""></a>
-                            <a href="#"><img src="img/payment/payment-4.png" alt=""></a>
-                            <a href="#"><img src="img/payment/payment-5.png" alt=""></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-5">
-                    <div class="footer__widget">
-                        <h6>Quick links</h6>
-                        <ul>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Blogs</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">FAQ</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-4">
-                    <div class="footer__widget">
-                        <h6>Account</h6>
-                        <ul>
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">Orders Tracking</a></li>
-                            <li><a href="#">Checkout</a></li>
-                            <li><a href="#">Wishlist</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-8 col-sm-8">
-                    <div class="footer__newslatter">
-                        <h6>NEWSLETTER</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Email">
-                            <button type="submit" class="site-btn">Subscribe</button>
-                        </form>
-                        <div class="footer__social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    <div class="footer__copyright__text">
-                        <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
-                    </div>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                </div>
-            </div>
-        </div>
-    </footer>
+    <th:block th:replace="common/footer :: footFragment"></th:block>
     <!-- Footer Section End -->
 
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
-        </div>
-    </div>
-    <!-- Search End -->
-
-    <!-- Js Plugins -->
     <!-- Js Plugins -->
     <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
@@ -550,5 +385,8 @@
     <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.nicescroll.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/product/productInfo.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+    <!-- Js Plugins -->
 </body>
 </html>

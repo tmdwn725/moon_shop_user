@@ -69,7 +69,7 @@
                             <h1>Outer</h1>
                             <p class="title-description">Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
                             edolore magna aliquapendisse ultrices gravida.</p>
-                            <a href="/product/getProductList?page=1&type=O">Shop now</a>
+                            <a href="/product/productList?page=1&type=O">Shop now</a>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                                 <div class="categories__text">
                                     <h4>Top</h4>
                                     <p class="title-description">358 items</p>
-                                    <a href="/product/getProductList?page=1&type=T">Shop now</a>
+                                    <a href="/product/productList?page=1&type=T">Shop now</a>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                                 <div class="categories__text">
                                     <h4>Shoes</h4>
                                     <p class="title-description">273 items</p>
-                                    <a href="/product/getProductList?page=1&type=S">Shop now</a>
+                                    <a href="/product/productList?page=1&type=S">Shop now</a>
                                 </div>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                                 <div class="categories__text">
                                     <h4>Pants</h4>
                                     <p class="title-description">159 items</p>
-                                    <a href="/product/getProductList?page=1&type=P">Shop now</a>
+                                    <a href="/product/productList?page=1&type=P">Shop now</a>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                                 <div class="categories__text">
                                     <h4>Accessories</h4>
                                     <p class="title-description">792 items</p>
-                                    <a href="/product/getProductList?page=1&type=A">Shop now</a>
+                                    <a href="/product/productList?page=1&type=A">Shop now</a>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +141,7 @@
             <div class="row property__gallery">
                 <div class="col-lg-3 col-md-4 col-sm-6 mix men" th:each="product : ${productList}">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" th:onclick="|location.href='@{/product/getProductInfo?productSeq=}${product.productSeq}'|"
+                        <div class="product__item__pic set-bg" th:onclick="|location.href='@{/product/productInfo?productSeq=}${product.productSeq}'|"
                              th:attr="data-setbg='/fileDownload?fileSeq=' + ${product.productFileList[0].file.fileSeq}">
                             <div class="label new">New</div>
                             <ul class="product__hover">
