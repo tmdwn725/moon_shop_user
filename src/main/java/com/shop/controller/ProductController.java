@@ -1,6 +1,7 @@
 package com.shop.controller;
 
 import com.shop.domain.enums.ProductType;
+import com.shop.dto.CartDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.dto.ReviewDTO;
 import com.shop.service.CartService;
@@ -8,6 +9,7 @@ import com.shop.service.ProductService;
 import com.shop.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,6 +85,19 @@ public class ProductController {
         model.addAttribute("reviewList",reviewList);
         model.addAttribute("type",product.getProductType().getParentCategory().get().getCode());
         return "product/productReview";
+    }
+
+    /**
+     * 장바구니 추가
+     * @param model
+     * @param cartDTO
+     * @return
+     */
+    @RequestMapping("/addProductCart")
+    public ResponseEntity<Void> addProductCart(Model model, CartDTO cartDTO){
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        cartService.addCart(cartDTO, memberId);
+        return ResponseEntity.ok().build();
     }
 
     /**
