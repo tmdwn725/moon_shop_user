@@ -5,7 +5,7 @@ function paging(page, productSeq) {
 
     // Ajax 요청 보내기
     $.ajax({
-        url: "/product/getReviewList", // 선택한 페이지의 URL
+        url: "/product/reviewList", // 선택한 페이지의 URL
         type: 'POST', // GET 요청
         data:{
             page: page,

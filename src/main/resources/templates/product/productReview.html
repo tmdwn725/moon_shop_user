@@ -1,0 +1,67 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="reviewFragment">
+    <div class="tab-pane" id="tabs-3" style="overflow:auto; height:600px; border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
+        <p class="article_review_detail">
+            <span class="info_event_line">EVENT</span>
+            <span id="reviewEventText" style="color:black;" class="info_review_detail">스타일후기 작성 시 2,000원의 적립금을 드립니다.(직접 촬영한 전신 사진 필수)</span>
+        </p>
+        <p class="article_review_select">
+            <select id="reviewSelectSort" class="review_select_sort" onchange="ReviewSort.apiCall(this.value)">
+                <option value="new" selected="selected">최신순</option>
+                <option value="comment_cnt_desc">댓글 순</option>
+                <option value="up_cnt_desc">추천 순</option>
+                <option value="goods_est_desc">높은 평점 순</option>
+                <option value="goods_est_asc">낮은 평점 순</option>
+            </select>
+        </p>
+        <!-- //리스트-->
+        <div class="review-list-wrap" id="reviewListFragment" th:if="${reviewList.totalPages > 0}">
+            <div class="review-list" th:each="review : ${reviewList}" style="border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
+                <div class="review-profile">
+                    <a href="#" class="review-profile__link"></a>
+                    <div class="review-profile__text-wrap">
+                        <div class="review-profile__text">
+                            <p class="review-profile__name" style="color:black;text-align:right;" th:text="${#temporals.format(review.reviewDate, 'yyyy-MM-dd')}"/>
+                            <p class="review-profile__date" style="color:black;font-size:20px;"  th:text="${review.orderInfo.member.name}"/>
+                            <div class="rating">
+                                <i class="fa fa-star" th:if="${review.score > 0}"></i>
+                                <i class="fa fa-star" th:if="${review.score > 1}"></i>
+                                <i class="fa fa-star" th:if="${review.score > 2}"></i>
+                                <i class="fa fa-star" th:if="${review.score > 3}"></i>
+                                <i class="fa fa-star" th:if="${review.score > 4}"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-goods-information__item">
+                        <p class="review-goods-information__option-wrap">
+                            <span class="review-goods-information__option" th:text="${review.orderInfo.productStock.product.productName} + ' ' +${review.orderInfo.productStock.productSize}">S</span>구매
+                        </p>
+                    </div>
+                </div>
+                <div class="review-goods-information">
+                    <div class="review-goods-information__thumbnail">
+                        <img th:src="'/' +${review.file.filePth}" >
+                    </div>
+                </div>
+                <div class="review-contents" >
+                    <div class="review-contents__text" style="font-size:20px;" th:text="${review.content}"/>
+                </div>
+            </div>
+            <!-- //paging -->
+
+            <div class="nslist_bottom">
+                <div class="col-lg-12 text-center">
+                    <div class="pagination__option">
+                        <a th:each="page : ${#numbers.sequence(1, reviewList.totalPages)}" href="#"
+                            th:onclick="'paging(' + ${page} + ', ' + ${product.productSeq} + ')'"
+                            th:class="${reviewList.number+1 == page ? 'active' : ''}">[[${page}]]</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="review-list-wrap" th:if="${reviewList.totalPages == 0}">
+            등록된 후기가 없습니다.
+        </div>
+    </div>
+</th:block>
+</html>
