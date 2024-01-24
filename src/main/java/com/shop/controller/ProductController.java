@@ -109,4 +109,14 @@ public class ProductController {
     public List<ProductType> getChildProductType(@RequestParam("parentProductType") ProductType parentProductType) {
         return parentProductType.getChildCategories();
     }
+    /**
+     * 좋아요 저장
+     * @param productDTO
+     */
+    @RequestMapping("/updateHeartInfo")
+    public ResponseEntity<Void> updateHeartInfo(ProductDTO productDTO){
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        productService.updateHeartInfo(productDTO, memberId);
+        return ResponseEntity.ok().build();
+    }
 }

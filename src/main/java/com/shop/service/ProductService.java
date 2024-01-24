@@ -64,4 +64,24 @@ public class ProductService {
         product.setHeart(heart);
         return product;
     }
+    /**
+     * 좋아요 등록/삭제
+     * @param productDTO
+     * @param memberId
+     */
+    @Transactional
+    public void updateHeartInfo(ProductDTO productDTO, String memberId) {
+        LocalDateTime nowDate = LocalDateTime.now();
+        Heart heart = new Heart();
+        Member member = memberRepository.fingByMemberId(memberId);
+        Product product = productRepository.findById(productDTO.getProductSeq()).get();
+        heart.createHeart(member, product, nowDate);
+        // 좋아요 취소시 삭제
+        if("Y".equals(productDTO.getUpdateYn())) {
+            heartRepository.save(heart);
+        }else {
+            heart = heartRepository.selectHeartInfo(heart);
+            heartRepository.delete(heart);
+        }
+    }
 }
