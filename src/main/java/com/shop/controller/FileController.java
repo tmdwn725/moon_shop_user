@@ -5,7 +5,7 @@ import com.shop.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.ServletOutputStream;
@@ -14,13 +14,23 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * 파일 관련 Controller
+ */
 @Controller
 @RequiredArgsConstructor
 public class FileController {
     @Value("${root.filePath}")
     private String filePth;
     private final FileService fileService;
-    @RequestMapping("/fileDownload")
+
+    /**
+     * 파일 다운로드
+     * @param response
+     * @param fileSeq
+     * @return
+     */
+    @GetMapping("/fileDownload")
     public String fileDownload(HttpServletResponse response, Long fileSeq){
         FileDTO fileDTO = fileService.getFileInfo(fileSeq);
         try {

@@ -4,27 +4,30 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.shop.dto.MemberDTO;
 import com.shop.service.MemberService;
-import io.netty.handler.codec.json.JsonObjectDecoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 로그인 관련 Controller
+ */
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+
     /**
      * 로그인
      * @param error
-     * @param exception
      * @param model
      * @return
      */
@@ -39,7 +42,7 @@ public class LoginController {
      * @param memberDTO
      * @param response
      */
-    @RequestMapping("/idDupChk")
+    @PostMapping("/idDupChk")
     public void idDupChk(MemberDTO memberDTO, HttpServletResponse response) {
         JsonObject resultMap = new JsonObject();
         MemberDTO member = memberService.selectMemberById(memberDTO.getMemberId());
@@ -62,7 +65,7 @@ public class LoginController {
      * @param memberDTO
      * @return
      */
-    @RequestMapping("/signUp")
+    @PostMapping("/signUp")
     public ResponseEntity<Void> signUp(MemberDTO memberDTO) {
         memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
         memberService.signUpMember(memberDTO);

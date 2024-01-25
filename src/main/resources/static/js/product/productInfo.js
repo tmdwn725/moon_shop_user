@@ -6,7 +6,7 @@ function paging(page, productSeq) {
     // Ajax 요청 보내기
     $.ajax({
         url: "/product/reviewList", // 선택한 페이지의 URL
-        type: 'POST', // GET 요청
+        type: 'post', // GET 요청
         data:{
             page: page,
             productSeq: productSeq
@@ -31,7 +31,7 @@ function addCart(){
         return;
     }
     $.ajax({
-        type: "GET",
+        type: "get",
         url: "/product/addProductCart",
         data:{
             quantity : quantity,

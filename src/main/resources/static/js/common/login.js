@@ -86,7 +86,7 @@ document.getElementById("btn-zip-code-sch").addEventListener('click', function()
 document.getElementById("id-dup-chk").addEventListener('click', function(){
     const memberId = document.getElementById("member-id").value;
     $.ajax({
-        type: "POST",
+        type: "post",
         url: "/idDupChk",
         data: {memberId: memberId},
         success: function(response){
@@ -144,7 +144,7 @@ document.getElementById("btn-sign-up").addEventListener('click',function(){
     }
 
      $.ajax({
-        type: "POST",
+        type: "post",
         url: "/signUp",
         data: param,
         success: function(response){

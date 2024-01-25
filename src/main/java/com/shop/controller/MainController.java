@@ -10,16 +10,26 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
 
+/**
+ * 메인페이지 Controller
+ */
 @Controller
 @RequiredArgsConstructor
 public class MainController {
     private final MemberService memberService;
     private final ProductService productService;
-    @RequestMapping("/main")
+
+    /**
+     * 메인페이지 호출
+     * @param model
+     * @return
+     */
+    @GetMapping("/main")
     public String main(Model model) {
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         MemberDTO member = memberService.selectMemberById(memberId);
