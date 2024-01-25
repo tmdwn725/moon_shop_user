@@ -50,7 +50,7 @@ function decreaseQuantity(element,cartSeq, totalPrice){
 function removeCartInfo(cartSeq){
     $.ajax({
         url: "/cart/removeCartInfo",
-        type: "DELETE",
+        type: "delete",
         data:{ cartSeq : cartSeq },
         success: function(response) {
           // 성공한 경우 해당 페이지로 리다이렉트
@@ -65,8 +65,8 @@ function removeCartInfo(cartSeq){
 //상품수 변경
 function creaseProductQuantity(cartSeq, quantity){
     $.ajax({
-        type: "POST",
-        url: "/cart/modProductQuantity",
+        type: "post",
+        url: "/cart/updateProductQuantity",
         data:{
             cartSeq : cartSeq,
             quantity : quantity
