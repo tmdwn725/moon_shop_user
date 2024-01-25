@@ -14,11 +14,11 @@ function paging(page, productSeq) {
         dataType: 'html', // HTML 응답을 기대
         success: function (data) {
             // 성공적으로 데이터를 받았을 때
-            $('#product-review').html(data); // tabs-3 div를 업데이트
+            $('#product-review').html(data); // tabs-2 div를 업데이트
         },
         error: function () {
             // 오류 발생 시 처리
-            $('#tabs-3').html('<p>Failed to load content.</p>');
+            $('#tabs-2').html('<p>Failed to load content.</p>');
         }
     });
 }

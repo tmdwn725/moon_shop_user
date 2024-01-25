@@ -1,9 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="reviewFragment">
-    <div class="tab-pane" id="tabs-3" style="overflow:auto; height:600px; border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
+    <div class="tab-pane" id="tabs-2" style="overflow:auto; height:600px; border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
         <p class="article_review_detail">
             <span class="info_event_line">EVENT</span>
-            <span id="reviewEventText" style="color:black;" class="info_review_detail">스타일후기 작성 시 2,000원의 적립금을 드립니다.(직접 촬영한 전신 사진 필수)</span>
+            <span id="reviewEventText" style="color:black;" class="info_review_detail">스타일후기를 남겨주세요</span>
         </p>
         <p class="article_review_select">
             <select id="reviewSelectSort" class="review_select_sort" onchange="ReviewSort.apiCall(this.value)">
@@ -14,15 +14,33 @@
                 <option value="goods_est_asc">낮은 평점 순</option>
             </select>
         </p>
-        <!-- //리스트-->
+        <!-- //리스트
+        <div style="border: 1px solid gold; float: left; width: 33%;">
+            첫번째 영역
+        </div>
+        <div style="border: 1px solid red; float: left; width: 33%;">
+            두번째 영역
+        </div>
+        <div style="border: 1px solid blue; float: left; width: 33%;">
+            세번째 영역
+        </div>-->
         <div class="review-list-wrap" id="reviewListFragment" th:if="${reviewList.totalPages > 0}">
             <div class="review-list" th:each="review : ${reviewList}" style="border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
                 <div class="review-profile">
                     <a href="#" class="review-profile__link"></a>
                     <div class="review-profile__text-wrap">
-                        <div class="review-profile__text">
-                            <p class="review-profile__name" style="color:black;text-align:right;" th:text="${#temporals.format(review.reviewDate, 'yyyy-MM-dd')}"/>
-                            <p class="review-profile__date" style="color:black;font-size:20px;"  th:text="${review.orderInfo.member.name}"/>
+                        <div class="review-profile__text" style="border-bottom: 2px solid;">
+                            <img style="height: 50px; margin:4px;" alt="" src="/img/common/profile.png">
+                            <span class="review-profile__name" style="color:black;font-size:20px;font-weight: bold;margin-left:10px;"  th:text="${review.orderInfo.member.nickName}"/>
+                            <span class="review-profile__date" style="color:black;text-align:right;" th:text="${#temporals.format(review.reviewDate, 'yyyy-MM-dd')}"/>
+                        </div>
+                        <div class="review-profile__text" style="margin:10px;">
+                            <div class="review-goods-information__item">
+                                <p class="review-goods-information__option-wrap">
+                                    <img style="height: 100px;" alt="" src="/fileDownload?fileSeq=2">
+                                    <span class="review-goods-information__option" th:text="${review.orderInfo.productStock.product.productName} + ' ' +${review.orderInfo.productStock.productSize}">S</span>구매
+                                </p>
+                            </div>
                             <div class="rating">
                                 <i class="fa fa-star" th:if="${review.score > 0}"></i>
                                 <i class="fa fa-star" th:if="${review.score > 1}"></i>
@@ -32,19 +50,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="review-goods-information__item">
-                        <p class="review-goods-information__option-wrap">
-                            <span class="review-goods-information__option" th:text="${review.orderInfo.productStock.product.productName} + ' ' +${review.orderInfo.productStock.productSize}">S</span>구매
-                        </p>
-                    </div>
                 </div>
-                <div class="review-goods-information">
-                    <div class="review-goods-information__thumbnail">
-                        <img th:src="'/' +${review.file.filePth}" >
-                    </div>
-                </div>
-                <div class="review-contents" >
+                <div class="review-contents" style="margin:10px;">
                     <div class="review-contents__text" style="font-size:20px;" th:text="${review.content}"/>
+                </div>
+                <div class="review-goods-information" style="margin:10px;">
+                    <div class="review-goods-information__thumbnail">
+                        <img th:src="'/fileDownload?fileSeq=' + ${review.file.fileSeq}" >
+                    </div>
                 </div>
             </div>
             <!-- //paging -->
