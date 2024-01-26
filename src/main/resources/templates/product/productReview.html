@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="reviewFragment">
-    <div class="tab-pane" id="tabs-2" style="overflow:auto; height:600px; border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
+    <div class="tab-pane" id="tabs-2" style="overflow:auto; height:600px;padding: 10px;">
         <p class="article_review_detail">
             <span class="info_event_line">EVENT</span>
             <span id="reviewEventText" style="color:black;" class="info_review_detail">스타일후기를 남겨주세요</span>
@@ -14,16 +14,6 @@
                 <option value="goods_est_asc">낮은 평점 순</option>
             </select>
         </p>
-        <!-- //리스트
-        <div style="border: 1px solid gold; float: left; width: 33%;">
-            첫번째 영역
-        </div>
-        <div style="border: 1px solid red; float: left; width: 33%;">
-            두번째 영역
-        </div>
-        <div style="border: 1px solid blue; float: left; width: 33%;">
-            세번째 영역
-        </div>-->
         <div class="review-list-wrap" id="reviewListFragment" th:if="${reviewList.totalPages > 0}">
             <div class="review-list" th:each="review : ${reviewList}" style="border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
                 <div class="review-profile">
@@ -41,7 +31,7 @@
                                     <span class="review-goods-information__option" th:text="${review.orderInfo.productStock.product.productName} + ' ' +${review.orderInfo.productStock.productSize}">S</span>구매
                                 </p>
                             </div>
-                            <div class="rating">
+                            <div class="rating" style="color: #ffc107;">
                                 <i class="fa fa-star" th:if="${review.score > 0}"></i>
                                 <i class="fa fa-star" th:if="${review.score > 1}"></i>
                                 <i class="fa fa-star" th:if="${review.score > 2}"></i>
