@@ -41,8 +41,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.7.5'
-
+    // 메일
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    
     // 시큐리티
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'

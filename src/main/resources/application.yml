@@ -3,12 +3,17 @@ server:
 spring:
  datasource:
   driverClassName: org.mariadb.jdbc.Driver
-  url: jdbc:mariadb://3.112.49.158:3306/club?useUnicode=true&characterEncoding=utf-8
+  #url: jdbc:mariadb://mariadb.c8xo5djcwfzm.us-east-1.rds.amazonaws.com:3306/ShopProject?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+  #username: sjmoon
+  #password: sjmoon1234
+  url: jdbc:mariadb://localhost:3306/shop_db?characterEncoding=UTF-8&serverTimezone=UTC
   username: root
-  password: root
+  password: 1234
  devtools:
-   livereload:
-    enabled: true
+  livereload:
+   enabled: true
+  restart:
+   enabled: true
  redis:
   host: 127.0.0.1
   port: 6379
@@ -26,18 +31,42 @@ spring:
   suffix: .html
   cache: false
   check-template-location: true
+ mail:
+  host: smtp.gmail.com
+  port: 587
+  #username: tmdwn752@naver.com
+  username: sjmoon752@gmail.com
+  password: yalvhoqfpjluxvxi
+  properties:
+   mail:
+    smtp:
+     auth: true
+     starttls:
+      enable: true
+      required: true
+     connection-timeout: 500
+     timeout: 5000
+     write-timeout: 5000
+     auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분
 logging:
  level:
   org:
    hibernate:
     type:
      descriptor:
-      #sql: trace #sql 파라미터 확인
+      sql: trace #sql 파라미터 확인
 jwt:
  accessSecretKey: aG91Mjctc2ltcGxlLXNwcmluZy1ib290LWFwaS1qd3QK
  refreshSecretKey: bG91Kjctc2lasG23LXNwcmliZy138lGhLWFwaS1qd3QN
  accessTokenExpireTime: 300000
  refreshTokenExpireTime: 1209600000
 
-
-
+root:
+ path: C:/MSP/ShopProject/src/main/resources/static/
+ filePath: C:/MSP/FILES/
+# 이미지 업로드 경로 설정
+image:
+ product:
+  path: IMAGES/PRODUCT
+ review:
+  path: IMAGES/REVIEW
