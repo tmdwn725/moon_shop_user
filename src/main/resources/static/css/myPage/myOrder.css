@@ -1,0 +1,245 @@
+/*---------------------
+  내 주문 관리
+-----------------------*/
+
+.order-manage {
+	padding-top: 70px;
+	padding-bottom: 90px;
+}
+
+.order-manage-table {
+	margin-bottom: 30px;
+}
+
+.order-manage-table table {
+	width: 100%;
+}
+
+.order-manage-table thead {
+	border-bottom: 1px solid #f2f2f2;
+}
+
+.order-manage-table thead th {
+	font-size: 18px;
+	color: #111111;
+	font-weight: 600;
+	text-transform: uppercase;
+	padding-bottom: 20px;
+	text-align: center;
+}
+
+.order-manage-table tbody tr {
+	border-bottom: 1px solid #f2f2f2;
+}
+
+.order-manage-table tbody tr td {
+	padding: 30px 0;
+}
+
+.order-manage-table tbody tr .order-manage-item {
+	overflow: hidden;
+	width: 400px;
+}
+
+.order-manage-table tbody tr .order-manage-item img {
+	float: left;
+	margin-right: 25px;
+}
+
+.order-manage-table tbody tr .order-manage-item .order-manage-item-title  {
+	overflow: hidden;
+	padding-top: 23px;
+}
+
+.order-manage-table tbody tr .order-manage-item .order-manage-item-title  h6 {
+	color: #111111;
+	font-weight: 600;
+}
+
+.order-manage-table tbody tr .order-manage-item .order-manage-item-title  .rating i {
+	font-size: 10px;
+	color: #e3c01c;
+	margin-right: -4px;
+}
+
+.order-manage-table tbody tr .order-price {
+	font-size: 16px;
+	color: #ca1515;
+	font-weight: 600;
+	width: 20%;
+	text-align: center;
+}
+
+.order-manage-table tbody tr .order-quantity {
+  width: 10%;
+  text-align: center;
+}
+
+.order-manage-table tbody tr .order-quantity .pro-qty {
+	border: none;
+	padding: 0;
+	width: 110px;
+	border-radius: 0;
+}
+
+.order-manage-table tbody tr .order-quantity .pro-qty input {
+	color: #444444;
+}
+
+.order-manage-table tbody tr .order-quantity .pro-qty .qtybtn {
+	font-size: 16px;
+	color: #444444;
+}
+
+.order-manage-table tbody tr .order-total {
+	font-size: 16px;
+	color: #ca1515;
+	font-weight: 600;
+	width: 150px;
+}
+
+.order-manage-table tbody tr .order-date {
+	font-size: 16px;
+	font-weight: 600;
+	width: 25%;
+	text-align: center;
+}
+
+.order-manage-table tbody tr .order-close {
+	text-align: right;
+}
+
+.order-manage-table tbody tr .order-close span {
+	height: 45px;
+	width: 45px;
+	background: #f2f2f2;
+	border-radius: 50%;
+	font-size: 18px;
+	color: #111111;
+	line-height: 44px;
+	text-align: center;
+	display: inline-block;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.order-state-td a {
+	font-size: 12px;
+	color: #111111;
+	font-weight: 600;
+	text-transform: uppercase;
+	display: inline-block;
+	padding: 14px 30px 12px;
+	background: #f5f5f5;
+	margin-top: 10px;
+}
+
+.order-state-td a span {
+	color: #ca1515;
+	font-size: 14px;
+	margin-right: 5px;
+}
+
+.order-state-td {
+    width: 13%;
+	margin-bottom: 50px;
+}
+
+.review-td a {
+	font-size: 14px;
+	color: #f5f5f5;
+	font-weight: 600;
+	text-transform: uppercase;
+	display: inline-block;
+	padding: 14px 30px 12px;
+	background: #111111;
+	margin-top: 10px;
+}
+
+.review-td a span {
+	color: #ca1515;
+	font-size: 14px;
+	margin-right: 5px;
+}
+
+.review-td {
+    width: 14%;
+	margin-bottom: 50px;
+}
+
+.order-img-li {
+  list-style: none;
+}
+
+.order-image {
+  width: 200px;
+  height: 200px;
+}
+
+
+.real-upload, .real-upload1, .real-upload2, .real-upload3 {
+  display: none;
+}
+
+.upload, .upload1, .upload2, .upload3 {
+  width: 200px;
+  height: 265px;
+  background-color: antiquewhite;
+}
+
+.image-preview {
+  width: 1300px;
+  height: 200px;
+  background-color: aquamarine;
+  display: flex;
+  gap: 20px;
+}
+
+/* 상품설명 */
+.order-content {
+  width:100%;
+  height:100px;
+  border: 1px solid #e1e1e1;
+  border-radius: 2px;
+  margin-bottom: 25px;
+  font-size: 14px;
+  padding-top: 10px;
+  padding-left: 10px;
+  color: #666666;
+}
+
+/* 상품종류 */
+.form-select{
+  border: 1px solid #e1e1e1;
+  height:40px;
+}
+
+/* 상품사이즈 */
+.order-size{
+    height: 35px;
+    width: 60px;
+    border: 1px solid #e1e1e1;
+    font-size: 14px;
+    padding-left: 20px;
+    color: #666666;
+    overflow: visible;
+}
+/* 상품이미지 */
+.order-image{
+  width: 200px; /* 가로 너비를 200px로 고정합니다. */
+  height: 265px; /* 세로 높이를 265px로 고정합니다. */
+  object-fit: cover; /* 이미지가 지정한 크기에 맞게 잘리지 않도록 cover 속성을 설정합니다. */
+}
+.size-name{
+   border: 1px solid #e1e1e1;
+   height: 40px;
+   width: 45%;
+}
+
+.size-list{
+  margin-top: 10px;
+}
+
+.size-btn{
+  margin-left: 5px;
+}

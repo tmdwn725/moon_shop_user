@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MoonShop</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{/css/elegant-icons.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery-ui.min.css}" rel="stylesheet">
+    <link th:href="@{/css/magnific-popup.css}" rel="stylesheet">
+    <link th:href="@{/css/owl.carousel.min.css}" rel="stylesheet">
+    <link th:href="@{/css/slicknav.min.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/myPage/myOrder.css}" rel="stylesheet">
+    <link th:href="@{/css/common/side.css}" rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__close">+</div>
+        <ul class="offcanvas__widget">
+            <li><span class="icon_search search-switch"></span></li>
+            <li><a href="#"><span class="icon_heart_alt"></span>
+                <div class="tip">2</div>
+            </a></li>
+            <li><a href="#"><span class="icon_bag_alt"></span>
+                <div class="tip">2</div>
+            </a></li>
+        </ul>
+        <div class="offcanvas__logo">
+            <a href="./index.html"><img src="/img/logo.png" alt=""></a>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__auth">
+            <a href="#">Login</a>
+            <a href="#">Register</a>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <th:block th:replace="common/header :: headFragment"></th:block>
+    <!-- Header Section End -->
+
+    <!-- SideBar Section Begin-->
+    <th:block th:replace="common/side :: sideFragment"></th:block>
+    <!-- SideBar Section End -->
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <span>주문 내역 관리</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Shop Cart Section Begin -->
+    <section class="order-manage spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="order-manage-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>상품</th>
+                                    <th>주문일자</th>
+                                    <th>수량</th>
+                                    <th>가격</th>
+                                    <th colspan="2">주문상태</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr name="order-list" th:each="order, i : ${myOrderList}">
+                                    <td class="order-manage-item">
+                                        <div style="width:90px;">
+                                            <img th:src="'/fileDownload?fileSeq=' + ${order.productStock.product.productFileList[0].file.fileSeq}" alt="">
+                                        </div>
+                                        <div class="order-manage-item-title">
+                                            <h6 th:text="${order.productStock.product.productName}"></h6>
+                                            <span th:text="${order.productStock.productSize}" >
+                                            </span>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="order-date" th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd')}"/>
+                                    <td class="order-quantity" th:text="${order.quantity}"/>
+                                    <td class="order-price" th:text="${#numbers.formatDecimal(order.productStock.product.price, 0, 'COMMA', 0, 'POINT')} + '원'"/>
+                                    <td class="order-state-td">
+                                        <p><span style="margin-left:25px;"th:text="${order.orderStsType.value}"></span></p>
+                                        <a href="/myPage/getMyProductInfo?productSeq=0">배송내역</a>
+                                    </td>
+                                    <td class="review-td">
+                                        <a th:if="${order.orderStsType.name == 'ORDER_COMPLETE'}" th:href="'/myPage/refund?paymentSeq=' + ${order.payment.paymentSeq}">결제취소</a>
+                                        <a th:if="${order.orderStsType.name == 'DELIVERY_COMPLETE'}" th:href="'/myPage/myReviewInfo?orderInfoSeq=' + ${order.orderInfoSeq} + '&productSeq=' + ${order.productStock.product.productSeq}+ '&sizeType=' + ${order.productStock.productSize}">리뷰작성</a>
+                                    </td>
+                                </tr>
+                                <tr th:if="${myOrderList.totalPages == 0}">
+                                    <td colspan="6">조회된 결과가 없습니다.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-12 text-center" th:if="${myOrderList.totalPages > 0}">
+                    <div class="pagination__option">
+                        <a th:each="page : ${#numbers.sequence(1, myOrderList.totalPages)}"
+                           th:href="@{/myPage/myOrderList(page=${page})}"
+                           th:class="${myOrderList.number+1 == page ? 'active' : ''}">[[${page}]]</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shop Cart Section End -->
+
+    <!-- Footer Section Begin -->
+    <th:block th:replace="common/footer :: footFragment"></th:block>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/mixitup.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.countdown.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.slicknav.js}"></script>
+    <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.nicescroll.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/myPage/myProduct.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/side.js}"></script>
+</body>
+
+</html>

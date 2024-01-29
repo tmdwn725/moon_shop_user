@@ -1,0 +1,91 @@
+.rating .rate-radio + label {
+    position: relative;
+    display: inline-block;
+    margin-left: -4px;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    background-image: url('/img/review/starrate.png');
+    background-repeat: no-repeat;
+    background-size: 40px 40px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+}
+.rating .rate-radio:checked + label {
+    background-color: #ff8;
+}
+
+/* 레이아웃 외곽 너비 400px 제한*/
+.wrap{
+    max-width: 480px;
+    margin: 0 auto; /* 화면 가운데로 */
+    background-color: #fff;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+
+}
+
+.rating .rate-radio {
+    position: relative;
+    display: inline-block;
+    z-index: 20;
+    opacity: 0.001;
+    width: 60px;
+    height: 60px;
+    background-color: #fff;
+    cursor: pointer;
+    vertical-align: top;
+    display: none;
+}
+.rating .rate-radio + label {
+    position: relative;
+    display: inline-block;
+    margin-left: -4px;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    background-image: url('/img/review/starrate.png');
+    background-repeat: no-repeat;
+    background-size: 40px 40px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+}
+.rating .rate_radio:checked + label {
+    background-color: #ff8;
+}
+
+/* 상품설명 */
+.review-content {
+  width:100%;
+  height:100px;
+  border: 1px solid #e1e1e1;
+  border-radius: 2px;
+  margin-bottom: 25px;
+  font-size: 14px;
+  padding-top: 10px;
+  padding-left: 10px;
+  color: #666666;
+}
+
+.product-img {
+  width:140px;
+}
+
+.review-title{
+  margin-top: 10px;
+}
+
+.review-btn {
+  margin-top: 50px;
+}
+
+.real-upload {
+  display: none;
+}
+
+.upload {
+  width: 180px;
+  height: 240px;
+  background-color: antiquewhite;
+}
