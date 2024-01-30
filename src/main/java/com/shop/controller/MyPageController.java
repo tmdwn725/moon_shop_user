@@ -165,4 +165,17 @@ public class MyPageController {
         reviewService.saveReviewInfo(reviewDTO);
         return ResponseEntity.ok().build();
     }
+    /**
+     * 내 좋아요 리스트 조회
+     * @param model
+     * @param page
+     * @return
+     */
+    @RequestMapping("/myHeartList")
+    public String myHeartList(Model model, @RequestParam(value="page", required = false, defaultValue="1") int page){
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        Page<HeartDTO> myHeartList = heartService.selectHeartList(page, 10,memberId);
+        model.addAttribute("myHeartList", myHeartList);
+        return "myPage/myHeartList";
+    }
 }

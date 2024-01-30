@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="sideFragment">
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <li class="nav-item">
+                <a class="nav-link" id="myPage" href="/myPage/myPage">
+                    <i class="bi bi-grid"></i>
+                    <span>마이페이지</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" id="myOrderList" href="/myPage/myOrderList">
+                    <i class="bi bi-menu-button-wide"></i><span>주문내역관리</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" id="myHeartList" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="/myPage/myHeartList">
+                    <i class="bi bi-layout-text-window-reverse"></i><span>좋아요</span>
+                </a>
+            </li>
+        </ul>
+        <button class="btn btn-primary sidebar-btn"><span><<</span></button>
+    </aside>
+</th:block>
+</html>
