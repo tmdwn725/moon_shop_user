@@ -71,11 +71,12 @@ dependencies {
     // 아임포트 설정
     implementation 'com.github.iamport:iamport-rest-client-java:0.2.21'
 
-    /**
-     * 테스트 lombok 추가
-     */
+    //테스트 lombok 추가
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // redis 설정
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 test {

@@ -15,8 +15,8 @@ spring:
   restart:
    enabled: true
  redis:
-  host: 127.0.0.1
-  port: 6379
+  host: localhost
+  port: 6380
  jpa:
   hibernate:
    ddl-auto: update
