@@ -30,7 +30,7 @@ public class HeartService {
      * @return
      */
     public Page<HeartDTO> selectHeartList(int start, int limit, String id) {
-        Member member = memberRepository.fingByMemberId(id);
+        Member member = memberRepository.findByMemberId(id);
         PageRequest pageRequest = PageRequest.of(start-1, limit);
         Page<HeartDTO> result = heartRepository.selectHeartList(pageRequest,member.getMemberSeq());
         int total = result.getTotalPages();

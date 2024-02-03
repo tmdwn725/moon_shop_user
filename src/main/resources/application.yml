@@ -16,7 +16,7 @@ spring:
    enabled: true
  redis:
   host: localhost
-  port: 6380
+  port: 6379
  jpa:
   hibernate:
    ddl-auto: update
@@ -70,3 +70,5 @@ image:
   path: IMAGES/PRODUCT
  review:
   path: IMAGES/REVIEW
+ profile:
+  path: IMAGES/PROFILE

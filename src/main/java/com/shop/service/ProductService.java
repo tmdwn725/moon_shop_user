@@ -37,7 +37,7 @@ public class ProductService {
      * @return
      */
     public Page<ProductDTO> selectProductList(int start, int limit, String memberId, ProductType productType, String searchStr){
-        Member member = memberRepository.fingByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId);
         PageRequest pageRequest = PageRequest.of(start-1, limit);
         Page<Product> result = productRepository.selectProductList(pageRequest, 0L, member.getMemberSeq(), productType,searchStr);
         int total = result.getTotalPages();
@@ -51,7 +51,7 @@ public class ProductService {
      * @return
      */
     public ProductDTO selectProductInfo(Long productSeq, String memberId){
-        Member member = memberRepository.fingByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId);
         Product productInfo = productRepository.selectProduct(productSeq, member.getMemberSeq());
         ProductDTO product = ModelMapperUtil.map(productInfo, ProductDTO.class);
         HeartDTO heart = Optional.ofNullable(product)
@@ -73,7 +73,7 @@ public class ProductService {
     public void updateHeartInfo(ProductDTO productDTO, String memberId) {
         LocalDateTime nowDate = LocalDateTime.now();
         Heart heart = new Heart();
-        Member member = memberRepository.fingByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId);
         Product product = productRepository.findById(productDTO.getProductSeq()).get();
         heart.createHeart(member, product, nowDate);
         // 좋아요 취소시 삭제

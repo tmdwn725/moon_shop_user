@@ -47,6 +47,17 @@ public class MyPageController {
         return "myPage/myPage";
     }
     /**
+     * 프로필 변경
+     * @param profile
+     * @return
+     */
+    @PostMapping("updateProfile")
+    public ResponseEntity<Void> updateProfile(@RequestParam("profile") MultipartFile profile){
+        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+        memberService.saveMemberProfile(memberId, profile);
+        return  ResponseEntity.ok().build();
+    }
+    /**
      * 비밀번호 변경
      * @param request
      * @param response
@@ -93,22 +104,6 @@ public class MyPageController {
         response.getWriter().write(jsonResponse);
     }
     /**
-     * 이메일 전송
-     * @param request
-     * @param response
-     * @param memberDTO
-     */
-    @RequestMapping("sendEmail")
-    public void emailSend(HttpServletRequest request, HttpServletResponse response, MemberDTO memberDTO){
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        Map<String, String> responseData = new HashMap<>();
-        long result = 0;
-        boolean passwordCheck = false;
-        //int number = mailService.sendMail(memberDTO.getEmail());
-    }
-    /**
      * 내 주문 내역 조회
      * @param model
      * @param page
@@ -126,8 +121,8 @@ public class MyPageController {
      * @param paymentDTO
      * @return
      */
-    @PostMapping(value = "/refund")
     @ResponseBody
+    @PostMapping(value = "/refund")
     public ResponseEntity<Void> refund(PaymentDTO paymentDTO) throws IOException {
         PaymentDTO payment = paymentService.paymentInfo(paymentDTO.getPaymentSeq());
         String token = paymentService.getToken("8428328123150472","6lox7VLfDYCFGVDu8Kc39Hml8iqmjB1WsMsZpwxooyMJVUb3xJub0y6Atp2AGqPyU27rLNA9GE3D44sI");

@@ -1,5 +1,6 @@
 package com.shop.dto;
 
+import com.shop.domain.File;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 public class MemberDTO {
     private long memberSeq;
     private String memberId;
+    private FileDTO profile;
     private String name;
     private String nickName;
     private String email;

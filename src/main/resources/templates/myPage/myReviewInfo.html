@@ -129,7 +129,7 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <form id="product-image-form" onsubmit="return false;" enctype="multipart/form-data">
+                            <form id="review-image-form" onsubmit="return false;" enctype="multipart/form-data">
                                 <input type="file" id="file-img" name="file-img" class="real-upload" accept="image/*" required multiple>
                                 <div class="upload" id="upload-img">
                                     <img th:if="${reviewInfo.file != null}" th:src="'/fileDownload?fileSeq=' + ${reviewInfo.file.fileSeq}" alt="">

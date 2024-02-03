@@ -1,56 +1,89 @@
-var letterRegExp = new RegExp("[a-z]");
-var capsLockRegExp = new RegExp("[A-Z]");
-var numberRegExp = new RegExp("[0-9]");
-var symbolRegExp = new RegExp("\\W");
+const letterRegExp = new RegExp("[a-z]");
+const capsLockRegExp = new RegExp("[A-Z]");
+const numberRegExp = new RegExp("[0-9]");
+const symbolRegExp = new RegExp("\\W");
 
 <!-- profile -->
 // 프로필 이미지 클릭
-$("#change-profile-image-btn").click(function (e) {
-    e.preventDefault();
-    $("#profile-image-area").css("display", "none");
-    $("#change-profile-image-area").css("display", "");
-});
+const upload = document.querySelector('.upload-profile');
+const realUpload = document.querySelector('.real-upload');
 
-$("#change-profile-image-cancel-btn").click(function (e) {
-    e.preventDefault();
-    $("#profile-image").val('');
-    $("#profile-image-area").css("display", "");
-    $("#change-profile-image-area").css("display", "none");
-    $("#profile-backGround-image").css('background-image', $("#profile-image").data('backup-img'));
-});
+realUpload.addEventListener('change', getImageFiles);
+upload.addEventListener('click', () => realUpload.click());
 
-$("#change-profile-image-finish-btn").click(function (e) {
-    e.preventDefault();
-    var files = $("#profile-image")[0].files[0];
-    var defaultImageValue = $('#defaultImage').val();
-    if ($('#defaultImage').val() == '') {
-        defaultImageValue = 'false';
+function getImageFiles(e) {
+    const uploadFiles = [];
+    const file = e.currentTarget.files[0];
+    const imageId = this.id;
+
+    // 파일 타입 검사
+    if (!file.type.match("image/.*")) {
+        alert('이미지 파일만 업로드가 가능합니다.');
+        return
     }
 
-    if (null != files || defaultImageValue === 'true') {
-        var filesName;
+    uploadFiles.push(file);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        addImageFile('upload-img',e, file);
+    };
+    reader.readAsDataURL(file);
+}
 
-        if (defaultImageValue !== 'true' && (filesName = files.name) && !(filesName.toLowerCase().endsWith("jpg") || filesName.toLowerCase().endsWith("png") || filesName.toLowerCase().endsWith("jpeg") || filesName.toLowerCase().endsWith("gif"))) {
+// 이미지 파일 추가
+function addImageFile(id, e, file) {
+    const div = document.getElementById(id);
+    const imgElements = div.querySelector('img'); // div 요소 안의 모든 img 요소를 선택합니다.
+
+    // 이미지가 이미 존재하는지 확인합니다.
+    if (imgElements != null) {
+        // 이미지의 src 속성을 변경합니다.
+        $(imgElements).attr('src', e.target.result);
+        $(imgElements).attr('data-file', file.name);
+    } else {
+        // 이미지가 없으면 새로 생성하여 추가합니다.
+        const img = document.createElement('img');
+        img.setAttribute('src', e.target.result);
+        img.setAttribute('class', "product-image");
+        img.setAttribute('width', "200px");
+        img.setAttribute('data-file', file.name);
+        div.appendChild(img);
+    }
+}
+// 프로필 변경
+$("#change-profile-image-finish-btn").click(function (e) {
+    e.preventDefault();
+    var files = $("#profile")[0].files[0];
+
+    if (null != files) {
+        var filesName = files.name;
+
+        if (!(filesName.toLowerCase().endsWith("jpg") || filesName.toLowerCase().endsWith("png") || filesName.toLowerCase().endsWith("jpeg") || filesName.toLowerCase().endsWith("gif"))) {
             alert('gif/jpg/png 파일만 등록할 수 있습니다.');
             return false;
-        } else if (defaultImageValue !== 'true' && files.size > maxUploadSize) {
-            alert(maxUploadSizeMsg);
+        } else if (files.size > 10000000) {
+            alert("500MB 이하의 파일만 등록가능합니다.");
             return false;
         } else {
 
-            var message;
+            if (confirm( "프로필 사진을 변경하시겠습니까?")) {
 
-            if (defaultImageValue == 'true') {
-                message = "기본 이미지로 변경하시겠습니까?";
-            } else {
-                message = "프로필 사진을 변경하시겠습니까?";
-            }
+                const imageForm = document.getElementById('profile-form');
+                const formData = new FormData(imageForm);
 
-            if (confirm(message)) {
-
-                var formData = new FormData();
-                formData.append('file', files);
-                formData.append('defaultImage', defaultImageValue);
+                $.ajax({
+                     type: "post",
+                     url: "/myPage/updateProfile",
+                     contentType: false, // 필수: FormData를 사용하기 때문에 false로 설정
+                     processData: false, // 필수: FormData를 사용하기 때문에 false로 설정
+                     data: formData,
+                     success: function(response){
+                         alert("변경되었습니다.");
+                     },
+                     error: function(xhr, status, error) {
+                         alert("변경 중 오류가 발생했습니다.");
+                     }
+                 });
             }
         }
     } else {
@@ -247,7 +280,7 @@ $("#change-password-finish-btn").click(function (e) {
 
     if (confirm('비밀번호를 변경하시겠습니까?')) {
         $.ajax({
-            type: "POST",
+            type: "post",
             url: "/myPage/changePassword",
             dataType: "json", // 예상되는 응답 형식을 JSON으로 지정
             data:{"password" : password, "newPassword" : newPassword},
@@ -299,6 +332,10 @@ $("#change-email-btn").click(function (e) {
 
 $("#change-email-cancel-btn").click(function (e) {
     e.preventDefault();
+    emailCancel();
+});
+
+function emailCancel(){
     $("#email-area").css("display", "");
     $("#change-email-area").css("display", "none");
     $("#send-authentication-email").attr('class', 'n-btn btn-sm btn-accent disabled');
@@ -307,7 +344,7 @@ $("#change-email-cancel-btn").click(function (e) {
     $("#change-email-finish-btn").prop('disabled', true);
     $("#email").val("");
     $("#email-authTempKey").val("");
-});
+}
 
 $("#email").keyup(function (e) {
     e.preventDefault();
@@ -323,7 +360,8 @@ $("#email").keyup(function (e) {
     }
 });
 
- $("#send-authentication-email").click(function (e) {
+// 이메일 인증번호 전송
+document.getElementById('send-authentication-email').addEventListener('click', function(e){
     e.preventDefault();
     const email = $("#email");
     const emailValue = email.val();
@@ -337,19 +375,40 @@ $("#email").keyup(function (e) {
             $.ajax({
                 type: "post",
                 url: "/sendEmail",
-                dataType: "json", // 예상되는 응답 형식을 JSON으로 지정
                 data:{'email': emailValue},
                 success: function(response){
-                    alert(responseData.message);
+                    alert("전송이 완료되었습니다.");
                     $("#send-authentication-email").attr('class', 'n-btn btn-sm btn-accent');
                     $("#send-authentication-email").prop('disabled', false);
+                    $("#change-email-finish-btn").prop('disabled', false);
                 },
                 error: function(xhr, status, error) {
-                    alert("변경중 오류가 발생했습니다.");
+                    alert("전송중 오류가 발생했습니다.");
                 }
             });
         }
     }
+});
+
+// 이메일 인증
+document.getElementById('change-email-finish-btn').addEventListener('click', function(e){
+    e.preventDefault();
+    const emailValue = document.getElementById("email").value;
+    const authCode = document.getElementById("email-authTempKey").value;
+    const memberId = document.getElementById("member-id").value;
+    $.ajax({
+         type: "post",
+         url: "/emailAuth",
+         data:{'email': emailValue, 'code': authCode, 'memberId':memberId},
+         success: function(response){
+             alert("인증되었습니다.");
+             document.getElementById("currentEmail").innerText=emailValue;
+             emailCancel();
+         },
+         error: function(xhr, status, error) {
+             alert("인증에 실패했습니다.");
+         }
+     });
 });
 
 function isValidEmail(email) {

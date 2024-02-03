@@ -10,8 +10,7 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
@@ -22,7 +21,7 @@
     <link th:href="@{/css/owl.carousel.min.css}" rel="stylesheet">
     <link th:href="@{/css/slicknav.min.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
-    <link th:href="@{/css/myPage/myProduct.css}" rel="stylesheet">
+    <link th:href="@{/css/myPage/myPage.css}" rel="stylesheet">
     <link th:href="@{/css/common/side.css}" rel="stylesheet">
 </head>
 
@@ -88,7 +87,7 @@
                 <div>
                     <h5>마이페이지</h5>
                     <div class="row">
-                        <div class="product-manage-table">
+                        <div class="my-page-manage-table">
                             <table class="n-table table-row my-info-modify" style="width:1000px;">
                                 <colgroup>
                                     <col width="10%;">
@@ -99,26 +98,15 @@
                                     <tr name="cartTr" class="checkout__form__input my-info-img" id="profile-image-area">
                                         <th scope="row">사진</th>
                                         <td>
-                                            <div class="upload1" id="upload-img1"></div>
-                                            <p class="txt">회원님을 알릴 수 있는 사진을 등록해 주세요.<br>등록된 사진은 회원님의 게시물이나 댓글들에 사용됩니다.</p>
+                                            <form id="profile-form">
+                                                <input type="file" id="profile" name="profile" class="real-upload" accept="image/*" required multiple>
+                                                <div class="upload-profile" id="upload-img">
+                                                    <img class="image-thumbnail" th:if="${member.profile != null}" th:src="'/fileDownload?fileSeq=' + ${member.profile.fileSeq}" alt="">
+                                                </div>
+                                            </form>
                                         </td>
                                         <td class="va-b">
-                                            <button type="button" class="n-btn w100 btn-sm btn-default cert-hidden" id="change-profile-image-btn">사진 변경</button>
-                                        </td>
-                                    </tr>
-                                    <!--  사진 수정-->
-                                    <tr name="cartTr" class="my-info-img" style="display: none" id="change-profile-image-area">
-                                        <th scope="row">사진</th>
-                                        <td>
-                                            <div class="upload2" id="upload-img2"></div>
-                                            <p class="txt">회원님을 알릴 수 있는 사진을 등록해 주세요.<br>등록된 사진은 회원님의 게시물이나 댓글들에 사용됩니다.</p>
-                                            <div class="btn-group">
-                                                <input type="file" id="profile-image" class="n-hidden">
-                                            </div>
-                                        </td>
-                                        <td class="va-b">
-                                            <button type="button" class="n-btn btn-sm btn-lighter" id="change-profile-image-cancel-btn">취소</button>
-                                            <button type="button" class="n-btn btn-sm btn-accent" id="change-profile-image-finish-btn">완료</button>
+                                            <button type="button" class="n-btn btn-sm btn-accent" id="change-profile-image-finish-btn">변경</button>
                                         </td>
                                     </tr>
                                     <tr class="checkout__form__input" name="cartTr">
@@ -128,6 +116,7 @@
                                         </td>
                                     </tr>
                                     <tr class="checkout__form__input" name="cartTr">
+                                        <input type="hidden" id="member-id" th:value="${member.memberId}">
                                         <th scope="row">아이디</th>
                                         <td colspan="2"><strong th:text="${member.memberId}"/></td>
                                     </tr>
@@ -218,7 +207,7 @@
                                         </td>
                                     </tr>
                                     <!--이메일 인증-->
-                                    <tr class="checkout__form__input" name="cartTr" id="change-email-area" style="display: none">
+                                    <tr class="checkout__form__input" name="memberTr" id="change-email-area" style="display: none">
                                         <th scope="row">이메일</th>
                                         <td colspan="2">
                                             <div class="my-info-modify">

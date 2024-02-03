@@ -31,7 +31,7 @@ public class OrderInfoService {
      * @return
      */
     public Page<OrderInfoDTO> selectOrderInfoList(int start, int limit, String id){
-        Member member = memberRepository.fingByMemberId(id);
+        Member member = memberRepository.findByMemberId(id);
         PageRequest pageRequest = PageRequest.of(start-1, limit);
         Page<OrderInfo> result = orderInfoRepository.selectOrderList(pageRequest,member.getMemberSeq());
         int total = result.getTotalPages();

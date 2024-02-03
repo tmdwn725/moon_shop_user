@@ -46,7 +46,7 @@ public class PaymentService {
     public void savePayment(PaymentDTO paymentDTO, String memberId){
         // 현재 날짜와 시간 취득
         LocalDateTime nowDateTime = LocalDateTime.now();
-        Member member  = memberRepository.fingByMemberId(memberId);
+        Member member  = memberRepository.findByMemberId(memberId);
         List<String> cartList = paymentDTO.getCartSeqList();
         List<String> memberCouponList = paymentDTO.getMemberCouponSeqList();
         for(int i = 0; i < cartList.size(); i++){

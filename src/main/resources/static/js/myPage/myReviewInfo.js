@@ -90,7 +90,7 @@ function saveMyReview() {
 
     const content = $("#review-content").val();
     const imagePath = $("#upload-img img").attr("src");
-    const imageForm = document.getElementById('product-image-form');
+    const imageForm = document.getElementById('review-image-form');
     const rate = $('input[name=rating]:checked').length;
     let formData = new FormData(imageForm);
     let sizeType = {};

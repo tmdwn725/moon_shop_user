@@ -17,6 +17,9 @@ public class Member {
     @Column(name ="member_seq")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberSeq;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private File profile;
     @Column(name = "member_id")
     private String memberId;
     @Column(name = "name")

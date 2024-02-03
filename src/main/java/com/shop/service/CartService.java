@@ -25,13 +25,13 @@ public class CartService {
     public void addCart(CartDTO cartDTO, String memberId){
         LocalDateTime nowDate = LocalDateTime.now();
         Cart cart = new Cart();
-        Member member = memberRepository.fingByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId);
         Optional<ProductStock> productStock = productStockRepository.findById(cartDTO.getProductStockSeq());
         cart.createCart(member, productStock.get(), cartDTO.getQuantity(), nowDate);
         cartRepository.save(cart);
     }
     public List<CartDTO> findMyCartList(String memberId){
-        Member member = memberRepository.fingByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId);
         List<Cart> myCartList = cartRepository.myCartList(member);
         List<CartDTO> cartList = ModelMapperUtil.mapAll(myCartList,CartDTO.class);
         return cartList;

@@ -27,7 +27,7 @@ public class CouponService {
      * @return
      */
     public MemberDTO selectMyCouponInfo(String memberId) {
-        Member member = memberRepository.fingByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId);
         List<MemberCoupon> list = couponRepository.selectMyCouponList(member.getMemberSeq());
         MemberDTO memberDTO = ModelMapperUtil.map(member, MemberDTO.class);
         List<MemberCouponDTO> memberCoupons = ModelMapperUtil.mapAll(list, MemberCouponDTO.class);
