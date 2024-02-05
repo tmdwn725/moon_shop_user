@@ -6,6 +6,7 @@ import com.shop.domain.File;
 import com.shop.domain.OrderInfo;
 import com.shop.domain.Review;
 import com.shop.dto.OrderInfoDTO;
+import com.shop.dto.ProductDTO;
 import com.shop.dto.ReviewDTO;
 import com.shop.repository.FileRepository;
 import com.shop.repository.OrderInfoRepository;
@@ -30,7 +31,6 @@ public class ReviewService {
     private String imageUploadPath;
     private final OrderInfoRepository orderInfoRepository;
     private final ReviewRepository reviewRepository;
-    private final ProductRepository productSRepository;
     private final FileRepository fileRepository;
 
     /**
@@ -87,5 +87,14 @@ public class ReviewService {
         }
         List<ReviewDTO> list = ModelMapperUtil.mapAll(result.getContent(), ReviewDTO.class);
         return new PageImpl<>(list, pageRequest, total);
+    }
+    /**
+     * 상품 리뷰 count 와 score 평균 조회
+     * @param productSeq
+     * @return
+     */
+    public ReviewDTO selectReviewNumInfo(Long productSeq){
+        ReviewDTO review = reviewRepository.ProductReviewInfo(productSeq);
+        return review;
     }
 }

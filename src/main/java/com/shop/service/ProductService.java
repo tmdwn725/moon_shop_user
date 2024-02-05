@@ -17,10 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,6 +41,17 @@ public class ProductService {
         pageRequest = PageRequest.of((total-1), limit);
         List<ProductDTO> list = ModelMapperUtil.mapAll(result.getContent(), ProductDTO.class);
         return new PageImpl<>(list, pageRequest, total);
+    }
+    /**
+     * 상품별 개수 확인
+     * @return
+     */
+    public Map<String,Long> selectProductCount(){
+        List<ProductDTO> countList =  productRepository.selectProductCount();
+        Map<String, Long> result = countList.stream()
+                .collect(Collectors.groupingBy(dto -> dto.getProductType().getParentCategory().get().getCode()
+                        , Collectors.summingLong(ProductDTO::getProductTypeCount)));
+        return result;
     }
     /**
      * 상품정보조회

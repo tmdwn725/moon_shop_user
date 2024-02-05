@@ -13,6 +13,8 @@ public class ReviewDTO {
     private Long orderSeq;
     private String content;
     private int score;
+    private double scoreAvg;
+    private long reviewCount;
     private LocalDateTime reviewDate;
     private File file;
     private ProductStock productStock;

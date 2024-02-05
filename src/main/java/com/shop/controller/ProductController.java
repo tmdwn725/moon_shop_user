@@ -49,6 +49,7 @@ public class ProductController {
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
         Page<ProductDTO> productList = productService.selectProductList(page,6,memberId, productType, searchStr);
         model.addAttribute("productList", productList);
+        model.addAttribute("productCount",productService.selectProductCount());
         model.addAttribute("productType", Arrays.asList(ProductType.values()));
         model.addAttribute("type",type);
         return "product/productList";
@@ -67,6 +68,7 @@ public class ProductController {
         Page<ReviewDTO> reviewList = reviewService.selectReviewList(page,3,productDTO.getProductSeq());
         model.addAttribute("product",product);
         model.addAttribute("reviewList",reviewList);
+        model.addAttribute("reviewInfo", reviewService.selectReviewNumInfo(productDTO.getProductSeq()));
         model.addAttribute("type",product.getProductType().getParentCategory().get().getCode());
         return "product/productInfo";
     }

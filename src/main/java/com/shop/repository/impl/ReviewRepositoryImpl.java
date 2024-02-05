@@ -1,8 +1,11 @@
 package com.shop.repository.impl;
 
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.shop.domain.*;
+import com.shop.dto.ProductDTO;
+import com.shop.dto.ReviewDTO;
 import com.shop.repository.custom.ReviewConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,6 +45,18 @@ public class ReviewRepositoryImpl implements ReviewConfig {
         List<Review> content = reviewList.getResults();
         long total = reviewList.getTotal();
         return new PageImpl<>(content, pageable, total);
+    }
+
+    public ReviewDTO ProductReviewInfo(long productSeq){
+        return queryFactory.select(Projections.fields(ReviewDTO.class,
+                        qReview.count().as("reviewCount"),
+                        qReview.score.avg().as("scoreAvg")))
+                .from(qReview)
+                .leftJoin(qReview.orderInfo,qOrderInfo)
+                .leftJoin(qOrderInfo.productStock,qProductStock)
+                .leftJoin(qProductStock.product,qProduct)
+                .where(qProduct.productSeq.eq(productSeq))
+                .fetchOne();
     }
 
 }

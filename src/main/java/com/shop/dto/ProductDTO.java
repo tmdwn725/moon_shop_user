@@ -21,6 +21,7 @@ public class ProductDTO {
     private LocalDateTime regDate;
     private LocalDateTime modDate;
     private ProductType productType;
+    private long productTypeCount;
     private String productTypeCd;
     private List<ProductFileDTO> productFileList = new ArrayList<>();
     private List<ProductStock> productStockList = new ArrayList<>();

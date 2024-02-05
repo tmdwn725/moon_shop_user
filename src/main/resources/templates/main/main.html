@@ -67,8 +67,7 @@
                     <div class="categories__item categories__large__item set-bg" data-setbg="img/categories/category1.jpg">
                         <div class="categories__text">
                             <h1>Outer</h1>
-                            <p class="title-description">Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
-                            edolore magna aliquapendisse ultrices gravida.</p>
+                            <p class="title-description" th:text="${productCount['O'] + ' items'}"></p>
                             <a href="/product/productList?page=1&type=O">Shop now</a>
                         </div>
                     </div>
@@ -79,7 +78,7 @@
                             <div class="categories__item set-bg" data-setbg="img/categories/category2.jpg">
                                 <div class="categories__text">
                                     <h4>Top</h4>
-                                    <p class="title-description">358 items</p>
+                                    <p class="title-description" th:text="${productCount['T'] + ' items'}"></p>
                                     <a href="/product/productList?page=1&type=T">Shop now</a>
                                 </div>
                             </div>
@@ -88,7 +87,7 @@
                             <div class="categories__item set-bg" data-setbg="img/categories/category3.jpg">
                                 <div class="categories__text">
                                     <h4>Shoes</h4>
-                                    <p class="title-description">273 items</p>
+                                    <p class="title-description" th:text="${productCount['S'] + ' items'}"> </p>
                                     <a href="/product/productList?page=1&type=S">Shop now</a>
                                 </div>
                             </div>
@@ -97,7 +96,7 @@
                             <div class="categories__item set-bg" data-setbg="img/categories/category4.jpg">
                                 <div class="categories__text">
                                     <h4>Pants</h4>
-                                    <p class="title-description">159 items</p>
+                                    <p class="title-description" th:text="${productCount['P'] + ' items'}"></p>
                                     <a href="/product/productList?page=1&type=P">Shop now</a>
                                 </div>
                             </div>
@@ -106,7 +105,7 @@
                             <div class="categories__item set-bg" data-setbg="img/categories/category5.jpg">
                                 <div class="categories__text">
                                     <h4>Accessories</h4>
-                                    <p class="title-description">792 items</p>
+                                    <p class="title-description" th:text="${productCount['A'] + ' items'}"></p>
                                     <a href="/product/productList?page=1&type=A">Shop now</a>
                                 </div>
                             </div>
@@ -157,13 +156,6 @@
                         </div>
                         <div class="product__item__text">
                             <h6 th:text="${product.productName}"><a href="#"></a></h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
                             <div class="product__price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '원'"></div>
                         </div>
                     </div>

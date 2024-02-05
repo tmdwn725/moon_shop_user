@@ -1,10 +1,12 @@
 package com.shop.repository.impl;
 
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.shop.domain.*;
 import com.shop.domain.enums.ProductType;
+import com.shop.dto.ProductDTO;
 import com.shop.repository.custom.ProductConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +23,6 @@ public class ProductRepositoryImpl implements ProductConfig {
     QProductFile qProductFile = QProductFile.productFile;
     QFile qFile = QFile.file;
     QHeart qHeart = QHeart.heart;
-    QMember qMember = QMember.member;
     /**
      * 상품목록조회
      * @param pageable
@@ -45,7 +46,15 @@ public class ProductRepositoryImpl implements ProductConfig {
         long total = productList.getTotal();
         return new PageImpl<>(content, pageable, total);
     }
-
+    public List<ProductDTO>selectProductCount(){
+        List<ProductDTO> list = queryFactory.select(Projections.fields(ProductDTO.class,
+                                qProduct.productType,
+                                qProduct.count().as("productTypeCount"))
+                            ).from(qProduct)
+                            .groupBy(qProduct.productType)
+                            .fetch();
+        return list;
+    }
     private BooleanExpression eqSellerSeq(long sellerSeq) {
         if (sellerSeq == 0) {
             return null;

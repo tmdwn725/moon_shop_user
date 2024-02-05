@@ -17,16 +17,9 @@
             <li th:class="${type == 'O' ? 'active' : ''}"><a href="/product/productList?page=1&type=O">OUTER</a></li>
             <li th:class="${type == 'T' ? 'active' : ''}"><a href="/product/productList?page=1&type=T">TOP</a></li>
             <li th:class="${type == 'P' ? 'active' : ''}"><a href="/product/productList?page=1&type=P">PANTS</a></li>
-            <li th:class="${type == 'S' ? 'active' : ''}"><a href="/product/productList?page=1&type=S">SHOES</a>
-              <ul class="dropdown">
-                <li><a href="./product-details.html">Product Details</a></li>
-                <li><a href="./shop-cart.html">Shop Cart</a></li>
-                <li><a href="./checkout.html">Checkout</a></li>
-                <li><a href="./blog-details.html">Blog Details</a></li>
-              </ul>
-            </li>
-            <li th:class="${type == 'A' ? 'active' : ''}"><a href="/product?page=1&type=A">ACCESSORIES</a></li>
-            <li><a href="./contact.html">Contact</a></li>
+            <li th:class="${type == 'S' ? 'active' : ''}"><a href="/product/productList?page=1&type=S">SHOES</a></li>
+            <li th:class="${type == 'A' ? 'active' : ''}"><a href="/product/productList?page=1&type=A">ACCESSORIES</a></li>
+            <!--<li><a href="./contact.html">Contact</a></li>-->
           </ul>
         </nav>
       </div>

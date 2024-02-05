@@ -113,13 +113,13 @@
                 <div class="col-lg-6">
                     <div class="product__details__text">
                         <h3 th:text="${product.productName}"><span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
-                        <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <span>( 138 reviews )</span>
+                        <div class="rating" th:if="${reviewInfo ne null}">
+                            <i class="fa fa-star" th:if="${reviewInfo.scoreAvg > 1}"></i>
+                            <i class="fa fa-star" th:if="${reviewInfo.scoreAvg > 2}"></i>
+                            <i class="fa fa-star" th:if="${reviewInfo.scoreAvg > 3}"></i>
+                            <i class="fa fa-star" th:if="${reviewInfo.scoreAvg > 4}"></i>
+                            <i class="fa fa-star" th:if="${reviewInfo.scoreAvg > 5}"></i>
+                            <span th:text="'( ' + ${reviewInfo.reviewCount + ' reviews )'}"></span>
                         </div>
                         <div class="product__details__price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '원'">
                             <span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '원'"></span>
@@ -185,8 +185,8 @@
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <h6>상품상세설명</h6>
-                                <p th:text="${product.productContent}"></p>
+                                <p th:utext="${product.productContent}"></p>
+                                <p><h5 th:if="${product.productContent eq null}" style="text-align:center;">상품 설명이 없습니다.</h5></p>
                             </div>
                             <!-- Review Section Begin -->
                             <div class="tab-pane product-review" id="tabs-2" role="tabpanel">
