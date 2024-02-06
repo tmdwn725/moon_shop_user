@@ -51,3 +51,6 @@
 ---
 
 ## **3. 화면**
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/cdd36b15-c7f9-4a5f-8eef-6a7c5ce8ef34" height="600px;"/>
+
+
