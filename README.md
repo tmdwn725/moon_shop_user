@@ -37,7 +37,7 @@
 ---
 ## **1. ERD**
 
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/154f0ff0-f56f-4681-b5c9-2ce883586567" height="600px;"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/674c09ca-8fc8-4d73-a6ec-0270b11f5142" height="600px;"/>
 
 ---
 ## **2. 일정**
