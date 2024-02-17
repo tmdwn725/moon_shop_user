@@ -1,6 +1,6 @@
 ### 날짜 2023-12-29 18:49
 
-# **Moon Shop**
+# **Moon Shop 프로젝트**
 ----
 >### **프로젝트 개요**
 >개인 공부한 내용을 적용하여 관심있는 분야인 이커머스 시스템을 직접 구현하기 위해 시작하였습니다.
@@ -41,7 +41,7 @@
 ---
 ## **1. ERD**
 
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/154f0ff0-f56f-4681-b5c9-2ce883586567" height="600px;"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/154f0ff0-f56f-4681-b5c9-2ce883586567" height="1000px;"/>
 
 ---
 ## **2. 일정**
@@ -52,7 +52,7 @@
 
 ## **3. 사용자 화면**
 
-### - **메인**
+### - **메인 화면**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/514c3ddb-2794-4012-a128-3e162ff13c44" height="600px;"/>
 <br/><br/>
 
