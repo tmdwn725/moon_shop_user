@@ -50,67 +50,71 @@
 
 ---
 
-## **3. 화면**
+## **3. 사용자 화면**
 
-### **메인(사용자)**
+### - **메인**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/514c3ddb-2794-4012-a128-3e162ff13c44" height="600px;"/>
 <br/><br/>
 
-### **로그인(사용자)**
+### - **로그인**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/cdd36b15-c7f9-4a5f-8eef-6a7c5ce8ef34" height="600px;"/>
 <br/><br/>
 
-### **상품목록(사용자)**
+### - **상품목록**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/f3a3091d-a828-41b1-a31d-06e62bc682b4" height="600px;"/>
 <br/><br/>
 
-### **상품상세/리뷰(사용자)**
+### - **상품상세/리뷰**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/cfed0b4c-b24d-431c-9e03-c90d954e8c20" height="600px;"/>
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/7f7ec7b3-4b83-4912-93a5-b01154798682" height="600px;"/>
 <br/><br/>
 
-### **장바구니(사용자)**
+### - **장바구니**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/37d4cac3-5523-4f6d-b463-1ac83317022a" height="600px;"/>
 <br/><br/>
 
-### **결제(사용자)**
+### - **결제**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/77bf29cd-c874-42f2-9bb4-f14cce7e6454" height="600px;"/>
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/01c878ed-e646-456a-ac46-605895552eee" height="600px;"/>
 <br/><br/>
 
-### **마이페이지(사용자)**
+### - **마이페이지**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/cc0f0ef4-8ecd-4e81-9816-1743fee1487a" height="600px;"/>
 <br/><br/>
 
-### **주문내역 및 리뷰등록(사용자)**
+### - **주문내역 및 리뷰등록**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/4ab49de9-7320-47d4-b035-a61aecb38cb6" height="600px;"/>
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/027a5294-7747-4bfe-87b8-836712d0a31b" height="600px;"/>
 <br/><br/>
 
-### **좋아요 목록(사용자)**
+### - **좋아요 목록**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/65abe049-7306-413a-9d9d-7bfca0132f9a" height="600px;"/>
 <br/><br/>
 
-### **로그인(관리자)**
+---
+
+## **4. 관리자 화면**
+
+### - **로그인**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/4ca30867-1165-4fde-8cfd-0fe7f9ef2614" height="560px;"/>
 <br/><br/>
 
-### **상품 관리(관리자)**
+### - **상품 관리**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/9edbc991-72af-4268-88c3-9932484188da" height="553px;"/>
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/e2f1e7db-44c8-4ca2-b15a-9d6390f46ea9" height="650px;"/>
 <br/><br/>
 
-### **쿠폰 관리(관리자)**
+### - **쿠폰 관리**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/d00d9316-4fd2-4c3a-b64a-36d9a375cb7f" height="512px;"/>
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/c4394951-c59c-413e-adeb-cf49cdd31b95" height="560px;"/>
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/bd26505d-6aa4-4d71-841a-ede6fa8394d7" height="573px;"/>
 <br/><br/>
 
-### **사용자 관리(관리자)**
+### - **사용자 관리**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/342617ac-b7c3-4577-9558-b4786ef375d0" height="521px;"/>
 <br/><br/>
 
-### **관리자 관리(관리자)**
+### - **관리자 관리**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/b04e53e6-d52f-4daa-82cc-6f52509db460" height="532px;"/>
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/f8820fd6-a539-4005-a574-ff3c138eaee4" height="517px;"/>
 
