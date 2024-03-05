@@ -103,10 +103,11 @@
 #### **1. 상품 목록**
 <img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/48e1b917-1f61-4afa-88c9-d831949adf6b"/>
 
-#### **2. 상품 등록**
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/e2f1e7db-44c8-4ca2-b15a-9d6390f46ea9" height="650px;"/>
+#### **2. 상품 추가**
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/57a4bf65-20af-4cf0-983e-255333a7c723"/>
 
-#### **2. 상품 상세**
+#### **3. 상품 상세 및 수정**
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/8b23beb0-6dca-421e-8a1c-bade9b24b80d"/>
 <br/><br/>
 
 ### - **쿠폰 관리**
