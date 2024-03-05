@@ -53,7 +53,7 @@
 ## **3. 사용자 화면**
 
 ### - **메인 화면**
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/514c3ddb-2794-4012-a128-3e162ff13c44" height="600px;"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/e61c59b4-fa74-4772-9d65-2346e4a47836"/>
 <br/><br/>
 
 ### - **로그인**
