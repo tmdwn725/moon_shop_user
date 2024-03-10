@@ -65,8 +65,7 @@
 <br/><br/>
 
 ### - **상품상세/리뷰**
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/cfed0b4c-b24d-431c-9e03-c90d954e8c20" height="600px;"/>
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/7f7ec7b3-4b83-4912-93a5-b01154798682" height="600px;"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/f34ce61f-cd0e-4519-8e6b-46b9c1994956"/>
 <br/><br/>
 
 ### - **장바구니**
