@@ -69,21 +69,21 @@
 <br/><br/>
 
 ### - **장바구니**
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/37d4cac3-5523-4f6d-b463-1ac83317022a" height="600px;"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/147deb2e-2c20-4bd7-afa2-926c8e48e9bd"/>
 <br/><br/>
 
 ### - **결제**
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/77bf29cd-c874-42f2-9bb4-f14cce7e6454" height="600px;"/>
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/01c878ed-e646-456a-ac46-605895552eee" height="600px;"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/dcf9167a-d4e7-46f0-bf87-e2c5f82de701"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/da2602bc-59ae-4678-a472-2cde56a5baac"/>
 <br/><br/>
 
 ### - **마이페이지**
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/cc0f0ef4-8ecd-4e81-9816-1743fee1487a" height="600px;"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/8590d3f9-2575-4fa7-9c8c-ec29a5ac7eb8"/>
 <br/><br/>
 
 ### - **주문내역 및 리뷰등록**
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/4ab49de9-7320-47d4-b035-a61aecb38cb6" height="600px;"/>
-<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/027a5294-7747-4bfe-87b8-836712d0a31b" height="600px;"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/ae509428-a013-4bc0-b212-e2aa85965618"/>
+<img src="https://github.com/tmdwn725/moon_shop_user/assets/60638602/a4b6a5f6-83c4-4c86-97a9-76b6d38ea97b"/>
 <br/><br/>
 
 ### - **좋아요 목록**
