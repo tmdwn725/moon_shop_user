@@ -1,6 +1,5 @@
 package com.shop.dto;
 
-import com.shop.domain.File;
 import lombok.Data;
 
 import java.util.ArrayList;
