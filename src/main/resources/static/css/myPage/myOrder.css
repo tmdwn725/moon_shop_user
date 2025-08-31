@@ -1,5 +1,538 @@
+/* 주문내역 페이지 - 모던 무채색 디자인 */
+
+/* CSS 범위를 주문내역 페이지로 제한 */
+.order-page {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+/* Footer 전체 숨김 - 주문내역 페이지에서 방해되지 않도록 */
+.instagram {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+.footer {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+.instagram *,
+.footer * {
+    display: none !important;
+}
+
+/* Instagram 및 Footer 아이템들도 숨김 */
+.instagram__item,
+.footer__about,
+.footer__widget,
+.footer__newslatter,
+.footer__copyright__text {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+.order-page * {
+    box-sizing: border-box;
+}
+
+/* Breadcrumb */
+.order-page .breadcrumb-container {
+    background: #f8f9fa;
+    padding: 15px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.order-page .breadcrumb {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+}
+
+.order-page .breadcrumb li {
+    display: flex;
+    align-items: center;
+}
+
+.order-page .breadcrumb li:not(:last-child)::after {
+    content: '/';
+    margin-left: 15px;
+    color: #adb5bd;
+}
+
+.order-page .breadcrumb a {
+    color: #6c757d;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.order-page .breadcrumb a:hover {
+    color: #1a1a1a;
+}
+
+.order-page .breadcrumb .active {
+    color: #1a1a1a;
+    font-weight: 500;
+}
+
+/* Order Container */
+.order-page .order-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.order-page .order-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.order-page .order-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.order-page .order-count {
+    font-size: 16px;
+    color: #6c757d;
+    margin: 0;
+}
+
+/* Empty Orders */
+.order-page .empty-orders {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.order-page .empty-orders-icon {
+    font-size: 64px;
+    color: #dee2e6;
+    margin-bottom: 30px;
+}
+
+.order-page .empty-orders h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #6c757d;
+    margin-bottom: 16px;
+}
+
+.order-page .empty-orders p {
+    font-size: 16px;
+    color: #adb5bd;
+    margin-bottom: 30px;
+}
+
+/* Order List */
+.order-page .order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.order-page .order-item {
+    background: #ffffff;
+    border: 1px solid #f1f3f4;
+    border-radius: 12px;
+    padding: 0;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.order-page .order-item:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+/* Order Item Header */
+.order-page .order-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.order-page .order-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.order-page .order-date i {
+    color: #adb5bd;
+}
+
+.order-page .order-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* 주문 상태별 색상 */
+.order-page .order-status.ORDER_COMPLETE {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.order-page .order-status.DELIVERY_START {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.order-page .order-status.DELIVERY_COMPLETE {
+    background: #d4edda;
+    color: #155724;
+}
+
+.order-page .order-status.ORDER_CANCEL {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Product Section */
+.order-page .product-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px;
+    position: relative;
+}
+
+/* Product Image */
+.order-page .product-image {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.order-page .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Product Details */
+.order-page .product-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.order-page .product-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.order-page .product-options {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+}
+
+.order-page .product-size,
+.order-page .product-quantity {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.order-page .product-size strong,
+.order-page .product-quantity strong {
+    color: #1a1a1a;
+}
+
+.order-page .product-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+/* Order Actions */
+.order-page .order-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    flex-shrink: 0;
+}
+
+.order-page .action-btn {
+    display: flex;
+}
+
+/* Buttons */
+.order-page .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.order-page .btn-sm {
+    padding: 8px 12px;
+    font-size: 13px;
+}
+
+.order-page .btn-primary {
+    background: #1a1a1a;
+    color: white;
+}
+
+.order-page .btn-primary:hover {
+    background: #000000;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.order-page .btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.order-page .btn-secondary:hover {
+    background: #545b62;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.15);
+}
+
+.order-page .btn-outline {
+    background: white;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+}
+
+.order-page .btn-outline:hover {
+    background: #f8f9fa;
+    color: #495057;
+    border-color: #adb5bd;
+}
+
+.order-page .btn-warning {
+    background: #ffc107;
+    color: #212529;
+}
+
+.order-page .btn-warning:hover {
+    background: #e0a800;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.15);
+}
+
+/* Pagination */
+.order-page .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.order-page .pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.order-page .page-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background: white;
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.order-page .page-btn:hover {
+    background: #f8f9fa;
+    border-color: #adb5bd;
+    color: #495057;
+}
+
+.order-page .page-btn.current {
+    background: #1a1a1a;
+    border-color: #1a1a1a;
+    color: white;
+}
+
+.order-page .page-btn.prev,
+.order-page .page-btn.next {
+    font-size: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .order-page .product-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .order-page .product-details {
+        width: 100%;
+    }
+    
+    .order-page .order-actions {
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #f1f3f4;
+    }
+    
+    .order-page .product-image {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .order-page .order-container {
+        padding: 20px 15px;
+    }
+    
+    .order-page .order-header h1 {
+        font-size: 24px;
+    }
+    
+    .order-page .order-item-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 16px 20px;
+    }
+    
+    .order-page .product-section {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px;
+    }
+    
+    .order-page .product-image {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .order-page .order-actions {
+        flex-direction: column;
+        align-items: stretch;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #f1f3f4;
+        width: 100%;
+    }
+    
+    .order-page .btn {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .order-page .breadcrumb {
+        font-size: 12px;
+        gap: 10px;
+    }
+    
+    .order-page .order-list {
+        gap: 16px;
+    }
+    
+    .order-page .order-item {
+        border-radius: 8px;
+    }
+    
+    .order-page .product-section {
+        padding: 16px;
+    }
+    
+    .order-page .pagination {
+        gap: 4px;
+    }
+    
+    .order-page .page-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 13px;
+    }
+}
+
+/* Loading and Animation Effects */
+.order-page .order-item {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Focus States for Accessibility */
+.order-page .btn:focus,
+.order-page .page-btn:focus {
+    outline: 2px solid #4285f4;
+    outline-offset: 2px;
+}
+
+/* High Contrast Support */
+@media (prefers-contrast: high) {
+    .order-page .order-item {
+        border-color: #000000;
+    }
+    
+    .order-page .btn-outline {
+        border-color: #000000;
+    }
+}
+
 /*---------------------
-  내 주문 관리
+  기존 스타일 (하위 호환성)
 -----------------------*/
 
 .order-manage {

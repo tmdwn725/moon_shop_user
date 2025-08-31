@@ -6,6 +6,9 @@ import com.shop.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,7 @@ import java.util.Map;
 /**
  * 마이페이지 Controller
  */
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/myPage")
@@ -122,14 +126,35 @@ public class MyPageController {
      * @return
      */
     @ResponseBody
-    @PostMapping(value = "/refund")
-    public ResponseEntity<Void> refund(PaymentDTO paymentDTO) throws IOException {
-        PaymentDTO payment = paymentService.paymentInfo(paymentDTO.getPaymentSeq());
-        String token = paymentService.getToken("8428328123150472","6lox7VLfDYCFGVDu8Kc39Hml8iqmjB1WsMsZpwxooyMJVUb3xJub0y6Atp2AGqPyU27rLNA9GE3D44sI");
-        String amount = paymentService.getPaymentInfo(payment.getImpUid(), token);
-        paymentService.refundRequest(token, payment.getImpUid(), amount,"결제 금액 오류");
-        //paymentService.updateOrderInfoRefund(paymentDTO.getPaymentSeq());
-        return ResponseEntity.ok().build();
+    @PostMapping(value = "/refund", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> refund(PaymentDTO paymentDTO) {
+        try {
+            // 입력값 검증
+            if (paymentDTO == null || paymentDTO.getPaymentSeq() == null) {
+                return ResponseEntity.badRequest()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"success\": false, \"message\": \"결제 정보가 없습니다.\"}");
+            }
+            
+            // 개선된 환불 처리 메서드 사용
+            String result = paymentService.processRefund(paymentDTO.getPaymentSeq());
+            
+            // 결과에 따른 응답 반환
+            return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("{\"success\": true, \"message\": \"" + result.replace("\"", "\\\"") + "\"}");
+                
+        } catch (IOException e) {
+            log.error("결제 취소 중 IO 오류 발생: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("{\"success\": false, \"message\": \"결제 취소 처리 중 오류가 발생했습니다.\"}");
+        } catch (Exception e) {
+            log.error("결제 취소 중 오류 발생: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("{\"success\": false, \"message\": \"결제 취소에 실패했습니다.\"}");
+        }
     }
     /**
      * 내 리뷰 관리 화면

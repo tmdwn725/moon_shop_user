@@ -2,85 +2,188 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>MoonShop</title>
-
-    <!-- Css Styles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoonShop - 로그인</title>
+    
+    <!-- CSS Styles -->
     <link th:href="@{/css/common/login.css}" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Daum Postcode API -->
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
 <body>
-<div class="cotn_principal">
-  <div class="cont_centrar">
-
-    <div class="cont_login">
-      <div class="cont_info_log_sign_up">
-        <div class="col_md_login">
-          <div class="cont_ba_opcitiy">
-            <h2>LOGIN</h2>
-            <p>로그인 해주세요.</p>
-            <button class="btn_login" onclick="change_to_login()">LOGIN</button>
-          </div>
-        </div>
-        <div class="col_md_sign_up">
-          <div class="cont_ba_opcitiy">
-            <h2>SIGN UP</h2>
-            <p>회원가입 해주세요.</p>
-            <button class="btn_sign_up" onclick="change_to_sign_up()">SIGN UP</button>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="cont_back_info">
-        <div class="cont_img_back_grey">
-          <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
-        </div>
-
-      </div>
-      <div class="cont_forms" >
-        <div class="cont_img_back_">
-          <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
-        </div>
-        <form id = "login-form" action="/login" method="post">
-        <div class="cont_form_login">
-          <a href="#" onclick="hidden_login_and_sign_up()" ><i class="material-icons">&#xE5C4;</i></a>
-          <h2>LOGIN</h2>
-            <input type="text" placeholder="아이디" id="memberId" name="memberId"/>
-            <input type="password" placeholder="비밀번호" id="password" name="password"/>
-            <input type="hidden" id="error" th:value="${error}">
-            <div id="login_change">
-              <button class="btn_login" onclick="change_to_login()">LOGIN</button>
+    <div class="container">
+        <!-- 로그인 폼 -->
+        <div class="form-container" id="login-container">
+            <div class="form-box">
+                <div class="form-header">
+                    <h1>Moon Shop</h1>
+                    <p>쇼핑의 새로운 경험</p>
+                </div>
+                
+                <form id="login-form" action="/login" method="post">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" placeholder="아이디" id="memberId" name="memberId" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="비밀번호" id="password" name="password" required>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="error" th:value="${error}">
+                    
+                    <div class="form-group">
+                        <div class="remember-forgot">
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="remember-me">
+                                <span class="checkmark"></span>
+                                <span>자동 로그인</span>
+                            </label>
+                            <a href="#" class="forgot-link">비밀번호 찾기</a>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">로그인</button>
+                </form>
+                
+                <div class="divider">
+                    <span>또는</span>
+                </div>
+                
+                <div class="social-login">
+                    <button class="btn btn-social btn-google">
+                        <i class="fab fa-google"></i>
+                        Google로 로그인
+                    </button>
+                    <button class="btn btn-social btn-kakao">
+                        <i class="fas fa-comment"></i>
+                        카카오로 로그인
+                    </button>
+                </div>
+                
+                <div class="form-footer">
+                    <p>아직 회원이 아니신가요? <a href="#" id="show-signup">회원가입</a></p>
+                </div>
             </div>
-            <div id="login" style="display: none;">
-              <button class="btn_login" type="submit">LOGIN</button>
+        </div>
+        
+        <!-- 회원가입 폼 -->
+        <div class="form-container" id="signup-container" style="display: none;">
+            <div class="form-box signup-box">
+                <div class="form-header">
+                    <h1>회원가입</h1>
+                    <p>Moon Shop과 함께하세요</p>
+                </div>
+                
+                <form id="signup-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" placeholder="이메일" id="email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="input-group with-button">
+                                <i class="fas fa-user"></i>
+                                <input type="text" placeholder="아이디" id="member-id" required>
+                                <input type="hidden" id="member-id-chk-yn" value="N">
+                                <button type="button" class="btn btn-check" id="id-dup-chk">중복확인</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" placeholder="비밀번호" id="member-pw" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="input-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" placeholder="비밀번호 확인" id="confirm-pw" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <i class="fas fa-user-circle"></i>
+                                <input type="text" placeholder="이름" id="member-name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="input-group">
+                                <i class="fas fa-phone"></i>
+                                <input type="tel" placeholder="전화번호 (- 없이 입력)" id="tel-no" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="address-section">
+                        <div class="form-group">
+                            <div class="input-group with-button">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" placeholder="우편번호" id="zip-code" readonly required>
+                                <button type="button" class="btn btn-check" id="btn-zip-code-sch">우편번호 찾기</button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="input-group">
+                                <i class="fas fa-home"></i>
+                                <input type="text" placeholder="주소" id="address" readonly required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="input-group">
+                                <i class="fas fa-building"></i>
+                                <input type="text" placeholder="상세주소" id="detail-address" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="agree-terms" required>
+                            <span class="checkmark"></span>
+                            <span>이용약관 및 개인정보 처리방침에 동의합니다</span>
+                        </label>
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" id="btn-sign-up">가입하기</button>
+                </form>
+                
+                <div class="form-footer">
+                    <p>이미 회원이신가요? <a href="#" id="show-login">로그인</a></p>
+                </div>
             </div>
         </div>
-        </form>
-        <div class="cont_form_sign_up">
-          <a href="#" onclick="hidden_login_and_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
-          <h2>SIGN UP</h2>
-          <input type="text" id="email" placeholder="이메일" />
-          <input type="text" id="member-id" placeholder="아이디"/>
-          <input type="hidden" id="member-id-chk-yn" value="N"/>
-          <button class="btn_login_chk" id="id-dup-chk">중복확인</button>
-          <input type="password" id="member-pw" placeholder="비밀번호" />
-          <input type="password" id="confirm-pw" placeholder="비밀번호확인" />
-          <input type="text" id="member-name" placeholder="이름" />
-          <input type="text" id="tel-no" placeholder="전화번호" />
-          <button class="btn_login_chk" onclick="change_to_sign_up()">인증</button>
-          <input type="text" id="zip-code" placeholder="우편번호">
-          <button class="btn_login_chk" id="btn-zip-code-sch">우편번호 찾기</button>
-          <input type="text" id="address" placeholder="주소"><br>
-          <input type="text" id="detail-address" placeholder="상세주소">
-          <p><button class="btn_sign_up" id="btn-sign-up">SIGN UP</button></p>
-        </div>
-      </div>
-
     </div>
-  </div>
-</div>
-
-<!-- Js Plugins -->
-<script type="text/javascript" th:src="@{/js/common/login.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    
+    <!-- Loading Spinner -->
+    <div class="loading-overlay" id="loading" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- JS Scripts -->
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/login.js}"></script>
 </body>
 </html>

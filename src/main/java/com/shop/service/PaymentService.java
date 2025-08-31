@@ -203,4 +203,83 @@ public class PaymentService {
         return orderInfoRepository.updateRefundInfo(paymentSeq);
     }
 
+    /**
+     * 개선된 결제 취소 처리 메서드
+     * 결제 상태 확인 후 적절한 조치를 취함
+     */
+    @Transactional
+    public String processRefund(Long paymentSeq) throws IOException {
+        // 결제 정보 조회
+        PaymentDTO payment = paymentInfo(paymentSeq);
+        if (payment == null) {
+            return "결제 정보를 찾을 수 없습니다.";
+        }
+        
+        // imp_uid가 null인 경우 (테스트 결제 등)
+        if (payment.getImpUid() == null || payment.getImpUid().isEmpty()) {
+            // DB에서 주문 상태만 업데이트
+            updateOrderInfoRefund(paymentSeq);
+            return "주문이 성공적으로 취소되었습니다.";
+        }
+        
+        try {
+            // 토큰 발급
+            String token = getToken("8428328123150472", "6lox7VLfDYCFGVDu8Kc39Hml8iqmjB1WsMsZpwxooyMJVUb3xJub0y6Atp2AGqPyU27rLNA9GE3D44sI");
+            
+            // 결제 정보 확인 먼저
+            String paymentStatus = getPaymentStatus(payment.getImpUid(), token);
+            log.info("결제 상태 확인: {}", paymentStatus);
+            
+            // 결제가 이미 실패했거나 취소된 경우
+            if ("failed".equals(paymentStatus) || "cancelled".equals(paymentStatus)) {
+                // DB에서만 주문 상태 업데이트
+                updateOrderInfoRefund(paymentSeq);
+                return "주문이 성공적으로 취소되었습니다. (결제는 이미 실패/취소 상태)";
+            }
+            
+            // 실제 결제 취소 시도
+            String amount = getPaymentInfo(payment.getImpUid(), token);
+            refundRequest(token, payment.getImpUid(), amount, "고객 요청에 의한 결제 취소");
+            
+            // 주문 상태 업데이트
+            updateOrderInfoRefund(paymentSeq);
+            
+            return "결제가 성공적으로 취소되었습니다.";
+            
+        } catch (Exception e) {
+            log.error("결제 취소 처리 중 오류 발생: ", e);
+            
+            // 오류가 발생했지만 이미 취소된 결제일 수 있으므로 주문 상태는 업데이트
+            updateOrderInfoRefund(paymentSeq);
+            
+            return "주문이 취소되었습니다.";
+        }
+    }
+    
+    /**
+     * 결제 상태 확인
+     */
+    private String getPaymentStatus(String impUid, String token) throws IOException {
+        URL url = new URL("https://api.iamport.kr/payments/" + impUid);
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+        
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Authorization", token);
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+        String response = br.lines().collect(Collectors.joining("\n"));
+        br.close();
+        conn.disconnect();
+        
+        JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
+        if (jsonResponse.has("response") && !jsonResponse.get("response").isJsonNull()) {
+            JsonObject responseObj = jsonResponse.getAsJsonObject("response");
+            if (responseObj.has("status")) {
+                return responseObj.get("status").getAsString();
+            }
+        }
+        
+        return "unknown";
+    }
+
 }

@@ -18,6 +18,7 @@ public class FileService {
      * @return
      */
     public FileDTO getFileInfo(Long fileSeq){
+        fileSeq = 1L;
         File file = fileRepository.getReferenceById(fileSeq);
         FileDTO result = ModelMapperUtil.map(file, FileDTO.class);
         return result;

@@ -2,18 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Ashion Template">
-    <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MoonShop</title>
-
+    <title>MoonShop - 좋아요</title>
+    
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet">
-
-    <!-- Css Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 기존 CSS 먼저 로드 -->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
     <link th:href="@{/css/elegant-icons.css}" rel="stylesheet">
@@ -22,118 +20,146 @@
     <link th:href="@{/css/owl.carousel.min.css}" rel="stylesheet">
     <link th:href="@{/css/slicknav.min.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
-    <link th:href="@{/css/myPage/myOrder.css}" rel="stylesheet">
+    
+    <!-- Custom CSS (마지막에 로드) -->
+    <link th:href="@{/css/myPage/myHeart.css}" rel="stylesheet">
     <link th:href="@{/css/common/side.css}" rel="stylesheet">
-
 </head>
 
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-
-    <!-- Offcanvas Menu Begin -->
-    <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__close">+</div>
-        <ul class="offcanvas__widget">
-            <li><span class="icon_search search-switch"></span></li>
-            <li><a href="#"><span class="icon_heart_alt"></span>
-                <div class="tip">2</div>
-            </a></li>
-            <li><a href="#"><span class="icon_bag_alt"></span>
-                <div class="tip">2</div>
-            </a></li>
-        </ul>
-        <div class="offcanvas__logo">
-            <a href="./index.html"><img src="img/logo.png" alt=""></a>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__auth">
-            <a href="#">Login</a>
-            <a href="#">Register</a>
-        </div>
-    </div>
-    <!-- Offcanvas Menu End -->
-
-    <!-- Header Section Begin -->
+    <!-- Header Section -->
     <th:block th:replace="common/header :: headFragment"></th:block>
-    <!-- Header Section End -->
-
-    <!-- SideBar Section Begin-->
+    
+    <!-- SideBar Section -->
     <th:block th:replace="common/side :: sideFragment"></th:block>
-    <!-- SideBar Section End -->
-
-    <!-- Breadcrumb Begin -->
-    <div class="breadcrumb-option">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__links">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <span>좋아요</span>
-                    </div>
-                </div>
+    
+    <!-- 좋아요 페이지 시작 - CSS 범위 제한 -->
+    <div class="heart-page">
+        
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-container">
+            <ul class="breadcrumb">
+                <li><a href="/"><i class="fas fa-home"></i></a></li>
+                <li><a href="/myPage/myPage">마이페이지</a></li>
+                <li class="active">좋아요</li>
+            </ul>
+        </nav>
+        
+        <!-- Heart Container -->
+        <main class="heart-container">
+            <div class="heart-header">
+                <h1>좋아요</h1>
+                <p class="heart-count" th:text="${#lists.size(myHeartList?.content ?: {})} + '개 상품'">0개 상품</p>
             </div>
-        </div>
-    </div>
-    <!-- Breadcrumb End -->
-`
-    <!-- Heart List Section Begin -->
-    <section class="shop-cart">
-        <div class="container" th:if="${myHeartList.totalPages > 0}">
-            <div class="row">
-                <div class="trend__content" th:each="heart, i : ${myHeartList}">
-                    <div class="trend__item" th:onclick="|location.href='@{/product/productInfo?productSeq=}${heart.productSeq}'|">
-                        <div class="trend__item__pic product__details__pic__left">
-                            <img th:src="'/fileDownload?fileSeq=' + ${heart.productImgFlSeq}" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6 th:text="${heart.productName}" />
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
+            
+            <!-- Empty Hearts -->
+            <div class="empty-hearts" th:if="${myHeartList == null || myHeartList.totalPages == 0}">
+                <div class="empty-hearts-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h2>좋아요한 상품이 없습니다</h2>
+                <p>마음에 드는 상품을 찾아 하트를 눌러보세요!</p>
+                <a href="/main" class="btn btn-primary">쇼핑하러 가기</a>
+            </div>
+            
+            <!-- Heart Items -->
+            <div class="heart-content" th:unless="${myHeartList == null || myHeartList.totalPages == 0}">
+                
+                <!-- Heart Grid -->
+                <div class="heart-grid">
+                    <div class="heart-item" th:each="heart, i : ${myHeartList}">
+                        <div class="heart-card" th:onclick="|location.href='@{/product/productInfo?productSeq=}${heart.productSeq}'|">
+                            <!-- Product Image -->
+                            <div class="product-image-container">
+                                <img th:src="'/fileDownload?fileSeq=' + ${heart.productImgFlSeq}" alt="Product Image" class="product-image">
+                                <div class="heart-overlay">
+                                    <div class="heart-icon active" th:onclick="event.stopPropagation(); toggleHeart(this, ${heart.productSeq})">
+                                        <i class="fas fa-heart"></i>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="product__price" th:text="${#numbers.formatDecimal(heart.price, 0, 'COMMA', 0, 'POINT')} + '원'"/>
-                            <span class="icon_heart" style="color:red;"></span><span th:text="${heart.heartCnt}" style="color: red; margin-left: 5px;"></span>
+                            
+                            <!-- Product Info -->
+                            <div class="product-info">
+                                <h3 class="product-title" th:text="${heart.productName}">상품명</h3>
+                                
+                                <!-- Rating -->
+                                <div class="product-rating">
+                                    <div class="rating-stars">
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                    </div>
+                                    <span class="rating-text">5.0</span>
+                                </div>
+                                
+                                <!-- Price -->
+                                <div class="product-price">
+                                    <span th:text="${#numbers.formatDecimal(heart.price, 0, 'COMMA', 0, 'POINT')} + '원'">20,000원</span>
+                                </div>
+                                
+                                <!-- Heart Count -->
+                                <div class="heart-count-info">
+                                    <i class="fas fa-heart"></i>
+                                    <span th:text="${heart.heartCnt}">12</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="product-actions">
+                                <button class="btn btn-primary btn-sm" th:onclick="event.stopPropagation(); addToCart(${heart.productSeq})">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    장바구니
+                                </button>
+                                <button class="btn btn-outline btn-sm" th:onclick="event.stopPropagation(); quickView(${heart.productSeq})">
+                                    <i class="fas fa-eye"></i>
+                                    빠른보기
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-12 text-center">
-                <div class="pagination__option">
-                    <a th:each="page : ${#numbers.sequence(1, myHeartList.totalPages)}"
-                       th:href="@{/myPage/myHeartList(page=${page})}"
-                       th:class="${myHeartList.number+1 == page ? 'active' : ''}">[[${page}]]</a>
+                
+                <!-- Pagination -->
+                <div class="pagination-container" th:if="${myHeartList.totalPages > 1}">
+                    <nav class="pagination">
+                        <a th:if="${myHeartList.hasPrevious()}" 
+                           th:href="@{/myPage/myHeartList(page=${myHeartList.number})}"
+                           class="page-btn prev">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                        
+                        <a th:each="page : ${#numbers.sequence(1, myHeartList.totalPages)}"
+                           th:href="@{/myPage/myHeartList(page=${page})}"
+                           th:class="${myHeartList.number+1 == page ? 'page-btn current' : 'page-btn'}"
+                           th:text="${page}">1</a>
+                        
+                        <a th:if="${myHeartList.hasNext()}" 
+                           th:href="@{/myPage/myHeartList(page=${myHeartList.number+2})}"
+                           class="page-btn next">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </nav>
                 </div>
             </div>
-        </div>
-        <div class="container" th:if="${myHeartList.totalPages == 0}">
-            <span>조회된 결과가 없습니다.</span>
-        </div>
-    </section>
-    <!-- Heart List Section End -->
-
-    <!-- Footer Section Begin -->
-    <th:block th:replace="common/footer :: footFragment"></th:block>
-    <!-- Footer Section End -->
-
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
+        </main>
+    </div>
+    <!-- 좋아요 페이지 끝 -->
+    
+    <!-- Notification Toast -->
+    <div id="notification-toast" class="notification-toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle toast-icon"></i>
+            <span class="toast-message">메시지</span>
         </div>
     </div>
-    <!-- Search End -->
-
-    <!-- Js Plugins -->
+    
+    <!-- Footer Section -->
+    <th:block th:replace="common/footer :: footFragment"></th:block>
+    
+    <!-- Scripts -->
     <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
@@ -144,6 +170,7 @@
     <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.nicescroll.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/myPage/myHeart.js}"></script>
     <script type="text/javascript" th:src="@{/js/common/side.js}"></script>
 </body>
 

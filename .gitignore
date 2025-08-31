@@ -4,6 +4,12 @@
 /build/classes/java/main/
 
 HELP.md
+
+# MCP 보안 설정 (API 키 등)
+mcp/config.json
+mcp/.env
+mcp/*.key
+mcp/secrets/
 SpringProJect/.gradle
 SpringProJect/.gradle/
 build/
@@ -44,3 +50,10 @@ out/
 
 ### Query DSL ###
 **/src/main/generated/querydsl/
+
+/docs
+/mcp
+CLAUDE.md
+.claude/
+.cursor-settings/
+/src/test

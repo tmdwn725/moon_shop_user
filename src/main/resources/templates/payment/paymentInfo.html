@@ -6,14 +6,15 @@
     <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MoonShop</title>
+    <title>MoonShop - 결제</title>
 
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Css Styles -->
+    <!-- 기존 CSS 먼저 로드 -->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
     <link th:href="@{/css/elegant-icons.css}" rel="stylesheet">
@@ -22,6 +23,9 @@
     <link th:href="@{/css/owl.carousel.min.css}" rel="stylesheet">
     <link th:href="@{/css/slicknav.min.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
+    
+    <!-- Custom CSS (마지막에 로드) -->
+    <link th:href="@{/css/payment/payment.css}" rel="stylesheet">
     <script th:inline="javascript">
         var list = [[${myCartList}]];
     </script>
@@ -61,143 +65,177 @@
     <th:block th:replace="common/header :: headFragment"></th:block>
     <!-- Header Section End -->
 
-    <!-- Breadcrumb Begin -->
-    <div class="breadcrumb-option">
+    <!-- 결제 페이지 시작 -->
+    <div class="payment-page">
+        
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-section">
+            <div class="container">
+                <nav class="breadcrumb-nav">
+                    <a href="/"><i class="fas fa-home"></i> 홈</a>
+                    <span><i class="fas fa-chevron-right"></i></span>
+                    <a href="/cart/cartList">장바구니</a>
+                    <span><i class="fas fa-chevron-right"></i></span>
+                    <span class="current">결제</span>
+                </nav>
+            </div>
+        </div>
+
+        <!-- 메인 결제 컨테이너 -->
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__links">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <span>Payment</span>
+            
+            <!-- 진행 단계 표시 -->
+            <div class="checkout-steps">
+                <div class="step completed">
+                    <div class="step-circle">1</div>
+                    <span>장바구니</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step active">
+                    <div class="step-circle">2</div>
+                    <span>결제 정보</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-circle">3</div>
+                    <span>완료</span>
+                </div>
+            </div>
+
+            <!-- 결제 레이아웃 -->
+            <div class="checkout-layout">
+                
+                <!-- 좌측: 결제 폼 -->
+                <div class="checkout-main">
+                    <form action="#" class="checkout-form">
+                        
+                        <!-- 배송 정보 -->
+                        <div class="form-section">
+                            <h2><i class="fas fa-shipping-fast"></i> 배송 정보</h2>
+                            <div class="form-fields">
+                                <div class="field-group">
+                                    <label for="memberNm">받는 분 성함</label>
+                                    <input type="text" id="memberNm" th:value="${member.name}" placeholder="이름을 입력하세요" required>
+                                </div>
+                                <div class="field-group">
+                                    <label for="address">배송 주소</label>
+                                    <input type="text" id="address" th:value="${member.address}" placeholder="기본 주소" required>
+                                    <input type="text" id="detailAddress" th:value="${member.detailAddress}" placeholder="상세 주소">
+                                </div>
+                                <div class="field-row">
+                                    <div class="field-group">
+                                        <label for="zip-code">우편번호</label>
+                                        <input type="text" id="zip-code" th:value="${member.zipCode}" readonly>
+                                    </div>
+                                    <div class="field-group">
+                                        <label for="tel-no">연락처</label>
+                                        <input type="tel" id="tel-no" th:value="${member.telNo}" placeholder="010-0000-0000" required>
+                                    </div>
+                                </div>
+                                <div class="field-group">
+                                    <label for="email">이메일 주소</label>
+                                    <input type="email" id="email" th:value="${member.email}" placeholder="example@email.com" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 할인 혜택 -->
+                        <div class="form-section" th:if="${member.memberCouponList != null and !member.memberCouponList.isEmpty()}">
+                            <h2><i class="fas fa-percent"></i> 사용 가능한 쿠폰</h2>
+                            <div class="coupon-list">
+                                <div class="coupon-card" th:each="memberCoupon : ${member.memberCouponList}">
+                                    <div class="coupon-left">
+                                        <div class="coupon-discount" th:text="${memberCoupon.coupon.discRate} + '%'">10%</div>
+                                        <div class="coupon-off">할인</div>
+                                    </div>
+                                    <div class="coupon-right">
+                                        <h4 th:text="${memberCoupon.coupon.couponName}">쿠폰명</h4>
+                                        <p class="coupon-condition">
+                                            <span th:text="'최소 ' + ${#numbers.formatDecimal(memberCoupon.coupon.minPrice, 0, 'COMMA', 0, 'POINT')} + '원 구매 시'">최소 10,000원</span>
+                                            <br>
+                                            <span th:text="'최대 ' + ${#numbers.formatDecimal(memberCoupon.coupon.maxDiscPrice, 0, 'COMMA', 0, 'POINT')} + '원까지 할인'">최대 5,000원 할인</span>
+                                        </p>
+                                    </div>
+                                    <!-- 히든 필드들 -->
+                                    <input type="hidden" th:id="'couponName'+${memberCoupon.memberCouponSeq}" th:value="${memberCoupon.coupon.couponName}">
+                                    <input type="hidden" th:id="'discRate'+${memberCoupon.memberCouponSeq}" th:value="${memberCoupon.coupon.discRate}">
+                                    <input type="hidden" th:id="'minPrice'+${memberCoupon.memberCouponSeq}" th:value="${memberCoupon.coupon.minPrice}">
+                                    <input type="hidden" th:id="'maxDiscPrice'+${memberCoupon.memberCouponSeq}" th:value="${memberCoupon.coupon.maxDiscPrice}">
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- 우측: 주문 요약 -->
+                <div class="checkout-sidebar">
+                    <div class="order-summary">
+                        <h3>주문 요약</h3>
+                        
+                        <!-- 주문 상품들 -->
+                        <div class="order-items">
+                            <div class="order-item" th:each="cartList, i : ${myCartList}">
+                                <div class="item-main">
+                                    <div class="item-info">
+                                        <h4 th:text="${cartList.productName}">상품명</h4>
+                                        <p th:text="'수량: ' + ${cartList.quantity} + '개'">수량: 1개</p>
+                                    </div>
+                                    <div class="item-price" th:text="'₩' + ${#numbers.formatDecimal(cartList.price * cartList.quantity, 0, 'COMMA', 0, 'POINT')}">₩50,000</div>
+                                </div>
+                                <div class="item-coupon">
+                                    <label>쿠폰 적용</label>
+                                    <select name="sel-coupon" th:id="'sel-coupon' + ${cartList.cartSeq}" 
+                                            th:onchange="'changeMemberCoupon(this.value, ' + ${cartList.cartSeq}  + ', ' + ${cartList.price * cartList.quantity} + ')'">
+                                        <option value="0">쿠폰을 선택하세요</option>
+                                        <option th:each="memberCoupon : ${member.memberCouponList}"
+                                                th:value="${memberCoupon.memberCouponSeq}"
+                                                th:text="${memberCoupon.coupon.couponName}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <input type="hidden" name="cart-seq" th:value="${cartList.cartSeq}">
+                                <input type="hidden" th:id="'pre-coupon' + ${cartList.cartSeq}" th:value="0">
+                            </div>
+                        </div>
+
+                        <!-- 결제 금액 계산 -->
+                        <div class="price-breakdown">
+                            <div class="price-row">
+                                <span>상품 금액</span>
+                                <span id="pro-price-txt" th:text="'₩' + ${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}">₩100,000</span>
+                            </div>
+                            <div class="price-row discount">
+                                <span>할인 금액</span>
+                                <span id="dis-price-txt">-₩0</span>
+                            </div>
+                            <div class="price-row total">
+                                <span>최종 결제 금액</span>
+                                <span id="tot-price-txt" th:text="'₩' + ${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}">₩100,000</span>
+                            </div>
+                            
+                            <input type="hidden" id="dis-price" th:value="0">
+                            <input type="hidden" id="pro-price" th:value="${totalPrice}">
+                            <input type="hidden" id="tot-price" th:value="${totalPrice}">
+                        </div>
+
+                        <!-- 결제 버튼 -->
+                        <button type="button" class="pay-button" onclick="getPayment()">
+                            <i class="fas fa-credit-card"></i>
+                            결제하기
+                        </button>
+                        
+                        <div class="security-info">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>SSL 보안 결제</span>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-    <!-- Breadcrumb End -->
-
-    <!-- Checkout Section Begin -->
-    <section class="checkout spad">
-        <div class="container">
-            <form action="#" class="checkout__form">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <h5>결제 세부정보</h5>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="checkout__form__input">
-                                    <p>이름 <span>*</span></p>
-                                    <input type="text" id="memberNm" th:value="${member.name}">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="checkout__form__input">
-                                    <p>주소 <span>*</span></p>
-                                    <input type="text" id="address" placeholder="주소" th:value="${member.address}">
-                                    <input type="text" id="detailAddress" placeholder="상세주소" th:value="${member.detailAddress}">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="checkout__form__input">
-                                    <p>우편번호 <span>*</span></p>
-                                    <input type="text" id="zip-code" placeholder="우편번호" th:value="${member.zipCode}" readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>연락처 <span>*</span></p>
-                                    <input type="text" id="tel-no" th:value="${member.telNo}">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>이메일 <span>*</span></p>
-                                    <input type="text" id="email" th:value="${member.email}">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="checkout__form__input">
-                                    <p>쿠폰목록</p>
-                                    <div class="layer-cont" style="max-height: 200px; overflow-y: auto; border: 1px solid #666666; padding: 5px;">
-                                        <table class="n-table table-col">
-                                            <colgroup>
-                                                <col style="width:100px;">
-                                                <col style="width:30px;">
-                                                <col style="width:70px;">
-                                                <col style="width:70px;">
-                                                <col style="width:110px;">
-                                            </colgroup>
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">쿠폰명</th>
-                                                <th scope="col">할인율</th>
-                                                <th scope="col">최소금액</th>
-                                                <th scope="col">최대할인금액</th>
-                                                <th scope="col">기한</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr th:each="memberCoupon : ${member.memberCouponList}">
-                                                    <td th:text="${memberCoupon.coupon.couponName}"></td>
-                                                    <td th:text="${memberCoupon.coupon.discRate} + '%'"></td>
-                                                    <td th:text="${memberCoupon.coupon.minPrice} + '원'"></td>
-                                                    <td th:text="${memberCoupon.coupon.maxDiscPrice} + '원'"></td>
-                                                    <td th:text="${memberCoupon.coupon.useStDate} + ' ~ ' + ${memberCoupon.coupon.useEdDate}"></td>
-                                                    <input type="hidden" th:id="'couponName'+${memberCoupon.memberCouponSeq}" th:value="${memberCoupon.coupon.couponName}">
-                                                    <input type="hidden" th:id="'discRate'+${memberCoupon.memberCouponSeq}" th:value="${memberCoupon.coupon.discRate}">
-                                                    <input type="hidden" th:id="'minPrice'+${memberCoupon.memberCouponSeq}" th:value="${memberCoupon.coupon.minPrice}">
-                                                    <input type="hidden" th:id="'maxDiscPrice'+${memberCoupon.memberCouponSeq}" th:value="${memberCoupon.coupon.maxDiscPrice}">
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="checkout__order">
-                            <h5>주문 목록</h5>
-                            <div class="checkout__order__product">
-                                <ul>
-                                    <li>
-                                        <span class="top__text">상품</span>
-                                        <span class="top__text__right">총금액</span>
-                                    </li>
-                                    <li th:each="cartList, i : ${myCartList}">
-                                        <!--[[${i.index}]]-->
-                                        [[${i.index+1}]]. [[${cartList.productName}]] × [[${cartList.quantity}]]
-                                        <span th:text="'₩'+${#numbers.formatDecimal(cartList.price * cartList.quantity, 0, 'COMMA', 0, 'POINT')}"></span>
-                                        <input type="hidden" name="cart-seq"  th:value="${cartList.cartSeq}">
-                                        <input type="hidden" th:id="'pre-coupon' + ${cartList.cartSeq}"  th:value="0">
-                                        <select class="form-select" name="sel-coupon" th:id="'sel-coupon' + ${cartList.cartSeq}" th:onchange="'changeMemberCoupon(this.value, ' + ${cartList.cartSeq}  + ', ' + ${cartList.price * cartList.quantity} + ')'">
-                                            <option value="0"> == 쿠폰을 선택해주세요 == </option>
-                                            <option th:each="memberCoupon : ${member.memberCouponList}"
-                                                    th:value="${memberCoupon.memberCouponSeq}"
-                                                    th:text="${memberCoupon.coupon.couponName}">
-                                            </option>
-                                        </select>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="checkout__order__total">
-                                <ul>
-                                    <li>상품금액 <span id="pro-price-txt"th:text="'₩'+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}"/></li>
-                                    <li>할인금액 <span id="dis-price-txt"></span></li>
-                                    <li>결제금액 <span id="tot-price-txt" th:text="'₩'+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}"/></li>
-                                    <input type="hidden" id="dis-price" th:value="0">
-                                    <input type="hidden" id="pro-price" th:value="${totalPrice}">
-                                    <input type="hidden" id="tot-price" th:value="${totalPrice}">
-                                </ul>
-                            </div>
-                            <button type="button" class="site-btn" onclick="getPayment()">결제하기</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </section>
-    <!-- Checkout Section End -->
+    <!-- Payment Page End -->
 
     <!-- Footer Section Begin -->
     <th:block th:replace="common/footer :: footFragment"></th:block>
@@ -217,6 +255,5 @@
     <script type="text/javascript" th:src="@{/js/payment/payment.js}"></script>
     <!--아임포트 라이브러리-->
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-    <!-- Js Plugins -->
 </body>
 </html>

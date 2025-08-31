@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Ashion Template">
-    <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MoonShop</title>
-
+    <title>MoonShop - 마이페이지</title>
+    
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- Css Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 기존 CSS 먼저 로드 -->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
     <link th:href="@{/css/elegant-icons.css}" rel="stylesheet">
@@ -21,254 +20,229 @@
     <link th:href="@{/css/owl.carousel.min.css}" rel="stylesheet">
     <link th:href="@{/css/slicknav.min.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
+    
+    <!-- Custom CSS (마지막에 로드) -->
     <link th:href="@{/css/myPage/myPage.css}" rel="stylesheet">
     <link th:href="@{/css/common/side.css}" rel="stylesheet">
 </head>
 
 <body>
-<!-- Page Preloder -->
-<div id="preloder">
-    <div class="loader"></div>
-</div>
-
-<!-- Offcanvas Menu Begin -->
-<div class="offcanvas-menu-overlay"></div>
-<div class="offcanvas-menu-wrapper">
-    <div class="offcanvas__close">+</div>
-    <ul class="offcanvas__widget">
-        <li><span class="icon_search search-switch"></span></li>
-        <li><a href="#"><span class="icon_heart_alt"></span>
-            <div class="tip">2</div>
-        </a></li>
-        <li><a href="#"><span class="icon_bag_alt"></span>
-            <div class="tip">2</div>
-        </a></li>
-    </ul>
-    <div class="offcanvas__logo">
-        <a href="./index.html"><img src="/img/logo.png" alt=""></a>
-    </div>
-    <div id="mobile-menu-wrap"></div>
-    <div class="offcanvas__auth">
-        <a href="#">Login</a>
-        <a href="#">Register</a>
-    </div>
-</div>
-<!-- Offcanvas Menu End -->
-
-<!-- Header Section Begin -->
-<th:block th:replace="common/header :: headFragment"></th:block>
-<!-- Header Section End -->
-
-<!-- SideBar Section Begin-->
-<th:block th:replace="common/side :: sideFragment"></th:block>
-<!-- SideBar Section End -->
-
-<!-- Breadcrumb Begin -->
-<div class="breadcrumb-option">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb__links">
-                    <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                    <span>마이페이지</span>
-                </div>
+    <!-- Header Section -->
+    <th:block th:replace="common/header :: headFragment"></th:block>
+    
+    <!-- SideBar Section -->
+    <th:block th:replace="common/side :: sideFragment"></th:block>
+    
+    <!-- 마이페이지 시작 - CSS 범위 제한 -->
+    <div class="mypage-page">
+        
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-container">
+            <ul class="breadcrumb">
+                <li><a href="/"><i class="fas fa-home"></i></a></li>
+                <li class="active">마이페이지</li>
+            </ul>
+        </nav>
+        
+        <!-- MyPage Container -->
+        <main class="mypage-container">
+            <div class="mypage-header">
+                <h1>마이페이지</h1>
+                <p class="welcome-message">안녕하세요, <strong th:text="${member.name}">회원</strong>님!</p>
             </div>
-        </div>
-    </div>
-</div>
-<!-- Breadcrumb End -->
-
-<!-- Checkout Section Begin -->
-<!-- 기본 회원정보 -->
-<section class="checkout spad">
-    <div class="container">
-        <div class="checkout__form">
-            <div class="row">
-                <div>
-                    <h5>마이페이지</h5>
-                    <div class="row">
-                        <div class="my-page-manage-table">
-                            <table class="n-table table-row my-info-modify" style="width:1000px;">
-                                <colgroup>
-                                    <col width="10%;">
-                                    <col width="70%;">
-                                    <col width="30%;">
-                                </colgroup>
-                                <tbody>
-                                    <tr name="cartTr" class="checkout__form__input my-info-img" id="profile-image-area">
-                                        <th scope="row">사진</th>
-                                        <td>
-                                            <form id="profile-form">
-                                                <input type="file" id="profile" name="profile" class="real-upload" accept="image/*" required multiple>
-                                                <div class="upload-profile" id="upload-img">
-                                                    <img class="image-thumbnail" th:if="${member.profile != null}" th:src="'/fileDownload?fileSeq=' + ${member.profile.fileSeq}" alt="">
-                                                </div>
-                                            </form>
-                                        </td>
-                                        <td class="va-b">
-                                            <button type="button" class="n-btn btn-sm btn-accent" id="change-profile-image-finish-btn">변경</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="checkout__form__input" name="cartTr">
-                                        <th scope="row">이름(실명)</th>
-                                        <td>
-                                            <strong  th:text="${member.name}"></strong>
-                                        </td>
-                                    </tr>
-                                    <tr class="checkout__form__input" name="cartTr">
-                                        <input type="hidden" id="member-id" th:value="${member.memberId}">
-                                        <th scope="row">아이디</th>
-                                        <td colspan="2"><strong th:text="${member.memberId}"/></td>
-                                    </tr>
-                                    <tr class="checkout__form__input" name="cartTr" id="password-area">
-                                        <th scope="row">비밀번호</th>
-                                        <td><strong>********</strong></td>
-                                        <td>
-                                            <button type="button" class="n-btn w100 btn-sm btn-default cert-hidden" id="change-password-btn">비밀번호 변경</button>
-                                        </td>
-                                    </tr>
-                                    <!--비밀번호 변경-->
-                                    <tr class="checkout__form__input" name="cartTr" id="change-password-area" style="display: none">
-                                        <th scope="row">비밀번호</th>
-                                        <td colspan="2">
-                                            <div class="my-info-modify">
-                                                <div class="my-info-modify">
-                                                    <input type="hidden" id="encryptPassword">
-                                                    <input type="hidden" id="encryptNewPassword">
-                                                    <input type="hidden" id="encryptConfirmPassword">
-                                                    <div class="input">
-                                                        <label for="password">현재 비밀번호</label>
-                                                        <div class="input-password__wrap " id="password_div">
-                                                            <input type="password" class="n-input" id="password">
-                                                        </div>
-                                                        <span id="password-invalid" class="validate danger"></span>
-                                                    </div>
-                                                    <div class="input">
-                                                        <label for="newPassword">신규 비밀번호</label>
-                                                        <div class="input-password__wrap " id="newPassword_div">
-                                                            <input type="password" class="n-input" id="newPassword" maxlength="30">
-                                                        </div>
-                                                        <span id="new-password-invalid" class="validate danger"></span>
-                                                        <span id="valid-newPassword" class="validate" style="display: none">사용 가능한 비밀번호입니다.</span>
-                                                    </div>
-                                                    <div class="input">
-                                                        <label for="confirmPassword">신규 비밀번호 재 입력</label>
-                                                        <div class="input-password__wrap " id="confirmPassword_div">
-                                                            <input type="password" class="n-input" id="confirmPassword" maxlength="30">
-                                                        </div>
-                                                        <span id="confirm-password-invalid" class="validate danger"></span>
-                                                        <span id="valid-confirmPassword" class="validate" style="display: none">사용 가능한 비밀번호입니다.</span>
-                                                    </div>
-                                                    <div class="btn-group">
-                                                        <button type="button" class="n-btn btn-sm btn-lighter" id="change-password-cancel-btn">취소</button>
-                                                        <button type="button" class="n-btn btn-sm btn-accent disabled" id="change-password-finish-btn" disabled="">완료</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="checkout__form__input" name="cartTr" id="nickName-area">
-                                        <th scope="row">닉네임</th>
-                                        <td><strong>이름7</strong></td>
-                                        <td>
-                                            <button type="button" class="n-btn w100 btn-sm btn-default cert-hidden" id="change-nickName-btn">닉네임 변경</button>
-                                        </td>
-                                    </tr>
-
-                                    <!--닉네임 수정-->
-                                    <tr class="checkout__form__input" name="cartTr" id="change-nickName-area" style="display: none">
-                                        <th scope="row">닉네임</th>
-                                        <td colspan="2">
-                                            <div class="my-info-modify my-info-modify--nickname">
-                                                <ul class="n-info-txt">
-                                                    <li>길이는 최대 15자 이내로 작성해주세요.</li>
-                                                    <li>중복 닉네임 불가합니다.</li>
-                                                    <li>이모티콘 및 일부 특수문자 사용 불가합니다. &amp;&lt;&gt;()'/"</li>
-                                                </ul>
-                                                <div class="input">
-                                                    <input type="text" id="nickName" class="n-input" placeholder="닉네임 입력(최대 15자)" maxlength="15">
-                                                    <span id="currentNickName" class="validate">현재 닉네임 : 이름7</span>
-                                                    <span id="nicknameValidationMessage" class="validate" hidden=""></span>
-                                                </div>
-                                                <div class="btn-group">
-                                                    <button type="button" class="n-btn btn-sm btn-lighter" id="change-nickName-cancel-btn">취소</button>
-                                                    <button type="button" class="n-btn btn-sm btn-accent disabled" id="change-nickName-finish-btn" disabled="">완료</button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="checkout__form__input" name="cartTr" id="email-area">
-                                        <th scope="row">이메일</th>
-                                        <td>
-                                            <strong id="currentEmail" th:text="${member.email}"/>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="n-btn w100 btn-sm btn-default cert-hidden" id="change-email-btn">이메일 변경</button>
-                                        </td>
-                                    </tr>
-                                    <!--이메일 인증-->
-                                    <tr class="checkout__form__input" name="memberTr" id="change-email-area" style="display: none">
-                                        <th scope="row">이메일</th>
-                                        <td colspan="2">
-                                            <div class="my-info-modify">
-                                                <ul class="n-info-txt">
-                                                    <li>메일주소 입력 후 인증하기 버튼을 누르시면, 회원님의 이메일로 이메일 인증 번호가 적힌메일이 발송됩니다.</li>
-                                                    <li>아래에 인증 번호를 입력하시면 인증이 완료됩니다.</li>
-                                                </ul>
-                                                <div class="input input-btn">
-                                                    <input type="text" class="n-input" placeholder="이메일 주소 입력" id="email" maxlength="50">
-                                                    <button type="button" class="n-btn btn-sm btn-accent disabled" id="send-authentication-email" disabled="">인증</button>
-                                                </div>
-                                                <div class="input input-w">
-                                                    <input type="text" class="n-input disabled" id="email-authTempKey" placeholder="인증번호 입력">
-                                                </div>
-                                                <div class="btn-group">
-                                                    <button type="button" class="n-btn btn-sm btn-lighter" id="change-email-cancel-btn">취소</button>
-                                                    <button type="button" class="n-btn btn-sm btn-accent disabled" id="change-email-finish-btn" disabled="">완료</button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="checkout__form__input" name="cartTr" id="mobile-area">
-                                        <th scope="row">휴대전화</th>
-                                        <td><strong th:text="${member.telNo}"/>
-                                            <span class="certify">인증완료</span>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="n-btn w100 btn-sm btn-default cert-hidden" id="change-mobile-btn">휴대전화 변경</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+            
+            <!-- Profile Section -->
+            <div class="profile-section">
+                <div class="profile-card">
+                    <div class="profile-image-section">
+                        <div class="profile-image-container">
+                            <img th:if="${member.profile != null}" 
+                                 th:src="'/fileDownload?fileSeq=' + ${member.profile.fileSeq}" 
+                                 alt="Profile Image" class="profile-image" id="current-profile-image">
+                            <div th:unless="${member.profile != null}" class="profile-image-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <button class="profile-edit-btn" id="profile-edit-btn">
+                                <i class="fas fa-camera"></i>
+                            </button>
                         </div>
-                    <!--<p class="my-info-withdrawal">탈퇴를 원하시면 회원탈퇴 버튼을 눌러주세요 <a href="" class="n-btn btn-sm btn-default" id="leaveBtn">회원탈퇴</a></p>-->
+                        <input type="file" id="profile-upload" accept="image/*" style="display: none;">
+                    </div>
+                    
+                    <div class="profile-info">
+                        <div class="info-item">
+                            <label>이름</label>
+                            <div class="info-value">
+                                <span th:text="${member.name}">홍길동</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <label>아이디</label>
+                            <div class="info-value">
+                                <span th:text="${member.memberId}">user123</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <label>비밀번호</label>
+                            <div class="info-value">
+                                <span class="password-hidden">••••••••</span>
+                                <button class="btn btn-outline btn-sm" id="change-password-btn">변경</button>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <label>이메일</label>
+                            <div class="info-value">
+                                <span th:text="${member.email}">user@example.com</span>
+                                <button class="btn btn-outline btn-sm" id="change-email-btn">변경</button>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <label>휴대전화</label>
+                            <div class="info-value">
+                                <span th:text="${member.telNo}">010-1234-5678</span>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i>
+                                    인증완료
+                                </span>
+                                <button class="btn btn-outline btn-sm" id="change-phone-btn">변경</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2>빠른 메뉴</h2>
+                <div class="actions-grid">
+                    <a href="/myPage/myOrderList" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <h3>주문내역</h3>
+                        <p>주문한 상품들을 확인하세요</p>
+                    </a>
+                    
+                    <a href="/myPage/myHeartList" class="action-card">
+                        <div class="action-icon heart">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>좋아요</h3>
+                        <p>관심 상품을 모아보세요</p>
+                    </a>
+                    
+                    <a href="/cart/cartList" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h3>장바구니</h3>
+                        <p>담아둔 상품들을 확인하세요</p>
+                    </a>
+                    
+                    <a href="/myPage/myReviewInfo" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>리뷰관리</h3>
+                        <p>작성한 리뷰를 관리하세요</p>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- 마이페이지 끝 -->
+    
+    <!-- Password Change Modal -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>비밀번호 변경</h3>
+                <span class="modal-close" onclick="closePasswordModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="currentPassword">현재 비밀번호</label>
+                    <input type="password" id="currentPassword" class="form-input" placeholder="현재 비밀번호를 입력하세요">
+                    <span class="error-message" id="currentPasswordError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">새 비밀번호</label>
+                    <input type="password" id="newPassword" class="form-input" placeholder="새 비밀번호를 입력하세요">
+                    <span class="error-message" id="newPasswordError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">새 비밀번호 확인</label>
+                    <input type="password" id="confirmPassword" class="form-input" placeholder="새 비밀번호를 다시 입력하세요">
+                    <span class="error-message" id="confirmPasswordError"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closePasswordModal()">취소</button>
+                <button type="button" class="btn btn-primary" id="savePasswordBtn">변경</button>
+            </div>
         </div>
     </div>
-</section>
-<!-- //기본 회원정보 -->
-
-<!-- Checkout Section End -->
-
-<!-- Footer Section Begin -->
-<th:block th:replace="common/footer :: footFragment"></th:block>
-<!-- Footer Section End -->
-
-<!-- Js Plugins -->
-<script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/mixitup.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.countdown.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.slicknav.js}"></script>
-<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.nicescroll.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/main.js}"></script>
-<script type="text/javascript" th:src="@{/js/common/side.js}"></script>
-<script type="text/javascript" th:src="@{/js/myPage/myPage.js}"></script>
+    
+    <!-- Email Change Modal -->
+    <div class="modal" id="emailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>이메일 변경</h3>
+                <span class="modal-close" onclick="closeEmailModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newEmail">새 이메일</label>
+                    <div class="input-group">
+                        <input type="email" id="newEmail" class="form-input" placeholder="새 이메일을 입력하세요">
+                        <button type="button" class="btn btn-outline" id="sendVerificationBtn">인증</button>
+                    </div>
+                    <span class="error-message" id="newEmailError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="emailVerificationCode">인증번호</label>
+                    <input type="text" id="emailVerificationCode" class="form-input" placeholder="인증번호를 입력하세요" disabled>
+                    <span class="error-message" id="verificationError"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeEmailModal()">취소</button>
+                <button type="button" class="btn btn-primary" id="saveEmailBtn" disabled>변경</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification Toast -->
+    <div id="notification-toast" class="notification-toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle toast-icon"></i>
+            <span class="toast-message">메시지</span>
+        </div>
+    </div>
+    
+    <!-- Footer Section -->
+    <th:block th:replace="common/footer :: footFragment"></th:block>
+    
+    <!-- Scripts -->
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/mixitup.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.countdown.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.slicknav.js}"></script>
+    <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.nicescroll.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/myPage/myPage.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/side.js}"></script>
+    
+    <!-- 히든 필드 -->
+    <input type="hidden" id="member-id" th:value="${member.memberId}">
 </body>
 
 </html>

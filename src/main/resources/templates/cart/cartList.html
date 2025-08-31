@@ -2,18 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Ashion Template">
-    <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ashion | Template</title>
-
+    <title>MoonShop - 장바구니</title>
+    
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
-
-    <!-- Css Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 기존 CSS 먼저 로드 -->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
     <link th:href="@{/css/elegant-icons.css}" rel="stylesheet">
@@ -22,154 +20,221 @@
     <link th:href="@{/css/owl.carousel.min.css}" rel="stylesheet">
     <link th:href="@{/css/slicknav.min.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
-
+    
+    <!-- Custom CSS (마지막에 로드) -->
+    <link th:href="@{/css/cart/cartList.css}" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-
-    <!-- Offcanvas Menu Begin -->
-    <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__close">+</div>
-        <ul class="offcanvas__widget">
-            <li><span class="icon_search search-switch"></span></li>
-            <li><a href="#"><span class="icon_heart_alt"></span>
-                <div class="tip">2</div>
-            </a></li>
-            <li><a href="#"><span class="icon_bag_alt"></span>
-                <div class="tip">2</div>
-            </a></li>
-        </ul>
-        <div class="offcanvas__logo">
-            <a href="./index.html"><img src="img/logo.png" alt=""></a>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__auth">
-            <a href="#">Login</a>
-            <a href="#">Register</a>
-        </div>
-    </div>
-    <!-- Offcanvas Menu End -->
-
-    <!-- Header Section Begin -->
+    <!-- Header Section -->
     <th:block th:replace="common/header :: headFragment"></th:block>
-    <!-- Header Section End -->
-
-    <!-- Breadcrumb Begin -->
-    <div class="breadcrumb-option">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__links">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <span>Shopping cart</span>
+    
+    <!-- 장바구니 페이지 시작 - CSS 범위 제한 -->
+    <div class="cart-page">
+        
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-container">
+            <ul class="breadcrumb">
+                <li><a href="/"><i class="fas fa-home"></i></a></li>
+                <li class="active">장바구니</li>
+            </ul>
+        </nav>
+        
+        <!-- Cart Container -->
+        <main class="cart-container">
+            <div class="cart-header">
+                <h1>장바구니</h1>
+                <p class="cart-count" th:text="${#lists.size(myCartList)} + '개 상품'">0개 상품</p>
+            </div>
+            
+            <!-- Empty Cart -->
+            <div class="empty-cart" th:if="${#lists.isEmpty(myCartList)}">
+                <div class="empty-cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h2>장바구니가 비어있습니다</h2>
+                <p>원하는 상품을 장바구니에 담아보세요!</p>
+                <a href="/main" class="btn btn-primary">쇼핑 계속하기</a>
+            </div>
+            
+            <!-- Cart Items -->
+            <div class="cart-content" th:unless="${#lists.isEmpty(myCartList)}">
+                <form id="myCart" method="post" action="/payment/paymentInfo">
+                    
+                    <!-- Cart Items List -->
+                    <div class="cart-items">
+                        <div class="cart-item" th:each="cartList, i : ${myCartList}" th:attr="data-cart-seq=${cartList.cartSeq}">
+                            <!-- Product Image -->
+                            <div class="item-image">
+                                <img th:src="'/fileDownload?fileSeq=' + ${cartList.productStock.product.productFileList[0].file.fileSeq}" 
+                                     alt="Product Image">
+                            </div>
+                            
+                            <!-- Product Info -->
+                            <div class="item-info">
+                                <h3 class="item-name" th:text="${cartList.productStock.product.productName}">상품명</h3>
+                                <div class="item-details">
+                                    <span class="item-size">사이즈: <strong th:text="${cartList.productStock.productSize}">M</strong></span>
+                                    <span class="item-price" 
+                                          th:text="${#numbers.formatDecimal(cartList.productStock.product.price, 0, 'COMMA', 0, 'POINT')} + '원'">
+                                        20,000원
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Quantity Control -->
+                            <div class="item-quantity">
+                                <div class="quantity-selector">
+                                    <button type="button" class="qty-btn minus" 
+                                            th:onclick="'updateQuantity(' + ${cartList.cartSeq} + ', -1)'">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="number" 
+                                           th:name="'cartList[' + ${i.index} + '].quantity'"
+                                           th:id="'quantity' + ${cartList.cartSeq}"
+                                           th:value="${cartList.quantity}"
+                                           min="1" max="99"
+                                           th:onchange="'updateTotalPrice(' + ${cartList.cartSeq} + ')'">
+                                    <button type="button" class="qty-btn plus"
+                                            th:onclick="'updateQuantity(' + ${cartList.cartSeq} + ', 1)'">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Item Total -->
+                            <div class="item-total">
+                                <span class="total-price" 
+                                      th:id="'total' + ${cartList.cartSeq}"
+                                      th:text="${#numbers.formatDecimal(cartList.productStock.product.price * cartList.quantity, 0, 'COMMA', 0, 'POINT')} + '원'">
+                                    40,000원
+                                </span>
+                            </div>
+                            
+                            <!-- Remove Button -->
+                            <div class="item-actions">
+                                <button type="button" class="btn-remove" 
+                                        th:onclick="'removeCartItem(' + ${cartList.cartSeq} + ')'">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Hidden Fields -->
+                            <input type="hidden" th:name="'cartList[' + ${i.index} + '].cartSeq'" 
+                                   th:value="${cartList.cartSeq}">
+                            <input type="hidden" th:name="'cartList[' + ${i.index} + '].productStockSeq'" 
+                                   th:value="${cartList.productStock.productStockSeq}">
+                            <input type="hidden" th:name="'cartList[' + ${i.index} + '].productName'" 
+                                   th:value="${cartList.productStock.product.productName}">
+                            <input type="hidden" th:name="'cartList[' + ${i.index} + '].productSize'" 
+                                   th:value="${cartList.productStock.productSize}">
+                            <input type="hidden" th:name="'cartList[' + ${i.index} + '].price'" 
+                                   th:id="'price' + ${cartList.cartSeq}"
+                                   th:value="${cartList.productStock.product.price}">
+                        </div>
+                    </div>
+                    
+                    <!-- Cart Actions -->
+                    <div class="cart-actions">
+                        <button type="button" class="btn btn-outline" onclick="selectAllItems()">
+                            <i class="fas fa-check-square"></i>
+                            전체선택
+                        </button>
+                        <button type="button" class="btn btn-outline" onclick="removeSelectedItems()">
+                            <i class="fas fa-trash-alt"></i>
+                            선택삭제
+                        </button>
+                        <a href="/main" class="btn btn-outline">
+                            <i class="fas fa-arrow-left"></i>
+                            쇼핑 계속하기
+                        </a>
+                    </div>
+                </form>
+                
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <div class="summary-card">
+                        <h3>주문 요약</h3>
+                        
+                        <div class="summary-row">
+                            <span>상품금액</span>
+                            <span id="subtotalAmount" 
+                                  th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + '원'">
+                                0원
+                            </span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>배송비</span>
+                            <span>무료</span>
+                        </div>
+                        
+                        <div class="summary-row discount">
+                            <span>할인</span>
+                            <span>-0원</span>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="summary-total">
+                            <span>총 결제금액</span>
+                            <span id="totalAmount" 
+                                  th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + '원'">
+                                0원
+                            </span>
+                        </div>
+                        
+                        <div class="summary-actions">
+                            <button type="button" class="btn btn-primary btn-large" onclick="proceedToCheckout()">
+                                주문하기
+                            </button>
+                            <p class="shipping-info">
+                                <i class="fas fa-truck"></i>
+                                50,000원 이상 주문 시 무료배송
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Coupon Section -->
+                    <div class="coupon-section">
+                        <h4>할인 쿠폰</h4>
+                        <div class="coupon-input">
+                            <input type="text" placeholder="쿠폰 코드를 입력하세요" id="couponCode">
+                            <button type="button" class="btn btn-outline btn-sm" onclick="applyCoupon()">
+                                적용
+                            </button>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </main>
+    </div>
+    <!-- 장바구니 페이지 끝 -->
+    
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>확인</h3>
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">정말 삭제하시겠습니까?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal()">취소</button>
+                <button type="button" class="btn btn-primary" id="confirmBtn">확인</button>
             </div>
         </div>
     </div>
-    <!-- Breadcrumb End -->
-
-    <!-- Shop Cart Section Begin -->
-    <section class="shop-cart spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="shop__cart__table">
-                        <form id="myCart" method="post" action="/payment/paymentInfo">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>상품</th>
-                                    <th>가격</th>
-                                    <th>수량</th>
-                                    <th>금액</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr name="cartTr" th:each="cartList, i : ${myCartList}">
-                                    <td class="cart__product__item">
-                                        <div style="width:90px;">
-                                        <img th:src="'/fileDownload?fileSeq=' + ${cartList.productStock.product.productFileList[0].file.fileSeq}" alt="">
-                                        </div>
-                                        <div class="cart__product__item__title">
-                                            <h6 th:text="${cartList.productStock.product.productName}"></h6>
-                                            <span th:text="${cartList.productStock.productSize}"></span>
-                                            <div class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price" th:text="${#numbers.formatDecimal(cartList.productStock.product.price, 0, 'COMMA', 0, 'POINT')} + '원'">
-                                    </td>
-                                    <td class="cart__quantity">
-                                        <div class="pro-qty">
-                                            <span class="dec qtybtn" th:onclick="'setTotalPrice(decreaseQuantity, this,' + ${cartList.cartSeq} + ')'">-</span>
-                                            <input type="text" th:name="'cartList[' + ${i.index} + '].quantity'" th:id="'quantity'+${cartList.cartSeq}" th:value="${cartList.quantity}">
-                                            <span class="inc qtybtn" th:onclick="'setTotalPrice(increaseQuantity, this,' + ${cartList.cartSeq} + ')'">+</span>
-                                        </div>
-                                    </td>
-                                    <input type="hidden" th:name="'cartList[' + ${i.index} + '].cartSeq'" th:id="'cartSeq'+${cartList.cartSeq}" th:value="${cartList.cartSeq}">
-                                    <input type="hidden" th:name="'cartList[' + ${i.index} + '].productStockSeq'" th:id="'productStockSeq'+${cartList.cartSeq}" th:value="${cartList.productStock.productStockSeq}">
-                                    <input type="hidden" th:name="'cartList[' + ${i.index} + '].productName'" th:id="'productName'+${cartList.cartSeq}" th:value="${cartList.productStock.product.productName}">
-                                    <input type="hidden" th:name="'cartList[' + ${i.index} + '].productSize'" th:id="'size'+${cartList.cartSeq}" th:value="${cartList.productStock.productSize}">
-                                    <input type="hidden" th:name="'cartList[' + ${i.index} + '].price'" th:id="'price'+${cartList.cartSeq}" th:value="${cartList.productStock.product.price}">
-                                    <td class="cart__total" th:id="'total'+${cartList.cartSeq}" th:text="'₩'+${#numbers.formatDecimal(cartList.productStock.product.price * cartList.quantity, 0, 'COMMA', 0, 'POINT')}"></td>
-                                    <td class="cart__close"><span class="icon_close" th:onclick="'removeCartInfo(' + ${cartList.cartSeq} + ')'"></span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="cart__btn">
-                        <a href="/main">Continue Shopping</a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="discount__content">
-                        <h6>Discount codes</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Enter your coupon code">
-                            <button type="submit" class="site-btn">Apply</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-lg-4 offset-lg-2">
-                    <div class="cart__total__procced">
-                        <h6>Cart total</h6>
-                        <ul>
-                            <input type="hidden" th:id="totalPrice" th:value="${totalPrice}">
-                            <li>Subtotal <span id="totalSubText" th:text="'₩'+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}"></span></li>
-                            <li>Total <span id="totalText" th:text="'₩'+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')}"></span></li>
-                        </ul>
-                        <a href="#" class="primary-btn" onclick="getPaymentInfo()">주문하기</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Shop Cart Section End -->
-
-    <!-- Footer Section Begin -->
+    
+    <!-- Hidden Fields -->
+    <input type="hidden" id="totalPrice" th:value="${totalPrice}">
+    
+    <!-- Footer Section -->
     <th:block th:replace="common/footer :: footFragment"></th:block>
-    <!-- Footer Section End -->
-
-    <!-- Js Plugins -->
+    
+    <!-- Scripts -->
     <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
@@ -182,5 +247,4 @@
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
     <script type="text/javascript" th:src="@{/js/cart/cart.js}"></script>
 </body>
-
 </html>

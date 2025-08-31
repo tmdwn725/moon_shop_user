@@ -1,0 +1,570 @@
+/* 좋아요 페이지 - 모던 무채색 디자인 */
+
+/* CSS 범위를 좋아요 페이지로 제한 */
+.heart-page {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+/* Footer 전체 숨김 - 좋아요 페이지에서 방해되지 않도록 */
+.instagram {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+.footer {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+.instagram *,
+.footer * {
+    display: none !important;
+}
+
+/* Instagram 및 Footer 아이템들도 숨김 */
+.instagram__item,
+.footer__about,
+.footer__widget,
+.footer__newslatter,
+.footer__copyright__text {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+.heart-page * {
+    box-sizing: border-box;
+}
+
+/* Breadcrumb */
+.heart-page .breadcrumb-container {
+    background: #f8f9fa;
+    padding: 15px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.heart-page .breadcrumb {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+}
+
+.heart-page .breadcrumb li {
+    display: flex;
+    align-items: center;
+}
+
+.heart-page .breadcrumb li:not(:last-child)::after {
+    content: '/';
+    margin-left: 15px;
+    color: #adb5bd;
+}
+
+.heart-page .breadcrumb a {
+    color: #6c757d;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.heart-page .breadcrumb a:hover {
+    color: #1a1a1a;
+}
+
+.heart-page .breadcrumb .active {
+    color: #1a1a1a;
+    font-weight: 500;
+}
+
+/* Heart Container */
+.heart-page .heart-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.heart-page .heart-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.heart-page .heart-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.heart-page .heart-count {
+    font-size: 16px;
+    color: #6c757d;
+    margin: 0;
+}
+
+/* Empty Hearts */
+.heart-page .empty-hearts {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.heart-page .empty-hearts-icon {
+    font-size: 64px;
+    color: #dee2e6;
+    margin-bottom: 30px;
+}
+
+.heart-page .empty-hearts h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #6c757d;
+    margin-bottom: 16px;
+}
+
+.heart-page .empty-hearts p {
+    font-size: 16px;
+    color: #adb5bd;
+    margin-bottom: 30px;
+}
+
+/* Heart Grid */
+.heart-page .heart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.heart-page .heart-item {
+    position: relative;
+}
+
+.heart-page .heart-card {
+    background: #ffffff;
+    border: 1px solid #f1f3f4;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.heart-page .heart-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+    border-color: #e9ecef;
+}
+
+/* Product Image */
+.heart-page .product-image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.heart-page .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.heart-page .heart-card:hover .product-image {
+    transform: scale(1.05);
+}
+
+/* Heart Overlay */
+.heart-page .heart-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 16px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.heart-page .heart-card:hover .heart-overlay {
+    opacity: 1;
+}
+
+.heart-page .heart-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #adb5bd;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+.heart-page .heart-icon:hover {
+    background: white;
+    transform: scale(1.1);
+}
+
+.heart-page .heart-icon.active {
+    color: #ff4757;
+}
+
+.heart-page .heart-icon.active:hover {
+    color: #ff3742;
+}
+
+/* Product Info */
+.heart-page .product-info {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.heart-page .product-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Rating */
+.heart-page .product-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.heart-page .rating-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.heart-page .rating-stars i {
+    font-size: 12px;
+    color: #dee2e6;
+}
+
+.heart-page .rating-stars i.active {
+    color: #ffc107;
+}
+
+.heart-page .rating-text {
+    font-size: 13px;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+/* Price */
+.heart-page .product-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+/* Heart Count */
+.heart-page .heart-count-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #ff4757;
+}
+
+.heart-page .heart-count-info i {
+    font-size: 14px;
+}
+
+/* Product Actions */
+.heart-page .product-actions {
+    display: flex;
+    gap: 8px;
+    padding: 16px 20px 20px;
+    margin-top: auto;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.heart-page .heart-card:hover .product-actions {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Buttons */
+.heart-page .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    flex: 1;
+}
+
+.heart-page .btn-sm {
+    padding: 8px 12px;
+    font-size: 13px;
+}
+
+.heart-page .btn-primary {
+    background: #1a1a1a;
+    color: white;
+}
+
+.heart-page .btn-primary:hover {
+    background: #000000;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.heart-page .btn-outline {
+    background: white;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+}
+
+.heart-page .btn-outline:hover {
+    background: #f8f9fa;
+    color: #495057;
+    border-color: #adb5bd;
+}
+
+/* Pagination */
+.heart-page .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.heart-page .pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.heart-page .page-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background: white;
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.heart-page .page-btn:hover {
+    background: #f8f9fa;
+    border-color: #adb5bd;
+    color: #495057;
+}
+
+.heart-page .page-btn.current {
+    background: #1a1a1a;
+    border-color: #1a1a1a;
+    color: white;
+}
+
+.heart-page .page-btn.prev,
+.heart-page .page-btn.next {
+    font-size: 12px;
+}
+
+/* Notification Toast */
+.heart-page .notification-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 10000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    max-width: 350px;
+}
+
+.heart-page .notification-toast.show {
+    transform: translateX(0);
+}
+
+.heart-page .toast-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.heart-page .toast-icon {
+    font-size: 18px;
+    color: #28a745;
+}
+
+.heart-page .toast-message {
+    font-size: 14px;
+    color: #1a1a1a;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .heart-page .heart-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .heart-page .heart-container {
+        padding: 20px 15px;
+    }
+    
+    .heart-page .heart-header h1 {
+        font-size: 24px;
+    }
+    
+    .heart-page .heart-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 16px;
+    }
+    
+    .heart-page .product-info {
+        padding: 16px;
+        gap: 10px;
+    }
+    
+    .heart-page .product-actions {
+        padding: 12px 16px 16px;
+    }
+    
+    .heart-page .heart-overlay {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.05);
+    }
+    
+    .heart-page .product-actions {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .heart-page .breadcrumb {
+        font-size: 12px;
+        gap: 10px;
+    }
+    
+    .heart-page .heart-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 12px;
+    }
+    
+    .heart-page .heart-card {
+        border-radius: 8px;
+    }
+    
+    .heart-page .product-info {
+        padding: 12px;
+        gap: 8px;
+    }
+    
+    .heart-page .product-actions {
+        flex-direction: column;
+        padding: 8px 12px 12px;
+    }
+    
+    .heart-page .pagination {
+        gap: 4px;
+    }
+    
+    .heart-page .page-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 13px;
+    }
+    
+    .heart-page .notification-toast {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
+
+/* Loading and Animation Effects */
+.heart-page .heart-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Focus States for Accessibility */
+.heart-page .btn:focus,
+.heart-page .page-btn:focus,
+.heart-page .heart-icon:focus {
+    outline: 2px solid #4285f4;
+    outline-offset: 2px;
+}
+
+/* High Contrast Support */
+@media (prefers-contrast: high) {
+    .heart-page .heart-card {
+        border-color: #000000;
+    }
+    
+    .heart-page .btn-outline {
+        border-color: #000000;
+    }
+}
+
+/* Dark Mode Support Disabled - 라이트 테마로 고정 */
+/* @media (prefers-color-scheme: dark) 제거 - 다크모드 비활성화 */

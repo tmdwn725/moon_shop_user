@@ -2,18 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Ashion Template">
-    <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MoonShop</title>
-
+    <title>MoonShop - 주문내역</title>
+    
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
-
-    <!-- Css Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 기존 CSS 먼저 로드 -->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
     <link th:href="@{/css/elegant-icons.css}" rel="stylesheet">
@@ -22,135 +20,153 @@
     <link th:href="@{/css/owl.carousel.min.css}" rel="stylesheet">
     <link th:href="@{/css/slicknav.min.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
+    
+    <!-- Custom CSS (마지막에 로드) -->
     <link th:href="@{/css/myPage/myOrder.css}" rel="stylesheet">
     <link th:href="@{/css/common/side.css}" rel="stylesheet">
-
 </head>
 
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-
-    <!-- Offcanvas Menu Begin -->
-    <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__close">+</div>
-        <ul class="offcanvas__widget">
-            <li><span class="icon_search search-switch"></span></li>
-            <li><a href="#"><span class="icon_heart_alt"></span>
-                <div class="tip">2</div>
-            </a></li>
-            <li><a href="#"><span class="icon_bag_alt"></span>
-                <div class="tip">2</div>
-            </a></li>
-        </ul>
-        <div class="offcanvas__logo">
-            <a href="./index.html"><img src="/img/logo.png" alt=""></a>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__auth">
-            <a href="#">Login</a>
-            <a href="#">Register</a>
-        </div>
-    </div>
-    <!-- Offcanvas Menu End -->
-
-    <!-- Header Section Begin -->
+    <!-- Header Section -->
     <th:block th:replace="common/header :: headFragment"></th:block>
-    <!-- Header Section End -->
-
-    <!-- SideBar Section Begin-->
+    
+    <!-- SideBar Section -->
     <th:block th:replace="common/side :: sideFragment"></th:block>
-    <!-- SideBar Section End -->
-
-    <!-- Breadcrumb Begin -->
-    <div class="breadcrumb-option">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__links">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <span>주문 내역 관리</span>
-                    </div>
-                </div>
+    
+    <!-- 주문내역 페이지 시작 - CSS 범위 제한 -->
+    <div class="order-page">
+        
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-container">
+            <ul class="breadcrumb">
+                <li><a href="/"><i class="fas fa-home"></i></a></li>
+                <li><a href="/myPage/myPage">마이페이지</a></li>
+                <li class="active">주문내역</li>
+            </ul>
+        </nav>
+        
+        <!-- Order Container -->
+        <main class="order-container">
+            <div class="order-header">
+                <h1>주문내역</h1>
+                <p class="order-count" th:text="${#lists.size(myOrderList?.content ?: {})} + '건의 주문'">0건의 주문</p>
             </div>
-        </div>
-    </div>
-    <!-- Breadcrumb End -->
-
-    <!-- Shop Cart Section Begin -->
-    <section class="order-manage spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="order-manage-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>상품</th>
-                                    <th>주문일자</th>
-                                    <th>수량</th>
-                                    <th>가격</th>
-                                    <th colspan="2">주문상태</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr name="order-list" th:each="order, i : ${myOrderList}">
-                                    <td class="order-manage-item">
-                                        <div style="width:90px;">
-                                            <img th:src="'/fileDownload?fileSeq=' + ${order.productStock.product.productFileList[0].file.fileSeq}" alt="">
-                                        </div>
-                                        <div class="order-manage-item-title">
-                                            <h6 th:text="${order.productStock.product.productName}"></h6>
-                                            <span th:text="${order.productStock.productSize}" >
-                                            </span>
-                                            <div class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="order-date" th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd')}"/>
-                                    <td class="order-quantity" th:text="${order.quantity}"/>
-                                    <td class="order-price" th:text="${#numbers.formatDecimal(order.productStock.product.price, 0, 'COMMA', 0, 'POINT')} + '원'"/>
-                                    <td class="order-state-td">
-                                        <p><span style="margin-left:25px;"th:text="${order.orderStsType.value}"></span></p>
-                                        <a href="/myPage/getMyProductInfo?productSeq=0">배송내역</a>
-                                    </td>
-                                    <td class="review-td">
-                                        <a th:if="${order.orderStsType.name == 'ORDER_COMPLETE'}" th:href="'/myPage/refund?paymentSeq=' + ${order.payment.paymentSeq}">결제취소</a>
-                                        <a th:if="${order.orderStsType.name == 'DELIVERY_COMPLETE'}" th:href="'/myPage/myReviewInfo?orderInfoSeq=' + ${order.orderInfoSeq} + '&productSeq=' + ${order.productStock.product.productSeq}+ '&sizeType=' + ${order.productStock.productSize}">리뷰작성</a>
-                                    </td>
-                                </tr>
-                                <tr th:if="${myOrderList.totalPages == 0}">
-                                    <td colspan="6">조회된 결과가 없습니다.</td>
-                                </tr>
-                            </tbody>
-                        </table>
+            
+            <!-- Empty Orders -->
+            <div class="empty-orders" th:if="${myOrderList == null || myOrderList.totalPages == 0}">
+                <div class="empty-orders-icon">
+                    <i class="fas fa-receipt"></i>
+                </div>
+                <h2>주문 내역이 없습니다</h2>
+                <p>첫 주문을 시작해보세요!</p>
+                <a href="/main" class="btn btn-primary">쇼핑 시작하기</a>
+            </div>
+            
+            <!-- Order Items -->
+            <div class="order-content" th:unless="${myOrderList == null || myOrderList.totalPages == 0}">
+                
+                <!-- Order List -->
+                <div class="order-list">
+                    <div class="order-item" th:each="order, i : ${myOrderList}">
+                        <!-- Order Date & Status -->
+                        <div class="order-item-header">
+                            <div class="order-date">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span th:text="${#temporals.format(order.orderDate, 'yyyy.MM.dd')}">2024.01.01</span>
+                            </div>
+                            <div class="order-status" th:classappend="${order.orderStsType.name}">
+                                <span th:text="${order.orderStsType.value}">배송완료</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Product Info -->
+                        <div class="product-section">
+                            <!-- Product Image -->
+                            <div class="product-image">
+                                <img th:src="'/fileDownload?fileSeq=' + ${order.productStock.product.productFileList[0].file.fileSeq}" 
+                                     alt="Product Image">
+                            </div>
+                            
+                            <!-- Product Details -->
+                            <div class="product-details">
+                                <h3 class="product-name" th:text="${order.productStock.product.productName}">상품명</h3>
+                                <div class="product-options">
+                                    <span class="product-size">사이즈: <strong th:text="${order.productStock.productSize}">M</strong></span>
+                                    <span class="product-quantity">수량: <strong th:text="${order.quantity}">1</strong>개</span>
+                                </div>
+                                <div class="product-price">
+                                    <span th:text="${#numbers.formatDecimal(order.productStock.product.price * order.quantity, 0, 'COMMA', 0, 'POINT')} + '원'">
+                                        20,000원
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="order-actions">
+                                <a href="/myPage/getMyProductInfo?productSeq=0" class="btn btn-outline btn-sm">
+                                    <i class="fas fa-truck"></i>
+                                    배송조회
+                                </a>
+                                
+                                <!-- 주문 상태에 따른 액션 버튼 -->
+                                <div th:if="${order.orderStsType.name == 'ORDER_COMPLETE'}" class="action-btn">
+                                    <button type="button" 
+                                            th:data-payment-seq="${order.payment.paymentSeq}"
+                                            class="btn btn-warning btn-sm refund-btn"
+                                            onclick="refundPayment(this.getAttribute('data-payment-seq'))">
+                                        <i class="fas fa-times"></i>
+                                        결제취소
+                                    </button>
+                                </div>
+                                
+                                <div th:if="${order.orderStsType.name == 'DELIVERY_COMPLETE'}" class="action-btn">
+                                    <a th:href="'/myPage/myReviewInfo?orderInfoSeq=' + ${order.orderInfoSeq} + '&productSeq=' + ${order.productStock.product.productSeq} + '&sizeType=' + ${order.productStock.productSize}" 
+                                       class="btn btn-primary btn-sm">
+                                        <i class="fas fa-star"></i>
+                                        리뷰작성
+                                    </a>
+                                </div>
+                                
+                                <a th:href="'/product/productInfo?productSeq=' + ${order.productStock.product.productSeq}" 
+                                   class="btn btn-secondary btn-sm">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    재주문
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-12 text-center" th:if="${myOrderList.totalPages > 0}">
-                    <div class="pagination__option">
+                
+                <!-- Pagination -->
+                <div class="pagination-container" th:if="${myOrderList.totalPages > 1}">
+                    <nav class="pagination">
+                        <a th:if="${myOrderList.hasPrevious()}" 
+                           th:href="@{/myPage/myOrderList(page=${myOrderList.number})}"
+                           class="page-btn prev">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                        
                         <a th:each="page : ${#numbers.sequence(1, myOrderList.totalPages)}"
                            th:href="@{/myPage/myOrderList(page=${page})}"
-                           th:class="${myOrderList.number+1 == page ? 'active' : ''}">[[${page}]]</a>
-                    </div>
+                           th:class="${myOrderList.number+1 == page ? 'page-btn current' : 'page-btn'}"
+                           th:text="${page}">1</a>
+                        
+                        <a th:if="${myOrderList.hasNext()}" 
+                           th:href="@{/myPage/myOrderList(page=${myOrderList.number+2})}"
+                           class="page-btn next">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </nav>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- Shop Cart Section End -->
-
-    <!-- Footer Section Begin -->
+        </main>
+    </div>
+    <!-- 주문내역 페이지 끝 -->
+    
+    <!-- Footer Section -->
     <th:block th:replace="common/footer :: footFragment"></th:block>
-    <!-- Footer Section End -->
-
-    <!-- Js Plugins -->
+    
+    <!-- Scripts -->
     <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
@@ -161,7 +177,7 @@
     <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.nicescroll.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
-    <script type="text/javascript" th:src="@{/js/myPage/myProduct.js}"></script>
+    <script type="text/javascript" th:src="@{/js/myPage/myOrderInfo.js}"></script>
     <script type="text/javascript" th:src="@{/js/common/side.js}"></script>
 </body>
 

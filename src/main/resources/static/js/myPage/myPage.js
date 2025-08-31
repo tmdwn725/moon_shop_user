@@ -1,416 +1,589 @@
+/* 마이페이지 JavaScript - 모던 무채색 디자인에 맞춘 개선된 버전 */
+
+// 정규식 상수들
 const letterRegExp = new RegExp("[a-z]");
 const capsLockRegExp = new RegExp("[A-Z]");
 const numberRegExp = new RegExp("[0-9]");
 const symbolRegExp = new RegExp("\\W");
 
-<!-- profile -->
-// 프로필 이미지 클릭
-const upload = document.querySelector('.upload-profile');
-const realUpload = document.querySelector('.real-upload');
+// DOM 로드 완료 후 초기화
+document.addEventListener('DOMContentLoaded', function() {
+    initializeMyPage();
+});
 
-realUpload.addEventListener('change', getImageFiles);
-upload.addEventListener('click', () => realUpload.click());
+// 페이지 초기화
+function initializeMyPage() {
+    setupProfileImageUpload();
+    setupPasswordModal();
+    setupEmailModal();
+    setupToastNotifications();
+    
+    console.log('마이페이지 초기화 완료');
+}
 
-function getImageFiles(e) {
-    const uploadFiles = [];
-    const file = e.currentTarget.files[0];
-    const imageId = this.id;
-
-    // 파일 타입 검사
-    if (!file.type.match("image/.*")) {
-        alert('이미지 파일만 업로드가 가능합니다.');
-        return
+// 프로필 이미지 업로드 설정
+function setupProfileImageUpload() {
+    const profileEditBtn = document.getElementById('profile-edit-btn');
+    const profileUpload = document.getElementById('profile-upload');
+    
+    if (profileEditBtn && profileUpload) {
+        profileEditBtn.addEventListener('click', function() {
+            profileUpload.click();
+        });
+        
+        profileUpload.addEventListener('change', handleProfileImageChange);
     }
+}
 
-    uploadFiles.push(file);
+// 프로필 이미지 변경 처리
+function handleProfileImageChange(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // 파일 타입 검증
+    if (!file.type.match("image/*")) {
+        showNotification('이미지 파일만 업로드 가능합니다.', 'error');
+        return;
+    }
+    
+    // 파일 크기 검증 (10MB)
+    if (file.size > 10 * 1024 * 1024) {
+        showNotification('10MB 이하의 이미지만 업로드 가능합니다.', 'error');
+        return;
+    }
+    
+    // 이미지 미리보기
     const reader = new FileReader();
-    reader.onload = (e) => {
-        addImageFile('upload-img',e, file);
+    reader.onload = function(e) {
+        const currentImage = document.getElementById('current-profile-image');
+        const placeholder = document.querySelector('.profile-image-placeholder');
+        
+        if (currentImage) {
+            currentImage.src = e.target.result;
+        } else if (placeholder) {
+            // 플레이스홀더를 이미지로 교체
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = 'Profile Image';
+            img.className = 'profile-image';
+            img.id = 'current-profile-image';
+            placeholder.parentNode.replaceChild(img, placeholder);
+        }
     };
     reader.readAsDataURL(file);
+    
+    // 서버에 업로드
+    uploadProfileImage(file);
 }
 
-// 이미지 파일 추가
-function addImageFile(id, e, file) {
-    const div = document.getElementById(id);
-    const imgElements = div.querySelector('img'); // div 요소 안의 모든 img 요소를 선택합니다.
-
-    // 이미지가 이미 존재하는지 확인합니다.
-    if (imgElements != null) {
-        // 이미지의 src 속성을 변경합니다.
-        $(imgElements).attr('src', e.target.result);
-        $(imgElements).attr('data-file', file.name);
-    } else {
-        // 이미지가 없으면 새로 생성하여 추가합니다.
-        const img = document.createElement('img');
-        img.setAttribute('src', e.target.result);
-        img.setAttribute('class', "product-image");
-        img.setAttribute('width', "200px");
-        img.setAttribute('data-file', file.name);
-        div.appendChild(img);
-    }
+// 프로필 이미지 업로드
+function uploadProfileImage(file) {
+    const formData = new FormData();
+    formData.append('profile', file);
+    
+    showLoading();
+    
+    $.ajax({
+        type: "POST",
+        url: "/myPage/updateProfile",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            hideLoading();
+            showNotification('프로필 이미지가 변경되었습니다.', 'success');
+        },
+        error: function(xhr, status, error) {
+            hideLoading();
+            console.error('프로필 이미지 업로드 실패:', error);
+            showNotification('프로필 이미지 변경에 실패했습니다.', 'error');
+        }
+    });
 }
-// 프로필 변경
-$("#change-profile-image-finish-btn").click(function (e) {
-    e.preventDefault();
-    var files = $("#profile")[0].files[0];
 
-    if (null != files) {
-        var filesName = files.name;
-
-        if (!(filesName.toLowerCase().endsWith("jpg") || filesName.toLowerCase().endsWith("png") || filesName.toLowerCase().endsWith("jpeg") || filesName.toLowerCase().endsWith("gif"))) {
-            alert('gif/jpg/png 파일만 등록할 수 있습니다.');
-            return false;
-        } else if (files.size > 10000000) {
-            alert("500MB 이하의 파일만 등록가능합니다.");
-            return false;
-        } else {
-
-            if (confirm( "프로필 사진을 변경하시겠습니까?")) {
-
-                const imageForm = document.getElementById('profile-form');
-                const formData = new FormData(imageForm);
-
-                $.ajax({
-                     type: "post",
-                     url: "/myPage/updateProfile",
-                     contentType: false, // 필수: FormData를 사용하기 때문에 false로 설정
-                     processData: false, // 필수: FormData를 사용하기 때문에 false로 설정
-                     data: formData,
-                     success: function(response){
-                         alert("변경되었습니다.");
-                     },
-                     error: function(xhr, status, error) {
-                         alert("변경 중 오류가 발생했습니다.");
-                     }
-                 });
-            }
-        }
-    } else {
-        alert('사진파일을 선택해 주세요.');
-    }
-});
-
-<!-- password -->
-$("#change-password-btn").click(function (e) {
-    e.preventDefault();
-    $("#password-area").css("display", "none");
-    $("#change-password-area").css("display", "");
-});
-
-// 비밀번호 변경 취소 버튼 클릭
-$("#change-password-cancel-btn").click(function (e) {
-    e.preventDefault();
-    $("#password").val('');
-    $("#newPassword").val('');
-    $("#confirmPassword").val('');
-    $("#password-area").css("display", "");
-    $("#change-password-area").css("display", "none");
-    $("#new-password-invalid").css("display", "none");
-    $("#valid-newPassword").css("display", "none");
-    $("#password-invalid").css("display", "none");
-    $("#valid-password").css("display", "none");
-    $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
-    $("#change-password-finish-btn").prop('disabled', true);
-    $("#newPassword").attr('class', 'n-input');
-});
-
-$("#password").keyup(function (e) {
-    e.preventDefault();
-    var password = $("#password");
-    var newPassword = $("#newPassword");
-    var confirmPassword = $("#confirmPassword");
-    var displayValue = $("#new-password-invalid").css("display");
-    var passwordInvalidDisplayValue = $('#password-invalid').css("display");
-
-    if (password.val().length >= 4 &&
-        newPassword.val().length >= 8 &&
-        confirmPassword.val().length >= 8 &&
-        displayValue == 'none' &&
-        passwordInvalidDisplayValue == 'none'
-    ) {
-        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent');
-        $("#change-password-finish-btn").prop('disabled', false);
-    } else {
-        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
-        $("#change-password-finish-btn").prop('disabled', true);
-    }
-
-    value = $(this).val();
-    var passwordInvalid = $('#password-invalid');
-    var newPasswordInvalid = $("#new-password-invalid");
-
-    if (!value) {
-        passwordInvalid.css('display', '');
-        passwordInvalid.text('');
-        return false;
-    }
-
-    if (password.val().length < 4) {
-        passwordInvalid.css('display', '');
-        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
-        $("#change-password-finish-btn").prop('disabled', true);
-        $("#password_div").attr("class", "input-password__wrap input-danger");
-        passwordInvalid.text("4자리 이상 입력해 주십시오.");
-        return false;
-    }
-
-    passwordInvalid.css('display', 'none');
-    $("#password_div").attr("class", "input-password__wrap ");
-    if (passwordInvalid.css("display") === 'none' && newPasswordInvalid.css("display") === 'none' && confirmPassword.val().length >= 8) {
-        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent');
-        $("#change-password-finish-btn").prop('disabled', false);
-    }
-});
-
-// 신규 비밀번호 입력
-$("#newPassword").keyup(function (e) {
-    e.preventDefault();
-    var newPassword = $("#newPassword");
-
-    if (newPassword.val() == '' || newPassword.val().length < 8) {
-        newPassword.attr('class', 'n-input input-danger');
-        $("#valid-newPassword").css("display", "none");
-        $("#new-password-invalid").css("display", "");
-        $("#new-password-invalid").text("8자리 이상 입력해 주십시오.");
-        $("#newPassword_div").attr("class", "input-password__wrap input-danger");
-        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
-        $("#change-password-finish-btn").prop('disabled', true);
-        return false;
-    } else if (checkFourConsecutiveChar(newPassword.val())) {
-        newPassword.attr('class', 'n-input input-danger');
-        $("#valid-newPassword").css("display", "none");
-        $("#new-password-invalid").css("display", "");
-        $("#new-password-invalid").text("4개 이상 연속으로 동일한 문자는 사용하실 수 없습니다.");
-        $("#newPassword_div").attr("class", "input-password__wrap input-danger");
-        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
-        $("#change-password-finish-btn").prop('disabled', true);
-        return false;
-    } else if (!isValidPassword(newPassword.val())) {
-        newPassword.attr('class', 'n-input input-danger');
-        $("#valid-newPassword").css("display", "none");
-        $("#new-password-invalid").css("display", "");
-        $("#new-password-invalid").text("숫자 ,영문 대소문자, 특수문자 중 두가지 이상으로 조합해 주십시오.");
-        $("#newPassword_div").attr("class", "input-password__wrap input-danger");
-        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
-        $("#change-password-finish-btn").prop('disabled', true);
-        return false;
-    } else {
-        var points = getPassordRulePoint(newPassword.val());
-        newPassword.attr('class', 'n-input');
-        $("#new-password-invalid").css("display", "none");
-        $("#valid-newPassword").css("display", "");
-        $("#valid-newPassword").text("사용 가능한 비밀번호입니다.");
-        $("#newPassword_div").attr("class", "input-password__wrap");
-        var confirmPassword = $("#confirmPassword");
-        var password = $("#password");
-        if (password.val().length >= 4 && confirmPassword.val().length >= 8) {
-            $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent');
-            $("#change-password-finish-btn").prop('disabled', false);
-        } else {
-            $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
-            $("#change-password-finish-btn").prop('disabled', true);
-        }
-    }
-    return true;
-});
-
-// 신규 비밀번호 재입력
-$("#confirmPassword").keyup(function (e) {
-    e.preventDefault();
-    var password = $("#password");
-    var newPassword = $("#newPassword");
-    var confirmPassword = $("#confirmPassword");
-    var displayValue = $("#new-password-invalid").css("display");
-    var passwordInvalidDisplayValue = $('#password-invalid').css("display");
-
-    if (password.val().length >= 4 &&
-        newPassword.val().length >= 8 &&
-        confirmPassword.val().length >= 8 &&
-        displayValue == 'none' &&
-        passwordInvalidDisplayValue == 'none'
-    ) {
-        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent');
-        $("#change-password-finish-btn").prop('disabled', false);
-    } else {
-        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
-        $("#change-password-finish-btn").prop('disabled', true);
-    }
-});
-
-// 비밀번호 변경
-$("#change-password-finish-btn").click(function (e) {
-    e.preventDefault();
-
-    const password = $("#password").val();
-    const newPassword = $("#newPassword").val();
-    const confirmPassword = $("#confirmPassword").val();
-
-    if (password === '') {
-        alert('현재 비밀번호를 입력해주세요.');
-        return false;
-    }
-
-    if (password.length < 4) {
-        alert('비밀번호 4자 이상이여야합니다.');
-        return false;
-    }
-
-    if (newPassword !== confirmPassword) {
-        alert('신규 비밀번호와 재입력 비밀번호가 같지 않습니다.');
-        $("#confirmPassword").val('');
-        $("#newPassword").val('');
-        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
-        $("#change-password-finish-btn").prop('disabled', true);
-        $("#new-password-invalid").text('');
-        $("#valid-newPassword").text('');
-        return false;
-    }
-
-    if (password === newPassword) {
-        alert('현재 비밀번호와 신규 비밀번호가 동일합니다.');
-        $("#newPassword").val('');
-        $("#confirmPassword").val('');
-        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
-        $("#change-password-finish-btn").prop('disabled', true);
-        $("#new-password-invalid").text('');
-        $("#valid-newPassword").text('');
-        return false;
-    }
-
-    if (confirm('비밀번호를 변경하시겠습니까?')) {
-        $.ajax({
-            type: "post",
-            url: "/myPage/changePassword",
-            dataType: "json", // 예상되는 응답 형식을 JSON으로 지정
-            data:{"password" : password, "newPassword" : newPassword},
-            success: function(response){
-                alert(response.message);
-                if(response.result === 'success') {
-                    location.href = "myPage/myPage"
-                }
-            },
-            error: function(xhr, status, error) {
-                alert("변경중 오류가 발생했습니다.");
-            }
+// 비밀번호 모달 설정
+function setupPasswordModal() {
+    const changePasswordBtn = document.getElementById('change-password-btn');
+    const passwordModal = document.getElementById('passwordModal');
+    const savePasswordBtn = document.getElementById('savePasswordBtn');
+    
+    if (changePasswordBtn) {
+        changePasswordBtn.addEventListener('click', function() {
+            showPasswordModal();
         });
     }
-});
-
-//
-$("#change-nickName-btn").click(function (e) {
-    e.preventDefault();
-    $("#currentNickName").show();
-    $("#nickName").removeClass('input-danger');
-    $("#nickName-area").css("display", "none");
-    $("#change-nickName-area").css("display", "");
-    $("#nicknameValidationMessage").hide();
-    $("#nickName").val("").focus();
-});
-
-$("#change-nickName-cancel-btn").click(function (e) {
-    e.preventDefault();
-    $("#nickName-area").css("display", "");
-    $("#change-nickName-area").css("display", "none");
-    $("#nickName").val("");
-    $("#change-nickName-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
-    $("#change-nickName-finish-btn").prop('disabled', true);
-    $("#nicknameValidationMessage").css("display", "none");
-    $("#valid-nickName").css("display", "none");
-});
-
-<!-- email -->
-$("#change-email-btn").click(function (e) {
-    e.preventDefault();
-    $("#email-area").css("display", "none");
-    $("#change-email-area").css("display", "");
-    $("#send-authentication-email").attr('class', 'n-btn btn-sm btn-accent disabled');
-    $("#send-authentication-email").prop('disabled', true);
-    $("#change-email-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
-    $("#change-email-finish-btn").prop('disabled', true);
-});
-
-$("#change-email-cancel-btn").click(function (e) {
-    e.preventDefault();
-    emailCancel();
-});
-
-function emailCancel(){
-    $("#email-area").css("display", "");
-    $("#change-email-area").css("display", "none");
-    $("#send-authentication-email").attr('class', 'n-btn btn-sm btn-accent disabled');
-    $("#send-authentication-email").prop('disabled', true);
-    $("#change-email-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
-    $("#change-email-finish-btn").prop('disabled', true);
-    $("#email").val("");
-    $("#email-authTempKey").val("");
+    
+    if (savePasswordBtn) {
+        savePasswordBtn.addEventListener('click', handlePasswordChange);
+    }
+    
+    // 입력 검증 이벤트
+    const currentPassword = document.getElementById('currentPassword');
+    const newPassword = document.getElementById('newPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
+    
+    if (currentPassword) currentPassword.addEventListener('input', validatePasswordForm);
+    if (newPassword) newPassword.addEventListener('input', validateNewPassword);
+    if (confirmPassword) confirmPassword.addEventListener('input', validatePasswordForm);
 }
 
-$("#email").keyup(function (e) {
-    e.preventDefault();
-    var email = $("#email");
-    var emailLength = email.val().length;
-
-    if (emailLength > 0) {
-        $("#send-authentication-email").attr('class', 'n-btn btn-sm btn-accent');
-        $("#send-authentication-email").prop('disabled', false);
-    } else {
-        $("#send-authentication-email").attr('class', 'n-btn btn-sm btn-accent disabled');
-        $("#send-authentication-email").prop('disabled', true);
+// 비밀번호 모달 표시
+function showPasswordModal() {
+    const modal = document.getElementById('passwordModal');
+    if (modal) {
+        modal.style.display = 'block';
+        resetPasswordForm();
     }
-});
+}
 
-// 이메일 인증번호 전송
-document.getElementById('send-authentication-email').addEventListener('click', function(e){
-    e.preventDefault();
-    const email = $("#email");
-    const emailValue = email.val();
-
-    if (!isValidEmail(emailValue)) {
-        alert('이메일 주소가 올바르지 않습니다.');
-        return false;
-    } else {
-        if (confirm('인증 메일을 발송하시겠습니까??')) {
-
-            $.ajax({
-                type: "post",
-                url: "/sendEmail",
-                data:{'email': emailValue},
-                success: function(response){
-                    alert("전송이 완료되었습니다.");
-                    $("#send-authentication-email").attr('class', 'n-btn btn-sm btn-accent');
-                    $("#send-authentication-email").prop('disabled', false);
-                    $("#change-email-finish-btn").prop('disabled', false);
-                },
-                error: function(xhr, status, error) {
-                    alert("전송중 오류가 발생했습니다.");
-                }
-            });
-        }
+// 비밀번호 모달 닫기
+function closePasswordModal() {
+    const modal = document.getElementById('passwordModal');
+    if (modal) {
+        modal.style.display = 'none';
+        resetPasswordForm();
     }
-});
+}
 
-// 이메일 인증
-document.getElementById('change-email-finish-btn').addEventListener('click', function(e){
-    e.preventDefault();
-    const emailValue = document.getElementById("email").value;
-    const authCode = document.getElementById("email-authTempKey").value;
-    const memberId = document.getElementById("member-id").value;
+// 비밀번호 폼 리셋
+function resetPasswordForm() {
+    document.getElementById('currentPassword').value = '';
+    document.getElementById('newPassword').value = '';
+    document.getElementById('confirmPassword').value = '';
+    
+    // 에러 메시지 초기화
+    document.getElementById('currentPasswordError').textContent = '';
+    document.getElementById('newPasswordError').textContent = '';
+    document.getElementById('confirmPasswordError').textContent = '';
+    
+    // 버튼 비활성화
+    document.getElementById('savePasswordBtn').disabled = true;
+}
+
+// 새 비밀번호 유효성 검증
+function validateNewPassword() {
+    const newPassword = document.getElementById('newPassword');
+    const errorElement = document.getElementById('newPasswordError');
+    const password = newPassword.value;
+    
+    if (!password) {
+        errorElement.textContent = '';
+        validatePasswordForm();
+        return;
+    }
+    
+    if (password.length < 8) {
+        errorElement.textContent = '8자리 이상 입력해 주세요.';
+        validatePasswordForm();
+        return;
+    }
+    
+    if (checkFourConsecutiveChar(password)) {
+        errorElement.textContent = '4개 이상 연속으로 동일한 문자는 사용할 수 없습니다.';
+        validatePasswordForm();
+        return;
+    }
+    
+    if (!isValidPassword(password)) {
+        errorElement.textContent = '숫자, 영문 대소문자, 특수문자 중 두 가지 이상 조합해 주세요.';
+        validatePasswordForm();
+        return;
+    }
+    
+    errorElement.textContent = '';
+    validatePasswordForm();
+}
+
+// 비밀번호 폼 전체 검증
+function validatePasswordForm() {
+    const currentPassword = document.getElementById('currentPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const saveBtn = document.getElementById('savePasswordBtn');
+    
+    const currentPasswordError = document.getElementById('currentPasswordError');
+    const confirmPasswordError = document.getElementById('confirmPasswordError');
+    
+    // 현재 비밀번호 검증
+    if (currentPassword && currentPassword.length < 4) {
+        currentPasswordError.textContent = '현재 비밀번호를 정확히 입력해 주세요.';
+    } else {
+        currentPasswordError.textContent = '';
+    }
+    
+    // 비밀번호 확인 검증
+    if (confirmPassword && newPassword !== confirmPassword) {
+        confirmPasswordError.textContent = '비밀번호가 일치하지 않습니다.';
+    } else {
+        confirmPasswordError.textContent = '';
+    }
+    
+    // 전체 폼 유효성 검증
+    const isValid = currentPassword.length >= 4 &&
+                   newPassword.length >= 8 &&
+                   confirmPassword.length >= 8 &&
+                   newPassword === confirmPassword &&
+                   !document.getElementById('newPasswordError').textContent &&
+                   !document.getElementById('currentPasswordError').textContent;
+    
+    saveBtn.disabled = !isValid;
+}
+
+// 비밀번호 변경 처리
+function handlePasswordChange() {
+    const currentPassword = document.getElementById('currentPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    if (currentPassword === newPassword) {
+        showNotification('현재 비밀번호와 새 비밀번호가 같습니다.', 'warning');
+        return;
+    }
+    
+    showLoading();
+    
     $.ajax({
-         type: "post",
-         url: "/emailAuth",
-         data:{'email': emailValue, 'code': authCode, 'memberId':memberId},
-         success: function(response){
-             alert("인증되었습니다.");
-             document.getElementById("currentEmail").innerText=emailValue;
-             emailCancel();
-         },
-         error: function(xhr, status, error) {
-             alert("인증에 실패했습니다.");
-         }
-     });
-});
+        type: "POST",
+        url: "/myPage/changePassword",
+        data: {
+            password: currentPassword,
+            newPassword: newPassword
+        },
+        dataType: "json",
+        success: function(response) {
+            hideLoading();
+            closePasswordModal();
+            
+            if (response.result === 'success') {
+                showNotification('비밀번호가 변경되었습니다.', 'success');
+            } else {
+                showNotification(response.message || '비밀번호 변경에 실패했습니다.', 'error');
+            }
+        },
+        error: function(xhr, status, error) {
+            hideLoading();
+            console.error('비밀번호 변경 실패:', error);
+            showNotification('비밀번호 변경 중 오류가 발생했습니다.', 'error');
+        }
+    });
+}
 
+// 이메일 모달 설정
+function setupEmailModal() {
+    const changeEmailBtn = document.getElementById('change-email-btn');
+    const emailModal = document.getElementById('emailModal');
+    const sendVerificationBtn = document.getElementById('sendVerificationBtn');
+    const saveEmailBtn = document.getElementById('saveEmailBtn');
+    
+    if (changeEmailBtn) {
+        changeEmailBtn.addEventListener('click', showEmailModal);
+    }
+    
+    if (sendVerificationBtn) {
+        sendVerificationBtn.addEventListener('click', sendEmailVerification);
+    }
+    
+    if (saveEmailBtn) {
+        saveEmailBtn.addEventListener('click', handleEmailChange);
+    }
+    
+    // 이메일 입력 검증
+    const newEmailInput = document.getElementById('newEmail');
+    if (newEmailInput) {
+        newEmailInput.addEventListener('input', validateEmailForm);
+    }
+    
+    // 인증번호 입력 검증
+    const verificationCodeInput = document.getElementById('emailVerificationCode');
+    if (verificationCodeInput) {
+        verificationCodeInput.addEventListener('input', validateEmailForm);
+    }
+}
+
+// 이메일 모달 표시
+function showEmailModal() {
+    const modal = document.getElementById('emailModal');
+    if (modal) {
+        modal.style.display = 'block';
+        resetEmailForm();
+    }
+}
+
+// 이메일 모달 닫기
+function closeEmailModal() {
+    const modal = document.getElementById('emailModal');
+    if (modal) {
+        modal.style.display = 'none';
+        resetEmailForm();
+    }
+}
+
+// 이메일 폼 리셋
+function resetEmailForm() {
+    document.getElementById('newEmail').value = '';
+    document.getElementById('emailVerificationCode').value = '';
+    document.getElementById('emailVerificationCode').disabled = true;
+    
+    // 에러 메시지 초기화
+    document.getElementById('newEmailError').textContent = '';
+    document.getElementById('verificationError').textContent = '';
+    
+    // 버튼 상태 초기화
+    document.getElementById('sendVerificationBtn').disabled = true;
+    document.getElementById('saveEmailBtn').disabled = true;
+}
+
+// 이메일 폼 검증
+function validateEmailForm() {
+    const email = document.getElementById('newEmail').value;
+    const verificationCode = document.getElementById('emailVerificationCode').value;
+    const sendBtn = document.getElementById('sendVerificationBtn');
+    const saveBtn = document.getElementById('saveEmailBtn');
+    
+    // 이메일 유효성 검증
+    const isValidEmailFormat = isValidEmail(email);
+    sendBtn.disabled = !isValidEmailFormat;
+    
+    if (email && !isValidEmailFormat) {
+        document.getElementById('newEmailError').textContent = '올바른 이메일 형식을 입력해 주세요.';
+    } else {
+        document.getElementById('newEmailError').textContent = '';
+    }
+    
+    // 인증번호 입력 검증
+    const hasVerificationCode = verificationCode.length >= 4;
+    saveBtn.disabled = !(isValidEmailFormat && hasVerificationCode);
+}
+
+// 이메일 인증번호 발송
+function sendEmailVerification() {
+    const email = document.getElementById('newEmail').value;
+    
+    if (!isValidEmail(email)) {
+        showNotification('올바른 이메일 주소를 입력해 주세요.', 'warning');
+        return;
+    }
+    
+    showLoading();
+    
+    $.ajax({
+        type: "POST",
+        url: "/sendEmail",
+        data: { email: email },
+        success: function(response) {
+            hideLoading();
+            showNotification('인증번호가 발송되었습니다.', 'success');
+            document.getElementById('emailVerificationCode').disabled = false;
+            document.getElementById('emailVerificationCode').focus();
+        },
+        error: function(xhr, status, error) {
+            hideLoading();
+            console.error('이메일 발송 실패:', error);
+            showNotification('인증번호 발송에 실패했습니다.', 'error');
+        }
+    });
+}
+
+// 이메일 변경 처리
+function handleEmailChange() {
+    const email = document.getElementById('newEmail').value;
+    const verificationCode = document.getElementById('emailVerificationCode').value;
+    const memberId = document.getElementById('member-id').value;
+    
+    showLoading();
+    
+    $.ajax({
+        type: "POST",
+        url: "/emailAuth",
+        data: {
+            email: email,
+            code: verificationCode,
+            memberId: memberId
+        },
+        success: function(response) {
+            hideLoading();
+            closeEmailModal();
+            showNotification('이메일이 변경되었습니다.', 'success');
+            
+            // 페이지의 이메일 정보 업데이트
+            const emailDisplay = document.querySelector('.info-value span');
+            if (emailDisplay) {
+                emailDisplay.textContent = email;
+            }
+        },
+        error: function(xhr, status, error) {
+            hideLoading();
+            console.error('이메일 변경 실패:', error);
+            showNotification('인증에 실패했습니다. 다시 시도해 주세요.', 'error');
+        }
+    });
+}
+
+// 토스트 알림 시스템 설정
+function setupToastNotifications() {
+    // 토스트 스타일이 이미 있는지 확인
+    if (!document.getElementById('mypage-notification-styles')) {
+        const style = document.createElement('style');
+        style.id = 'mypage-notification-styles';
+        style.textContent = `
+            .mypage-notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 16px 20px;
+                border-radius: 8px;
+                background: white;
+                border: 1px solid #e9ecef;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                z-index: 10000;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                max-width: 350px;
+                font-size: 14px;
+            }
+            
+            .mypage-notification.show {
+                transform: translateX(0);
+            }
+            
+            .mypage-notification i {
+                font-size: 18px;
+            }
+            
+            .mypage-notification.success {
+                border-left: 4px solid #28a745;
+            }
+            .mypage-notification.success i {
+                color: #28a745;
+            }
+            
+            .mypage-notification.error {
+                border-left: 4px solid #dc3545;
+            }
+            .mypage-notification.error i {
+                color: #dc3545;
+            }
+            
+            .mypage-notification.warning {
+                border-left: 4px solid #ffc107;
+            }
+            .mypage-notification.warning i {
+                color: #ffc107;
+            }
+            
+            .mypage-notification.info {
+                border-left: 4px solid #17a2b8;
+            }
+            .mypage-notification.info i {
+                color: #17a2b8;
+            }
+            
+            @media (max-width: 480px) {
+                .mypage-notification {
+                    right: 10px;
+                    left: 10px;
+                    max-width: none;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// 알림 표시
+function showNotification(message, type = 'info') {
+    // 기존 알림 제거
+    const existingNotification = document.querySelector('.mypage-notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // 아이콘 매핑
+    const icons = {
+        'success': 'fa-check-circle',
+        'error': 'fa-times-circle',
+        'warning': 'fa-exclamation-triangle',
+        'info': 'fa-info-circle'
+    };
+    
+    // 새 알림 생성
+    const notification = document.createElement('div');
+    notification.className = `mypage-notification ${type}`;
+    notification.innerHTML = `
+        <i class="fas ${icons[type] || icons['info']}"></i>
+        <span>${message}</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // 애니메이션 적용
+    setTimeout(() => notification.classList.add('show'), 10);
+    
+    // 3초 후 제거
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// 로딩 표시
+function showLoading() {
+    const existingLoader = document.querySelector('.mypage-loader');
+    if (existingLoader) return;
+    
+    const loader = document.createElement('div');
+    loader.className = 'mypage-loader';
+    loader.innerHTML = '<div class="loader-spinner"></div>';
+    loader.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    `;
+    
+    const spinner = loader.querySelector('.loader-spinner');
+    spinner.style.cssText = `
+        width: 40px;
+        height: 40px;
+        border: 3px solid #e9ecef;
+        border-top-color: #1a1a1a;
+        border-radius: 50%;
+        animation: mypageSpin 0.8s linear infinite;
+    `;
+    
+    // 스피너 애니메이션 CSS 추가
+    if (!document.getElementById('mypage-spinner-styles')) {
+        const style = document.createElement('style');
+        style.id = 'mypage-spinner-styles';
+        style.textContent = `
+            @keyframes mypageSpin {
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    document.body.appendChild(loader);
+}
+
+// 로딩 숨기기
+function hideLoading() {
+    const loader = document.querySelector('.mypage-loader');
+    if (loader) {
+        loader.remove();
+    }
+}
+
+// 유틸리티 함수들
 function isValidEmail(email) {
     const emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return emailRegex.test(email);
@@ -432,43 +605,67 @@ function isValidPassword(password) {
     if (!letterRegExp.test(password)) {
         violationCnt++;
     }
-
+    
     if (!capsLockRegExp.test(password)) {
         violationCnt++;
     }
-
+    
     if (!numberRegExp.test(password)) {
         violationCnt++;
     }
-
+    
     if (!symbolRegExp.test(password)) {
         violationCnt++;
     }
-
-    if (violationCnt > 2) {
-        return false;
-    } else {
-        return true;
-    }
+    
+    return violationCnt <= 2;
 }
 
-function getPassordRulePoint(password) {
+function getPasswordRulePoint(password) {
     var point = 0;
     if (letterRegExp.test(password)) {
-        point = point + 4;
+        point += 4;
     }
-
+    
     if (capsLockRegExp.test(password)) {
-        point = point + 4;
+        point += 4;
     }
-
+    
     if (numberRegExp.test(password)) {
-        point = point + 4;
+        point += 4;
     }
-
+    
     if (symbolRegExp.test(password)) {
-        point = point + 4;
+        point += 4;
     }
-
+    
     return point;
 }
+
+// 모달 외부 클릭 시 닫기
+document.addEventListener('click', function(e) {
+    const passwordModal = document.getElementById('passwordModal');
+    const emailModal = document.getElementById('emailModal');
+    
+    if (e.target === passwordModal) {
+        closePasswordModal();
+    }
+    
+    if (e.target === emailModal) {
+        closeEmailModal();
+    }
+});
+
+// ESC 키로 모달 닫기
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closePasswordModal();
+        closeEmailModal();
+    }
+});
+
+// 전역 함수로 등록 (HTML과 호환)
+window.closePasswordModal = closePasswordModal;
+window.closeEmailModal = closeEmailModal;
+
+console.log('마이페이지 JavaScript 로드 완료');

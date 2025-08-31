@@ -1,70 +1,492 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="reviewFragment">
-    <div class="tab-pane" id="tabs-2" style="overflow:auto; height:600px;padding: 10px;">
-        <p class="article_review_detail">
-            <span class="info_event_line">EVENT</span>
-            <span id="reviewEventText" style="color:black;" class="info_review_detail">스타일후기를 남겨주세요</span>
-        </p>
-        <p class="article_review_select">
-            <select id="reviewSelectSort" class="review_select_sort" onchange="ReviewSort.apiCall(this.value)">
-                <option value="new" selected="selected">최신순</option>
-                <option value="comment_cnt_desc">댓글 순</option>
-                <option value="up_cnt_desc">추천 순</option>
-                <option value="goods_est_desc">높은 평점 순</option>
-                <option value="goods_est_asc">낮은 평점 순</option>
-            </select>
-        </p>
-        <div class="review-list-wrap" id="reviewListFragment" th:if="${reviewList.totalPages > 0}">
-            <div class="review-list" th:each="review : ${reviewList}" style="border-top: 1px solid;border-bottom: 1px solid;border-left: 1px dashed;border-right: 1px groove;padding: 10px;">
-                <div class="review-profile">
-                    <a href="#" class="review-profile__link"></a>
-                    <div class="review-profile__text-wrap">
-                        <div class="review-profile__text" style="border-bottom: 2px solid;">
-                            <img style="height: 50px; margin:4px;" alt="" src="/img/common/profile.png">
-                            <span class="review-profile__name" style="color:black;font-size:20px;font-weight: bold;margin-left:10px;"  th:text="${review.orderInfo.member.nickName}"/>
-                            <span class="review-profile__date" style="color:black;text-align:right;" th:text="${#temporals.format(review.reviewDate, 'yyyy-MM-dd')}"/>
-                        </div>
-                        <div class="review-profile__text" style="margin:10px;">
-                            <div class="review-goods-information__item">
-                                <p class="review-goods-information__option-wrap">
-                                    <img style="height: 100px;" alt="" src="/fileDownload?fileSeq=2">
-                                    <span class="review-goods-information__option" th:text="${review.orderInfo.productStock.product.productName} + ' ' +${review.orderInfo.productStock.productSize}">S</span>구매
-                                </p>
-                            </div>
-                            <div class="rating" style="color: #ffc107;">
-                                <i class="fa fa-star" th:if="${review.score > 0}"></i>
-                                <i class="fa fa-star" th:if="${review.score > 1}"></i>
-                                <i class="fa fa-star" th:if="${review.score > 2}"></i>
-                                <i class="fa fa-star" th:if="${review.score > 3}"></i>
-                                <i class="fa fa-star" th:if="${review.score > 4}"></i>
-                            </div>
-                        </div>
-                    </div>
+    <div class="reviews-container">
+        <!-- Review Header -->
+        <div class="review-header">
+            <div class="review-summary">
+                <div class="review-count" th:if="${reviewInfo ne null}">
+                    <span class="count-number" th:text="${reviewInfo.reviewCount}">0</span>
+                    <span class="count-label">개의 리뷰</span>
                 </div>
-                <div class="review-contents" style="margin:10px;">
-                    <div class="review-contents__text" style="font-size:20px;" th:text="${review.content}"/>
-                </div>
-                <div class="review-goods-information" style="margin:10px;">
-                    <div class="review-goods-information__thumbnail">
-                        <img th:src="'/fileDownload?fileSeq=' + ${review.file.fileSeq}" >
+                <div class="review-rating" th:if="${reviewInfo ne null}">
+                    <div class="rating-stars">
+                        <i class="fas fa-star" th:classappend="${reviewInfo.scoreAvg >= 1 ? 'active' : ''}"></i>
+                        <i class="fas fa-star" th:classappend="${reviewInfo.scoreAvg >= 2 ? 'active' : ''}"></i>
+                        <i class="fas fa-star" th:classappend="${reviewInfo.scoreAvg >= 3 ? 'active' : ''}"></i>
+                        <i class="fas fa-star" th:classappend="${reviewInfo.scoreAvg >= 4 ? 'active' : ''}"></i>
+                        <i class="fas fa-star" th:classappend="${reviewInfo.scoreAvg >= 5 ? 'active' : ''}"></i>
                     </div>
+                    <span class="rating-number" th:text="${#numbers.formatDecimal(reviewInfo.scoreAvg, 1, 1)}">0.0</span>
                 </div>
             </div>
-            <!-- //paging -->
-
-            <div class="nslist_bottom">
-                <div class="col-lg-12 text-center">
-                    <div class="pagination__option" style="margin-top: 20px;">
-                        <a th:each="page : ${#numbers.sequence(1, reviewList.totalPages)}" href="#"
-                            th:onclick="'paging(' + ${page} + ', ' + ${product.productSeq} + ')'"
-                            th:class="${reviewList.number+1 == page ? 'active' : ''}">[[${page}]]</a>
+            
+            <div class="review-controls">
+                <select id="reviewSelectSort" class="review-sort-select" onchange="ReviewSort.apiCall(this.value)">
+                    <option value="new" selected="selected">최신순</option>
+                    <option value="comment_cnt_desc">댓글 순</option>
+                    <option value="up_cnt_desc">추천 순</option>
+                    <option value="goods_est_desc">높은 평점 순</option>
+                    <option value="goods_est_asc">낮은 평점 순</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Review List -->
+        <div class="review-list" id="reviewListFragment" th:if="${reviewList.totalPages > 0}">
+            <div class="review-item" th:each="review : ${reviewList}">
+                <!-- Review Header -->
+                <div class="review-item-header">
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="reviewer-details">
+                            <span class="reviewer-name" th:text="${review.orderInfo.member.nickName}">리뷰어</span>
+                            <div class="review-meta">
+                                <div class="review-rating-small">
+                                    <i class="fas fa-star" th:classappend="${review.score >= 1 ? 'active' : ''}"></i>
+                                    <i class="fas fa-star" th:classappend="${review.score >= 2 ? 'active' : ''}"></i>
+                                    <i class="fas fa-star" th:classappend="${review.score >= 3 ? 'active' : ''}"></i>
+                                    <i class="fas fa-star" th:classappend="${review.score >= 4 ? 'active' : ''}"></i>
+                                    <i class="fas fa-star" th:classappend="${review.score >= 5 ? 'active' : ''}"></i>
+                                </div>
+                                <span class="review-date" th:text="${#temporals.format(review.reviewDate, 'yyyy.MM.dd')}">2023.12.01</span>
+                            </div>
+                        </div>
                     </div>
+                    
+                    <div class="review-verified">
+                        <i class="fas fa-check-circle"></i>
+                        <span>구매확인</span>
+                    </div>
+                </div>
+                
+                <!-- Product Info -->
+                <div class="review-product-info">
+                    <div class="product-thumbnail">
+                        <img th:src="'/fileDownload?fileSeq=' + ${review.orderInfo.productStock.product.productFileList[0].file.fileSeq}" 
+                             alt="Product Image">
+                    </div>
+                    <div class="product-details">
+                        <span class="product-name" th:text="${review.orderInfo.productStock.product.productName}">상품명</span>
+                        <span class="product-option" th:text="'사이즈: ' + ${review.orderInfo.productStock.productSize}">사이즈: M</span>
+                    </div>
+                </div>
+                
+                <!-- Review Content -->
+                <div class="review-content">
+                    <p class="review-text" th:text="${review.content}">리뷰 내용입니다.</p>
+                    
+                    <!-- Review Images -->
+                    <div class="review-images" th:if="${review.file ne null}">
+                        <div class="review-image-item">
+                            <img th:src="'/fileDownload?fileSeq=' + ${review.file.fileSeq}" 
+                                 alt="Review Image" 
+                                 onclick="openImageModal(this.src)">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Review Actions -->
+                <div class="review-actions">
+                    <button class="action-btn helpful">
+                        <i class="fas fa-thumbs-up"></i>
+                        <span>도움돼요</span>
+                        <span class="count">0</span>
+                    </button>
+                    <button class="action-btn report">
+                        <i class="fas fa-flag"></i>
+                        <span>신고</span>
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="review-list-wrap" th:if="${reviewList.totalPages == 0}">
-            <h5 style="text-align:center;">등록된 후기가 없습니다.</h5>
+        
+        <!-- No Reviews -->
+        <div class="no-reviews" th:if="${reviewList.totalPages == 0}">
+            <div class="no-reviews-icon">
+                <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>아직 리뷰가 없어요</h3>
+            <p>첫 번째 리뷰를 남겨주세요!</p>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="review-pagination" th:if="${reviewList.totalPages > 1}">
+            <div class="pagination">
+                <a th:each="page : ${#numbers.sequence(1, reviewList.totalPages)}" 
+                   href="#"
+                   th:onclick="'paging(' + ${page} + ', ' + ${product.productSeq} + ')'"
+                   th:class="${reviewList.number+1 == page ? 'page-btn active' : 'page-btn'}">
+                   [[${page}]]
+                </a>
+            </div>
         </div>
     </div>
+    
+    <!-- CSS Styles -->
+    <style>
+        .reviews-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid #e9ecef;
+            margin-bottom: 30px;
+        }
+        
+        .review-summary {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .review-count {
+            text-align: center;
+        }
+        
+        .count-number {
+            display: block;
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1;
+        }
+        
+        .count-label {
+            font-size: 14px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        .review-rating {
+            text-align: center;
+        }
+        
+        .rating-stars {
+            display: flex;
+            gap: 2px;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+        
+        .rating-stars i {
+            font-size: 18px;
+            color: #dee2e6;
+        }
+        
+        .rating-stars i.active {
+            color: #ffc107;
+        }
+        
+        .rating-number {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        
+        .review-sort-select {
+            padding: 8px 16px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            background: white;
+            font-size: 14px;
+            color: #495057;
+        }
+        
+        .review-list {
+            space-y: 0;
+        }
+        
+        .review-item {
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            background: white;
+            transition: all 0.3s;
+        }
+        
+        .review-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+        
+        .review-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #adb5bd;
+        }
+        
+        .reviewer-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .review-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .review-rating-small {
+            display: flex;
+            gap: 1px;
+        }
+        
+        .review-rating-small i {
+            font-size: 12px;
+            color: #dee2e6;
+        }
+        
+        .review-rating-small i.active {
+            color: #ffc107;
+        }
+        
+        .review-date {
+            font-size: 12px;
+            color: #adb5bd;
+        }
+        
+        .review-verified {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: #e8f5e8;
+            color: #198754;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .review-product-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f8f9fa;
+            margin-bottom: 20px;
+        }
+        
+        .product-thumbnail {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+        
+        .product-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #495057;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .product-option {
+            font-size: 12px;
+            color: #adb5bd;
+        }
+        
+        .review-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #495057;
+            margin-bottom: 15px;
+        }
+        
+        .review-images {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .review-image-item {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .review-image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .review-image-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .review-actions {
+            display: flex;
+            gap: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f8f9fa;
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: none;
+            border: 1px solid #dee2e6;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #6c757d;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background: #f8f9fa;
+            color: #495057;
+        }
+        
+        .action-btn.helpful:hover {
+            border-color: #198754;
+            color: #198754;
+        }
+        
+        .action-btn .count {
+            background: #e9ecef;
+            padding: 1px 5px;
+            border-radius: 8px;
+            font-size: 10px;
+        }
+        
+        .no-reviews {
+            text-align: center;
+            padding: 80px 20px;
+            color: #adb5bd;
+        }
+        
+        .no-reviews-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .no-reviews h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #6c757d;
+        }
+        
+        .no-reviews p {
+            font-size: 14px;
+        }
+        
+        .review-pagination {
+            margin-top: 40px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .page-btn {
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            background: white;
+            color: #6c757d;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .page-btn:hover {
+            background: #f8f9fa;
+            color: #495057;
+            text-decoration: none;
+        }
+        
+        .page-btn.active {
+            background: #1a1a1a;
+            color: white;
+            border-color: #1a1a1a;
+        }
+        
+        @media (max-width: 768px) {
+            .review-header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+            
+            .review-summary {
+                gap: 20px;
+            }
+            
+            .review-item {
+                padding: 20px;
+            }
+            
+            .review-item-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .review-product-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .review-actions {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+    
+    <script>
+        function openImageModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modal.style.display = "block";
+            modalImage.src = imageSrc;
+        }
+    </script>
 </th:block>
 </html>

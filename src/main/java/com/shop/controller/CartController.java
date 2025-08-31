@@ -3,6 +3,7 @@ package com.shop.controller;
 import com.shop.dto.CartDTO;
 import com.shop.service.CartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -42,10 +43,18 @@ public class CartController {
      * @param cart
      * @return
      */
-    @PostMapping("/updateProductQuantity")
-    public ResponseEntity<Void> updateProductQuantity(CartDTO cart) {
-        cartService.updateProductQuantity(cart);
-        return ResponseEntity.ok().build();
+    @PostMapping(value = "/updateProductQuantity", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updateProductQuantity(CartDTO cart) {
+        try {
+            cartService.updateProductQuantity(cart);
+            return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("{\"success\": true, \"message\": \"수량이 변경되었습니다.\"}");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("{\"success\": false, \"message\": \"수량 변경에 실패했습니다.\"}");
+        }
     }
     /**
      * 장바구니 수량삭제
@@ -53,9 +62,17 @@ public class CartController {
      * @return
      */
     @Transactional
-    @DeleteMapping("/removeCartInfo")
-    public ResponseEntity<Void> removeCartInfo(CartDTO cart) {
-        cartService.deleteCartInfo(cart);
-        return ResponseEntity.ok().build();
+    @DeleteMapping(value = "/removeCartInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> removeCartInfo(CartDTO cart) {
+        try {
+            cartService.deleteCartInfo(cart);
+            return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("{\"success\": true, \"message\": \"상품이 삭제되었습니다.\"}");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("{\"success\": false, \"message\": \"상품 삭제에 실패했습니다.\"}");
+        }
     }
 }

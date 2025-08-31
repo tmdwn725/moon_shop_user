@@ -1,6 +1,5 @@
 package com.shop.service;
 
-import com.shop.common.FileUtil;
 import com.shop.common.ModelMapperUtil;
 import com.shop.domain.*;
 import com.shop.domain.enums.ProductType;
@@ -8,13 +7,11 @@ import com.shop.dto.HeartDTO;
 import com.shop.dto.ProductDTO;
 import com.shop.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -64,9 +61,10 @@ public class ProductService {
         ProductDTO product = ModelMapperUtil.map(productInfo, ProductDTO.class);
         HeartDTO heart = Optional.ofNullable(product)
                 .map(ProductDTO::getHeartList)
-                .orElse(null)
+                .orElse(Collections.emptyList())
                 .stream()
-                .filter(heartDTO -> heartDTO.getMember() != null && heartDTO.getMember().getMemberSeq() == member.getMemberSeq())
+                .filter(heartDTO -> heartDTO.getMember() != null && 
+                        heartDTO.getMember().getMemberSeq() == member.getMemberSeq())
                 .findFirst()
                 .orElse(null);
         product.setHeart(heart);

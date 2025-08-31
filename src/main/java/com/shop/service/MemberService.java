@@ -4,10 +4,7 @@ import com.shop.common.FileUtil;
 import com.shop.common.ModelMapperUtil;
 import com.shop.domain.File;
 import com.shop.domain.Member;
-import com.shop.domain.OrderInfo;
-import com.shop.domain.Review;
 import com.shop.dto.MemberDTO;
-import com.shop.dto.ReviewDTO;
 import com.shop.dto.Role;
 import com.shop.repository.FileRepository;
 import com.shop.repository.MemberRepository;
@@ -79,10 +76,7 @@ public class MemberService implements UserDetailsService {
      */
     @Transactional
     public long changeMyPassword(MemberDTO memberDTO) {
-        long result = 0;
-        Member member = new Member();
-        result = memberRepository.updatePassword(memberDTO.getMemberId(), memberDTO.getNewPassword());
-        return result;
+        return memberRepository.updatePassword(memberDTO.getMemberId(), memberDTO.getNewPassword());
     }
     /**
      * 이메일 정보 저장

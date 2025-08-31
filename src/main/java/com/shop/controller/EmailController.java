@@ -5,6 +5,7 @@ import com.shop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,7 @@ public class EmailController {
      * @return
      */
     @PostMapping("/sendEmail")
-    public ResponseEntity sendEmail(@RequestParam(value="email") String email) {
+    public ResponseEntity<Void> sendEmail(@RequestParam(value="email") String email) {
         String title = "[MoonShop] 이메일 인증을 위한 인증 코드 발송";
         emailService.sendEmail(email, title);
         return ResponseEntity.ok().build();
@@ -48,6 +49,6 @@ public class EmailController {
             }
             return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication().getName());
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 }
