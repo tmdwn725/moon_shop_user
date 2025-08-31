@@ -3,18 +3,14 @@ package com.shop.service;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.querydsl.core.types.Order;
 import com.shop.common.ModelMapperUtil;
 import com.shop.domain.*;
 import com.shop.domain.enums.OrderStsType;
 import com.shop.domain.enums.PaymentType;
-import com.shop.dto.OrderInfoDTO;
 import com.shop.dto.PaymentDTO;
 import com.shop.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.json.JSONParser;
-import org.springframework.boot.web.servlet.server.Encoding;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

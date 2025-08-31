@@ -3,9 +3,7 @@ package com.shop.service;
 import com.shop.common.ModelMapperUtil;
 import com.shop.domain.Member;
 import com.shop.domain.OrderInfo;
-import com.shop.domain.enums.ProductType;
 import com.shop.dto.OrderInfoDTO;
-import com.shop.dto.ProductDTO;
 import com.shop.repository.MemberRepository;
 import com.shop.repository.OrderInfoRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +12,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
